@@ -1,0 +1,4028 @@
+\documentclass[10pt, a4paper]{article}
+\usepackage[english]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{parskip}
+\usepackage{pgfplots}
+\usepackage{comment}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{array}
+%\usepackage{mdframed}
+%\usepackage{thmbox}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage[top=105pt, bottom=75pt, left=75pt, right=75pt]{geometry}
+\setlength{\headsep}{15pt}
+\setlength{\footskip}{45pt}
+
+\usepackage{xcolor}
+\usepackage{lipsum}
+
+\usepackage{ifthen}
+\usepackage{tikz}
+\usetikzlibrary{calc}
+\usetikzlibrary{cd}
+\usetikzlibrary{babel}
+\tikzcdset{scale cd/.style={every label/.append style={scale=#1},
+    cells={nodes={scale=#1}}}}
+
+\usepackage{adjustbox}
+
+\graphicspath{ {./images/} }
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{tcolorbox}
+\tcbuselibrary{skins, breakable}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% with separate title
+\xdefinecolor{thmTopColor}{RGB}{102, 102, 238}
+\xdefinecolor{thmBackColor}{RGB}{245, 245, 255}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+\newtheorem{thm}{Theorem}[section]
+
+\newenvironment{thmbox}[1]{%
+  \tcolorbox[%
+  empty,
+  parbox=false,
+  noparskip,
+  enhanced,
+  breakable,
+  sharp corners,
+  boxrule=-1pt,
+  left=2ex,
+  right=0ex,
+  top=0ex,
+  boxsep=1ex,
+  before skip=2.5ex plus 2pt,
+  after skip=2.5ex plus 2pt,
+  colback=thmBackColor,
+  colframe=white,
+  coltitle=black,
+  colbacktitle=thmBackColor,
+  fonttitle=\bfseries,
+  title=#1,
+  titlerule=1pt,
+  titlerule style=thmTopColor,
+  overlay unbroken and last={%
+    \draw[color=thmTopColor, line width=1.25pt]
+    ($(frame.north west)+(.5em, -4.1ex)$)
+    -- ($(frame.south west)+(.5em, 1ex)$) -- ++(2em, 0);
+  }]
+}{\endtcolorbox}
+
+\newenvironment{theorem}[1][]{% before
+  \refstepcounter{thm}%
+  \ifthenelse{\equal{#1}{}}{%
+    \begin{thmbox}{Theorem \thethm.}\itshape\hspace{-.75ex}%
+  }{%
+    \begin{thmbox}{Theorem \thethm%
+        \hspace{.75ex}(\textnormal{#1}).}\itshape\hspace{-.75ex}
+    }}
+  {\end{thmbox}
+}
+
+{\theoremstyle{plain}
+\newtheorem{corollary}[thm]{Corollary}
+\newtheorem{proposition}[thm]{Proposition}
+
+}
+
+{\theoremstyle{definition}
+\newtheorem{defi}[thm]{Definition}
+\newtheorem{aksiom}[thm]{Aksiom}
+}
+
+\newenvironment{noticeB}{%
+  \tcolorbox[%
+  notitle,
+  empty,
+  enhanced,  % delete the edge of the bottom page for a broken box
+  breakable,
+  coltext=black,
+  colback=white, 
+  fontupper=\rmfamily,
+  %parbox=false,
+  noparskip,
+  sharp corners,
+  boxrule=-1pt,  % width of the box' edges
+  frame hidden,
+  left=7pt,  % inner space from text to the left edge
+  right=7pt,
+  top=5pt,
+  bottom=5pt,
+  % boxsep=0pt,
+  before skip=2.5ex plus 2pt,
+  after skip=2.5ex plus 2pt,
+  borderline west = {1.5pt}{-0.1pt}{blue!30!black}, % second argument = offset
+  overlay unbroken and last={%
+    \draw[color=black, line width=1.25pt]
+    ($(frame.south west)+(1.pt, -0.1pt)$) -- ++(2em, 0);
+  }
+  ]}
+{\endtcolorbox}
+
+\newenvironment{definition}{\begin{noticeB}\begin{defi}}{%
+    \end{defi}\end{noticeB}}
+
+{\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+}
+
+
+\newtheorem{example}[thm]{Example}
+\tcolorboxenvironment{example}{%
+  enhanced jigsaw,
+  boxrule=-1pt,
+  colframe=gray!15,
+  %borderline west={2pt}{0pt}{black},  % second argument is the offset
+  interior hidden,
+  sharp corners,
+  breakable,
+  before skip=2.5ex plus 2pt,
+  after skip=2.5ex plus 2pt
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newtheorem{lemma}[thm]{Lemma}
+\tcolorboxenvironment{lemma}{%
+  enhanced jigsaw,
+  boxrule=-1pt,
+  sharp corners,
+  colframe=white,
+  borderline west={2pt}{0pt}{orange},  % second argument is the offset
+  interior hidden,
+  breakable,
+  before skip=2.5ex plus 2pt,
+  after skip=2.5ex plus 2pt
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newenvironment{noticeC}{%
+  \tcolorbox[%
+  notitle,
+  empty,
+  enhanced,  % delete the edge of the bottom page for a broken box
+  breakable,
+  coltext=black, 
+  fontupper=\rmfamily,
+  %parbox=false,
+  noparskip,
+  sharp corners,
+  boxrule=-1pt,  % width of the box' edges
+  frame hidden,
+  left=7pt,  % inner space from text to the left edge
+  right=7pt,
+  top=5pt,
+  bottom=5pt,
+  %boxsep=0pt,
+  before skip=2.5ex plus 2pt,
+  after skip=2.5ex plus 2pt,
+  %borderline west = {1.5pt}{-0.1pt}{gray}, % second argument = offset
+  overlay unbroken and last={%
+    %\draw[color=gray, line width=1.25pt]
+    %($(frame.west)$);
+    %\draw[color=gray, line width=1.25pt]
+    %($(frame.east)$);
+  },
+  ]}
+{\endtcolorbox}
+
+\newenvironment{myproof}%
+  {\begin{noticeC}\begin{proof}}%
+  {\end{proof}\end{noticeC}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\makeatletter
+\newlength\xvec@height%
+\newlength\xvec@depth%
+\newlength\xvec@width%
+\newcommand{\xvec}[2][]{%
+  \ifmmode%
+    \settoheight{\xvec@height}{$#2$}%
+    \settodepth{\xvec@depth}{$#2$}%
+    \settowidth{\xvec@width}{$#2$}%
+  \else%
+    \settoheight{\xvec@height}{#2}%
+    \settodepth{\xvec@depth}{#2}%
+    \settowidth{\xvec@width}{#2}%
+  \fi%
+  \def\xvec@arg{#1}%
+  \def\xvec@dd{:}%
+  \def\xvec@d{.}%
+  \raisebox{.2ex}{\raisebox{\xvec@height}{\rlap{%
+    \kern.05em%  (Because left edge of drawing is at .05em)
+    \begin{tikzpicture}[scale=1]
+    \pgfsetroundcap
+    \draw (.05em,0)--(\xvec@width-.05em,0);
+    \draw (\xvec@width-.05em,0)--(\xvec@width-.15em, .075em);
+    \draw (\xvec@width-.05em,0)--(\xvec@width-.15em,-.075em);
+    \ifx\xvec@arg\xvec@d%
+      \fill(\xvec@width*.45,.5ex) circle (.5pt);%
+    \else\ifx\xvec@arg\xvec@dd%
+      \fill(\xvec@width*.30,.5ex) circle (.5pt);%
+      \fill(\xvec@width*.65,.5ex) circle (.5pt);%
+    \fi\fi%
+    \end{tikzpicture}%
+  }}}%
+  #2%
+}
+\makeatother
+
+% --- Override \vec with an invocation of \xvec.
+\let\stdvec\vec
+\renewcommand{\vec}[1]{\xvec[]{#1}}
+% --- Define \dvec and \ddvec for dotted and double-dotted vectors.
+\newcommand{\dvec}[1]{\xvec[.]{#1}}
+\newcommand{\ddvec}[1]{\xvec[:]{#1}}
+\newcommand{\stcomp}[1]{{#1}^{\mathsf{c}}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\N}{\mathbb {N}}
+\newcommand{\Z}{\mathbb {Z}}
+\newcommand{\Q}{\mathbb {Q}}
+\newcommand{\R}{\mathbb {R}}
+\newcommand{\C}{\mathbb {C}}
+\newcommand{\F}{\mathbb {F}}
+\newcommand{\Ha}{\mathbb {H}}
+\newcommand{\zap}[1]{(#1_n)_{n=1} ^{\infty}}
+\newcommand{\podzap}[1]{(#1_{n_j})_{n=1 ^{\infty}}}
+\newcommand{\limzap}[1]{\lim_{n \to \infty} {#1}}
+\newcommand{\limf}[3]{\lim_{#1 \to #2} {#3}}
+\newcommand{\rlimf}[3]{\lim_{#1 \downarrow #2} {#3}}
+\newcommand{\llimf}[3]{\lim_{#1 \uparrow #2} {#3}}
+\newcommand{\quot}[2]{{\raisebox{0em}{$#1$}\left/\raisebox{0em}{$#2$}\right.}}
+\newcommand{\gen}[1]{\left\langle #1 \right\rangle}
+\newcommand{\Mod}[1]{\ (\mathrm{mod}\ #1)}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\rang}{rang}
+\newcommand{\isom}{\stackrel{\sim}{=}}
+\DeclareMathOperator{\sgn}{sgn}
+\newcommand{\gal}[1]{\mathrm{Gal}\, {\left(#1\right)}}
+\DeclareMathOperator{\chara}{char}
+\DeclareMathOperator{\ob}{Ob}
+\DeclareMathOperator{\op}{op}
+\DeclareMathOperator{\en}{End}
+\DeclareMathOperator{\ho}{Hom}
+\DeclareMathOperator{\mo}{Mod}
+\DeclareMathOperator{\rad}{rad}
+\DeclareMathOperator{\ann}{ann}
+\DeclareMathOperator{\aut}{Aut}
+\DeclareMathOperator{\lcm}{lcm}
+\DeclareMathOperator{\brauer}{Br}
+\DeclareMathOperator{\ind}{ind}
+\DeclareMathOperator{\ord}{order}
+
+\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace\hspace{0pt}}m{#1}}
+
+\setlength{\parskip}{1em}
+
+\begin{document}
+
+\title{NONCOMMUTATIVE ALGEBRA - NOTES}
+\author{Gal Anton Gorše}
+\date{}
+\maketitle
+
+\section*{Examples}
+
+\begin{definition}
+    $(R, +, \cdots)$ is a ring if:
+    \begin{enumerate}
+        \item $(R, +)$ is an abelian group;
+        \item $(R, \cdot)$ is a semigroup with unity (a monoid);
+        \item we have $$x \cdot (y + z) = xy + xz,\ \quad (x + y) \cdot z = xz + yz$$
+        for all $x,y, z \in R$.
+    \end{enumerate}
+    Aditionally, $R$ is a commutative ring if $xy = yx$ for all $x, y \in R$.
+\end{definition}
+
+\begin{definition}
+    Let $R$ be a ring. Then $(M, +) \in \mathrm{Ab}$ is a left $R$-module if there exists a map 
+    $$R \times M \to M,\quad (r, m) \mapsto r \cdot m$$ such that 
+    \begin{enumerate}
+        \item $r \cdot (x + y) = rx + ry$;
+        \item $(r + s) \cdot x = rx + sx$;
+        \item $(rs)\cdot x = x \cdot (s\cdot x)$;
+        \item $1 \cdot x = x$.
+    \end{enumerate}
+    A right module is defined in an analogous way.
+\end{definition}
+
+\begin{definition}
+    If $A, R$ are rings then we say that $(A, +, \cdot)$ is an $R$-algebra if 
+    \begin{enumerate}
+        \item $A$ is an $R$-module;
+        \item $r \cdot (xy) = (rx)\cdot y = x(r\cdot x)$ for every $r \in R$ and $x, y\in A$.
+    \end{enumerate}
+\end{definition}
+
+\begin{example}
+        $\Z$, $\Z[i]$, $\Q$, $\R$, $\C$, $\Z[x]$ and $\R[x]$ are all rings.
+        In particular, $\Q$, $\R$, $\C$ are fields.
+\end{example}
+
+\begin{example}
+    Let $R$ be a ring and $n \in \N$. Then $M_n (R)$ is a ring. If $n \geq 2$, then $M_n (R)$ is not commutative.
+\end{example}
+
+\begin{example}
+        Let $\Ha$ be a ring of quaternions. We know that $\Ha = \R \oplus \R_i \oplus \R_j \oplus R_k$
+        is a $\R$-vector space with the basis $\{1, i, j, k\}$ with identities 
+        $$i^2 = j^2 = k^2 = -1,\quad ij = - ji = k.$$ This is not a commutative ring.
+        It's important to note that every nonzero $\alpha \in \Ha$ has an inverse $\alpha^{-1} = \frac{1}{\alpha \cdot \overline{\alpha}} \overline{\alpha}$.
+        We say that $\Ha$ is a division ring or a skew field (and is in fact the smallest possible one over $\R$).
+        Now let $R = \{a + bi + ci + di\ |\ a, b, c, d \in \Z\}$ be a subring of $\Ha$.
+        The set of all units of $R$ is $$U(R) = \{\pm 1, \pm i, \pm j, \pm k\}.$$
+\end{example}
+
+\begin{example}
+        We construct free algebras. Let $\F$ be a field and $X = \{x_i\ |\ i \in I\}$
+        freely noncommuting variables. We define $\langle X \rangle$ as a free monoid on $X$ or a set of all words in $X$.
+        Then $\F\langle X \rangle$ is defined as a set of all $\F$-linear combinations of words in $X$.
+        This is a free $\F$-algebra on $X$. Suppose we have $|I| = 1$.
+        Then $X = \{x\}$ and $\F\langle x\rangle = F[x]$.
+        If $A$ is an $\F$-algebra then $\forall f: X \to A$ there exists exactly one $\overline{f}: \F\langle X \rangle \to \R$ such that the following diagram commutes:
+        \begin{center}
+            \adjustbox{scale=1.2,center}{
+              \begin{tikzcd}
+                X & A \\
+                K\langle X\rangle
+                \arrow[hook, from=1-1, to=2-1]
+                \arrow["f", from=1-1, to=1-2]
+                \arrow["{\exists! \overline{f}}"', dashed, from=2-1, to=1-2]
+              \end{tikzcd}}
+          \end{center}
+        The free algebra $\F\langle x, y\rangle$ on two generators actually contains the free algebra on countably infinitely many generators.
+        Indeed, we have the following $F$-algebra monomorphism:
+        \begin{align*}
+            \Phi: \F \langle y_i \ |\ i \in \N\rangle &\to \F \langle x, y\rangle\\
+            y_1 &\to x\\
+            y_2 &\to xy\\
+            y_3 &\to xy^2\\
+            &\vdots
+        \end{align*}
+\end{example}
+
+\begin{example}
+        We can now describe algebras with its generators and relations.
+        Let $k$ be a ring and $R = k \langle x_i\ |\ i \in I\rangle$. Denote $F = \{f_j\ |\ j \in J\} \subseteq R$.
+        Then $(F) \lhd R$, so $\quot{R}{(F)}$ is a algebra generated by $\overline{x_i} = x_i + (F)$ such that $f_j (\overline{x_i})$ for each $f_j \in F$.
+        For example, take $F = \{x_i x_j - x_j x_i\ |\ i, j \in I\}$. Then 
+        $$\overline{R} = \quot{R}{(F)} = k[\overline{x_i}\ |\ i \in I].$$
+        In $\overline{R}$, we have $\overline{x_i} \overline{x_j} - \overline{x_j} \overline{x_i} = 0.$
+        Now let $R = k\langle x, y\rangle$ and $F = \{xy - yx - 1\}$.
+        Then $$\overline{R} = \quot{R}{(F)} =: \mathcal{A}_1 (k)$$ is called the first Weyl algebra.
+        Generators $\overline{x}, \overline{y}$ of $\mathcal{A}_1 (k)$ satisfy $\overline{x} \overline{y} - \overline{y} \overline{x} = 1$.
+        As a set, this algebra is 
+        $$\mathcal{A}_1 (k) = \left\lbrace \sum_j ^{b} a_{ij} \overline{x}^i \overline{y}^j\ |\ a_j \in k \right\rbrace.$$ 
+        The multiplication looks like 
+        $$\overline{x} \overline{y} \overline{x} = \overline{x} (\overline{y} \overline{x}) = \overline{x} (\overline{x} \overline{y} - 1) = \overline{x}^2 \overline{y} - \overline{x}.$$
+        The algebra $\mathcal{A}_1 (k)$ is the algebra of differential operators on $K[y]$. Indeed, define the operators 
+        $$D: k[y] \to k[y],\quad p \mapsto \frac{d}{dy} p$$ 
+        and $$L: k[y] \to k[y],\quad p \mapsto y \cdot p.$$
+        We then have 
+        \begin{align*}
+            (DL - LD) (p) &= D(Lp) - L(Dp)\\
+            &= p + y \frac{d}{dy} p - y \frac{d}{dy} p\\
+            &= (\mathrm{Id}) p,
+        \end{align*}
+        so $DL - LD = 1$. We can now define a monomorphism of $k$-algebras 
+        \begin{align*}
+            \Phi: \mathcal{A}_1 (k) &\to \en_k (k[y])\\
+            \overline{x} &\to D\\
+            \overline{y} &\to L.
+        \end{align*}    
+\end{example}
+
+\begin{example}
+        Let $k$ be a field and $G$ a group. Then we define a group $k$-algebra $kG$ as a $k$-vector space with basis $G$ with the multiplication 
+        $$\left(\sum_{\sigma \in G} a_{\sigma} \sigma\right) \cdot (\sum_{\tau \in G} b_{\tau} \tau) = \sum_{\eta \in G} c_\eta \eta,$$
+        where $$c_\eta = \sum_{\sigma \tau = \eta} a_{\sigma} b_\tau.$$    
+\end{example}
+
+\begin{example}
+        Let $X = \{x_i\ |\ i \in I\}$ be variables. Then we define the power series ring 
+        $$k\langle \langle x_i\ |\ i \in I\rangle \rangle = \{f_0 + f_1 +f_2 + \dots\ |\ f_j \in k\langle x_i\ |\ i \in I\rangle\ \textrm{homogenous of degree $j$}\}.$$
+        The set of units of this ring is 
+        $$U(k \langle \langle X \rangle \rangle) = \{f \in k \langle \langle X \rangle \rangle\ |\ f_0 \in U(k)\}.$$    
+\end{example}
+
+\begin{example}
+        Let $R$ be a ring and $\sigma \in \en (R)$. Then we define the ring of skew polynomials 
+        $$R[x; \sigma] = \{\sum_{i = 0} ^n b_i x^i\ |\ b_i \in R, n \in \N\}$$
+        with the relation $x \cdot b := \sigma (b) \cdot x$. Thus we have the multiplication rule 
+        $$\left(\sum a_i x^i\right) \left(\sum b_j x^j\right) = \sum a_i \sigma^i (b_j) x^{i + j}.$$
+        If $\sigma$ is not set injective, say $\sigma (b) = 0$ for some $0 \neq b \in R$,
+        then $x \cdot b = \sigma(b) x = 0$. In this case, $x$ is a zero divisor.
+        If $R$ is a domain (a ring without zero divisors) and $\sigma$ is injective, then $R[x, \sigma]$ is also a domain.    
+\end{example}
+
+\begin{example}
+        We define the ring of differential polynomials $$R[x; \delta] = \{\sum_{i = 0} ^n b_i x^i\ |\ b_i \in R, n \in \N\}$$
+        with multiplication $x \cdot a = a \cdot x + \delta(a)$,
+        where $\delta: R \to R$ is a derivation. This means that $\delta$ satisfies 
+        $$\delta(a + b) = \delta (a) + \delta(b),\quad \delta(ab) = a\delta (b) + b\delta(a) $$
+        for every pair $a, b \in R$. We take a look at two special cases. If there exists $c \in R$ such that $\delta (a) = ca - ac$ for all $a \in R$, we say that $\delta$ is an inner derivation.
+        In that case, $R[x; \delta] = R[x - c] \cong R[x]$.
+        Now suppose $R = K[y]$ and $\delta$ is a derivative with respect to $y$.
+        Then $R[x; \delta] = \mathcal{A}_1 (K)$. 
+\end{example}
+
+\begin{example}
+    If $R$ is a ring, then $R^{\op} = \{r^{\op}\ |\ r \in R\}$ is a ring with the operations 
+    $$r^{\op} + s^{\op} := (r + s)^{\op},\quad r^{\op} \cdot s^{\op} = (s \cdot r)^{\op}.$$
+\end{example}
+
+
+\section{Finite-dimensional algebras and Wedderburn's structure theory}
+
+\subsection{Chain conditions}
+
+Let $C$ be a set and $\{C_i\ |\ i \in I\}$ a set of some of its subsets.
+We say that this family satisfies the ascending chain condition (ACC)
+if there does not exist an infinite strictly increasing chain 
+$$C_{i_1} \subsetneq C_{i_2} \subsetneq \cdots$$
+for $i_j \in I$.
+Equivalently:
+\begin{enumerate}
+    \item If we have a chain 
+    $$C_{i_1} \subseteq C_{i_2} \subseteq \cdots,$$
+    then there exists a $k \in \N$ such that $C_{i_k} = C_{i_{k + 1}} = \cdots$
+    \item Every subset of $\{C_i\ |\ i \in I\}$ admits a maximal element w.r.t. inclusion.
+\end{enumerate}
+
+Similarly, we define the decreasing chain condition (DCC).
+
+\begin{definition}
+    Let $R$ be a ring and $M$ a left $R$-module.
+    \begin{itemize}
+        \item $M$ is noetherian if the set of all its submodules satisfies ACC.
+        \item $M$ is artinian if the set of all its submodules satisfies DCC.
+    \end{itemize}
+\end{definition}
+
+\begin{proposition}
+    \begin{enumerate}
+        \item $M$ is noetherian iff every submodule of $M$ is finitely generated.
+        \item Let $N \leq M$. Then $M$ is noetherian iff $N$ and $\quot{M}{N}$ are noetherian.
+    \end{enumerate}
+\end{proposition}
+
+\begin{remark}
+    The second statement holds true for artinian modules as well.
+\end{remark}
+
+\begin{myproof}
+    \begin{enumerate}
+        \item Start with the left implication $(\Leftarrow)$. Suppose that 
+        $$M_1 \leq M_2 \leq \dots \leq M.$$ Define $N = \bigcup_{j \in \N} M_j \leq M$.
+        By assumption, $N$ is finitely generated, say by $x_1, \dots, x_n \in N$.
+        For each $i \in \{1, \dots, n\}$, there exists a $j_i \in \N$
+        such that $x_i \in M_{j_i}$. Let $m = \max \{j_1, \dots, j_n\}$. Then $\forall i \in \{1, \dots, n\}$ 
+        we have $x_i \in M_{j_i} \leq M_m$, which implies $N = M_m$. From there it follows $N = M_m = M_{m + 1} = \cdots$
+        Now for the converse $(\Rightarrow)$. Let $N \leq M$ and define $\mathcal{C}$
+        as a set of all finitely-generated submodules of $N$. Since $M$ is noetherian,
+        $\mathcal{C}$ has a max element, say $N_0 \in \mathcal{C}$. Then $N_0 \leq N$.
+        If $N_0 \subsetneq N$, then $b \in N \setminus N_0$. But that would imply that $N_0 + Rb \in \mathcal{C}$
+        and $N_0 \subsetneq N_0 + Rb$, contradicting our assumption of maximality. 
+        \item $(\Rightarrow)$ We know that 
+        $$0 \to N \xrightarrow{f} M \xrightarrow{g} \quot{M}{N} \to 0$$
+        is a short exact sequence. It's obvious that $N$ is noetherian, so we need to prove the same for $\quot{M}{N}$.
+        Suppose that 
+        $$\widetilde{N_1} \leq \widetilde{N_2} \leq \cdots \leq \quot{M}{N}.$$
+        Then $$g^{-1} (\widetilde{N_1}) \leq g^{-1}(\widetilde{N_2}) \leq \cdots \leq M.$$
+        Since $M$ is noetherian, there exists a $k \in \N$ such that 
+        $$g^{-1} (\widetilde{N_k}) = g^{-1}(\widetilde{N_{k + 1}}) = \cdots$$
+        But since $g$ is onto, we have 
+        $$\widetilde{N_k} = \widetilde{N_{k + 1}} = \cdots$$
+        Now the converse $(\Leftarrow)$. Suppose 
+        $$M_1 \leq M_2 \leq \dots \leq M.$$
+        Set $\widetilde{M_i} := g(M_i) \leq \quot{M}{N}$
+        and $N_i := f^{-1} (M_i) \leq N$. We have 
+        $$N_1 \leq N_2 \leq \cdots \leq N$$
+        and $$\widetilde{M_1} \leq \widetilde{M_2} \leq \cdots \leq \quot{M}{N}.$$
+        Because both of there modules are noetherian, there exists a $k \in \N$
+        such that $N_k = N_{k + 1} = \cdots$ and $\widetilde{M_k} = \widetilde{M_{k + 1}} = \cdots$
+        We now use the notation 
+        $$0 \to N_i \xrightarrow{f_i} M_i \xrightarrow{g_i} \widetilde{M_i} \to 0.$$
+        Let $i \geq k$.
+        \begin{center}
+          \adjustbox{scale=1.2,center}{
+            \begin{tikzcd}
+              && {M_k} \\
+              0 & {N_i = N_k} && {\widetilde{M_i} = \widetilde{M_k}} & 0 \\
+              && {M_i}
+              \arrow[from=2-1, to=2-2]
+              \arrow["{f_k}", from=2-2, to=1-3]
+              \arrow["{f_i}"', from=2-2, to=3-3]
+              \arrow["{g_k}", from=1-3, to=2-4]
+              \arrow["{g_i}"', from=3-3, to=2-4]
+              \arrow[from=2-4, to=2-5]
+              \arrow["\beta", hook', from=1-3, to=3-3]
+            \end{tikzcd}}
+        \end{center}
+        We just have to prove that $\beta$ is onto $M_i$. Let $b \in M_i$ and $g_i (b) = g_k (b')$ for some $b' \in M_k$.
+        Then we have \begin{align*}
+          g_i (\beta(b') - b) &= (g_i \circ \beta) (b') - g_i (b)\\
+          &= g_k (b') - g_i (b)\\
+          &= 0.
+        \end{align*}
+        Since $\beta (b') - b \in \ker g_i = \im f_i$, we have $\beta (b') - b = f_i(b'')$ for some $b'' \in N_i$.
+        It follows that 
+        \begin{align*}
+          \beta (b' - f_k (b'')) &= \beta (b') - (\beta \circ f_k) (b'')\\
+          &= \beta (b') - f_i (b'')\\
+          &= b
+        \end{align*} 
+        and we are finished. \qedhere
+    \end{enumerate}
+\end{myproof}
+
+\begin{definition}
+  A ring $R$ is left noetherian (artinian) if $R$ is noetherian (artinian) as a left $R$-module.
+  The definition for right noetherian (artinian) is similar as above.
+\end{definition}
+
+\begin{remark}
+  Ring $R$ is left noetherian iff each left ideal is finitely generated. 
+\end{remark}
+
+\begin{example}
+  \begin{itemize}
+    \item If $F$ is a field, then any finitely generated $F$-algebra is left and right noetherian.
+    \item The ring of integers $\Z$ is noetherian (because it is a PID), but not artinian:
+    $$\Z \supset \quot{\Z}{2\Z} \supset \quot{\Z}{4\Z} \supset \cdots$$
+  \end{itemize}
+\end{example}
+
+\begin{definition}
+  A ring $R$ is called noetherian if it is left and right noetherian.
+\end{definition}
+
+\begin{proposition}
+  If $R$ is a noetherian and $M$ is a finitely generated $R$-module, then $M$ is noetherian.
+\end{proposition}
+
+\begin{myproof}
+  If $M$ is finitely generated. Then there exists a linear map $\phi: R^n \to M$ for some $n \in \N$.
+  By the proof of previous proposition, it suffices to show $R^n$ is noetherian.
+  Observe the next short exact sequence:
+  $$0 \to R \to R^n \to R^{n - 1} \to 0.$$ 
+  We use the previous proposition and proceed by induction.
+\end{myproof}
+
+\subsection{Simple modules}
+
+\begin{definition}
+  Non-trivial left $R$-module $M$ is called simple if it has no proper non-trivial submodules
+  and cyclic (with generator $m \in M$) if $M = R \cdot m = \{r \cdot m\ |\ r \in R\}$.
+\end{definition}
+
+\begin{example}
+  Over fields $F$, simple $F$-modules are one-dimensional vector spaces.
+\end{example}
+
+\begin{proposition}
+  For a left $R$-module $M$ the following statements are equivalent.
+  \begin{enumerate}
+    \item $M$ is simple.
+    \item $M$ is cyclic and every nonzero element is a generator. 
+    \item $M \cong \quot{R}{I}$ for a maximal left ideal $I \lhd R$.
+  \end{enumerate}
+\end{proposition}
+
+\begin{myproof}
+  Begin with $(1) \Rightarrow (2)$. Take any element $m \in M \setminus \{0\}$.
+  Then $Rm \leq M$ is a non-trivial submodule, so we have $Rm = M$.
+  Now the implication $(2) \Rightarrow (3)$. Define a homomorphism of $R$-modules 
+  $$\Phi: R \to M = Rm,\quad r \mapsto r \cdot m.$$
+  Then we define $I = \ker \Phi = \mathrm{ann} (m)$. Clearly, $I$ is a $R$-submodule of $R$ and $Rm = M \cong \quot{R}{I}$.
+  We only have to prove the maximality of $I$. We have a bijective correspondice between ideal $I \subseteq J \subseteq R$ and submodules of $M$.
+  Since any element in a proper submodule of $M$ cannot generate $M$, the only possible $J$ are $I, R$.
+  We finish off with $(3) \Rightarrow (1)$. If $(0) \subseteq M' \leq M = \quot{R}{I}$,
+  $M'$ corresponds to a left ideal $J$ of of $R$ containing $I$. Thus $J = R$ or $J = I$, hence $M' = M$ or $M = (0)$.
+\end{myproof}
+
+\begin{example}
+  \begin{enumerate}
+    \item Simple $\Z$-modules are of the form $\quot{\Z}{p\Z}$ where $p$ is a prime number.
+    \item If $F$ is a field, then simple $F[x]$-modules are of the form $\quot{F[x]}{(p)}$
+    for some irreducible polynomial $p \in F[x]$.
+    \item Let $V$ be a $n$-dimensional vector space over $F$ and $R = \mathrm{End}_R (V) \cong M_n (F)$.
+    We already know that $V$ is an $R$-module, but it is also simple.
+  \end{enumerate}
+
+\end{example}
+
+\begin{lemma}[Schur's lemma]
+  Let $M, N$ be simple $R$-modules and $f: M \to N$ a homomorphism. Then $f$ is either an isomorphism or a zero map.
+  In particular, $\en_R (M)$ is a division ring.
+\end{lemma}
+
+\begin{myproof}
+  Since $\ker f \leq M$ and $\im f \leq N$, we have $\ker f \in \{(0), M\}$ and $\im f \in \{(0), N\}$.
+  If $\ker f = (0)$, then $\im f = N$, so $f$ is an isomorphism. But if $\ker f = M$, then $f$ is the zero map.
+  If $f \in \en_R (M) \setminus \{0\}$, then $f$ is an isomorphism, so there exists an inverse.
+\end{myproof}
+
+\begin{example}
+    Suppose $R$ is commutative, $I \lhd R$.
+    Then we have 
+    $$\en_R \left(\quot{R}{I}\right) = \en_{\quot{R}{I}} \cong \quot{R}{I},\quad f \mapsto f(1).$$
+    If $M$ is a simple left $R$-module, then $M \cong \quot{R}{I}$ for some maximal $I \leq R$.
+    Then $\en_R (M) \cong \quot{R}{I}$ is a field.
+\end{example}
+
+\begin{example}
+  Let $D$ be a division ring, $V$ a $D$-module and $R = \en_D (V)$.
+  Both $D$ and $R$ act on $V$ and their actions commute:
+  $$\varphi (d \cdot v) = d \cdot (\varphi (v)).$$
+  Because of that, we can define a map
+  $$\Psi: D \to \en_R (V),\quad d \mapsto (v \mapsto d \cdot v).$$
+  Such a $\Psi$ is a isomorphism of rings; it is obviously injective, we just need to prove that is is onto.
+  Suppose $T \in \en_R (V)$. Choose $v \in V \setminus \{0\}$.
+  For any $w \in V$ there exists an endomorphism of $V$ sending $v$ to $w$, so $V = R \cdot v$.
+  Hence every $R$-endomorphism (such as $T$) is determined by its image of $v$.
+  So it suffices to show that $Tv = d \cdot v$ for some $d \in D$.
+  T+here exists a projection $p \in \en_D (V) = R$ onto $Dv$. Thus 
+  $$Tv = T(pv) = p(Tv) \in Dv.$$
+\end{example}
+
+\begin{example}
+  Let $k$ be a field, $R$ a $k$-algebra and $M \in {_R }\mathrm{Mod}$ simple.
+  Additionally, let $\dim_k M < \infty$. By Schur's lemma, $D := \en_R (M)$ is a division ring.
+  Since $D \subseteq \en_k (M)$, it is also a finite-dimensional $k$-algebra.
+  If $k$ is an algebraically closed field (ACF), then $k \cong \en_R (M)$.
+\end{example}
+
+\begin{lemma}
+  A finitely dimensional division algebra $D$ over an ACF is $k$ itself.
+\end{lemma}
+
+\begin{myproof}
+  Take an arbitrary element $\alpha \in D$. Then the span of $\{1, \alpha, \alpha^2, \dots\}$ is finitely-dimensional,
+  so $\quot{k(\alpha)}{k}$ is a finite field extension. Since $k$ is an ACF, it admits no proper finite (even algebraic) extensions,
+  so $k(\alpha) = k$. This gives us $\alpha \in k$.
+\end{myproof}
+
+\subsection{Semisimple modules}
+
+\begin{definition}
+  A module is semisimple if it is direct sum of simple modules.
+\end{definition}
+
+\begin{example}
+  \begin{itemize}
+    \item Every simple module is semisimple.
+    \item Every vector space over a division ring $D$ is semisimple.
+    \item A direct sum of semisimple modules is semisimple.
+  \end{itemize}
+\end{example}
+
+\begin{proposition}
+  If $M$ is a left $R$-module that is a sum (not necessarily direct) of simple submodules $M_i$ (where $i \in I$),
+  then $M_i$ is a semisimple module. Moreover, there is a subset $I' \leq I$ such that 
+  $$M = \bigoplus_{j \in I'} M_j.$$
+\end{proposition}
+
+\begin{myproof}
+  A family of submodules $M_j$ (where $j \in J$) is called independent 
+  if $\sum_{j \in J} ^{\textrm{finite}} m_j = 0$ implies $m_j = 0, \forall j \in J$.
+  Equivalently, $\sum_{j \in J} M_j = \bigoplus_{j \in J} M_j$.
+  Define 
+  $$\mathcal{S} = \{J \subseteq I\ |\ \textrm{$(M_j)_{j \in J}$ is independent}\}.$$
+  Since $\mathcal{S} \neq \emptyset$, every chain in $\mathcal{S}$ has an upper bound (in this case, a union).
+  Thus Zorn's lemma applies and there exists a maximal element $I' \in \mathcal{S}$.
+  Set $M' = \sum_{i \in I'} M_i \leq M$. We have to prove that $M' = M$.
+  For each $j \in I$, we have $M' \cap M_j \in \{(0), M_j\}$.
+  If $M' \cap M_j = (0)$ , then $I' \cup \{j\}$
+  is $i$-independent, contradicting maximality of $I'$.
+  So $M' \cap M_j = M_j$ for each $j \in I$, hence $M' \supseteq \sum_{j \in I'} M_j$ and we are done.
+\end{myproof}
+
+\begin{corollary}
+  If $M$ is semisimple, then so is every submodule and quotient module of $M$.
+  Furthermore, every submodule of $M$ is a direct summand.
+\end{corollary}
+
+\begin{myproof}
+  Let $M = \bigoplus_{i \in I} M_i$ be a direct sum of simple modules and let $M' \leq M$.
+  Then $\quot{M'}{M}$ is generated by the images $\overline{M_i}$ of the $M_i$ (under $M \to \quot{M}{M'}$).
+  if $\overline{M_i} \neq (0)$, then $\overline{M_i} \cong M_i$, since $M_i$ is simple.
+  Therefore $\quot{M}{M'}$ is a sum of simple modules, thus semisimple.
+  Moreover, there exists $I'' \subseteq I$ such that 
+  $$\quot{M}{M'} = \bigoplus_{i \in I''} \overline{M_i} \cong \bigoplus_{i \in I''} M_i.$$
+  Then $$M = \left(\bigoplus_{i \in I''} M_i\right) \oplus M'.$$
+  The module $M'$ is also semisimple, since 
+  \begin{equation*}
+    \quot{M}{\bigoplus_{i \in I''} M_i} = \bigoplus_{i \in (I \setminus I'')} M_i = M'.\qedhere
+  \end{equation*}
+\end{myproof}
+
+\begin{proposition}
+  Let $M$ be a module such that every submodule of $M$ is a direct summand. Then $M$ is semisimple.
+\end{proposition}
+
+\begin{remark}
+  We say that such $M$ has the complement property.
+\end{remark}
+
+\begin{myproof}
+  \begin{enumerate}
+    \item First we notice that any $N \leq M$ has the complement property.
+    \item Next, we prove that there exists a simple submodule of $M$.
+    Let's choose an arbitrary cyclic submodule $(0) \neq M' \leq M$, say $M' = Rm$ for some $m \in M'$.
+    By Zorn's lemma, there exists a maximal proper submodule $M'' \lneq M'$.
+    Then $\quot{M'}{M''}$ is simple. Because $M'$ has complement property, there 
+    exists a submodule $S \leq M' \leq M$ such that $M' = M'' \oplus S$.
+    But then $S = \quot{M'}{M''}$ is a simple submodule of $M$ that we were looking for.
+    \item We define 
+    $$M_1 = \sum \{\textrm{simple submodules of $M$}\} \leq M.$$
+    There exists a submodule $M_2 \leq M$ such that $M = M_1 \oplus M_2$.
+    If $M_2 \neq (0)$, then the second point shows that $M_2$ has a simple submodule, say $S_2 \leq M_2$.
+    By construction, $S_2 \subseteq M_1$ and we arrive at a contradiction.
+    Therefore $M_2 = (0)$ and $M = M_1$ is semisimple. \qedhere
+  \end{enumerate}
+\end{myproof}
+
+\subsection{Endomorphism ring of a semisimple module}
+
+\begin{proposition}
+  Let $M \in {}_R \mo$, $S \in \en_R (M)$ and $p, m, n \in \N$.
+  There is a canonical isomorphism of an abelian group
+  $$\ho _R (M^n, M^m) \cong S^{m \times n}$$
+  such that the composition 
+  $$\ho_R (M^n, M^m) \times \ho_R (M^p, M^n) \to \ho_R (M^p, M^n)$$
+  corresponds to matrix multiplication 
+  \begin{align*}
+    S^{m \times n} \times S^{n \times p} &\to S^{m \times p}\\
+    (A, B) &\mapsto A \cdot B.
+  \end{align*}
+  In particular, $\en_R (M^n) \cong S^{n \times n} = M_n (S)$ is an isomorphism of rings.
+\end{proposition}
+
+\begin{myproof}
+  Let $f: M^n \to M^m$. We have 
+  \begin{center}
+    \adjustbox{scale=1.2,center}{
+      \begin{tikzcd}
+        M & {M^n} & {M^m} & M
+        \arrow["{\iota_j}", from=1-1, to=1-2]
+        \arrow["f", from=1-2, to=1-3]
+        \arrow["{\pi_i}", from=1-3, to=1-4]
+        \arrow["{\alpha_{ij}}", bend left=25, from=1-1, to=1-4]
+      \end{tikzcd}    
+    }
+  \end{center}
+  where $\iota_j$ is the inclusion into the $j$-th summand and $\pi_i$ is the projection onto the $i$-th summand.
+  Then the isomorphism $$\ho _R (M^n, M^m) \cong S^{m \times n}$$ is given by a map 
+  $f \mapsto [\alpha_{ij}] \in S^{m \times n}$. Conversely, given $[\alpha_{ij}]_{i, j}$
+  define
+  $$f(x_1, \dots, x_n) = (y_1, \dots, y_m)$$
+  where $y_i = \sum_{j = 1} ^n \alpha_{ij} x_j$. 
+\end{myproof}
+
+  For an element $r \in R$ define a $R$-linear map $$T_r: R \to R,\quad x \mapsto x \cdot r.$$
+  Notice that we have $$T_r \circ T_s = T_{sr}.$$
+  Now define $$\Phi: R \to \en_R (R),\quad r \mapsto T_r.$$
+  This map is a bijection. It's clearly injective, since $T_r = T_s$ implies 
+  $$r = T_r (1) = T_s (1) = s.$$
+  But it is also onto, because for every $f \in \en_R (R)$ we have $f = T_{f(1)}$.
+  If $R$ is commutative, then $\en_R (R) \cong R$.
+  But in general, $\en_R (R) \cong R^{\mathrm{op}}$.
+
+\begin{example}
+  Let $D$ be a division ring. Then any $D$-linear map $D^n \to D^n$ can be represented as a matrix with entries in 
+  $\en_D (D) \cong D^{\mathrm{op}}$, hence 
+  $$\en_D (D^n) \cong M_n (\en_D (D)) = M_n(D^{\mathrm{op}}).$$
+\end{example}
+
+\begin{definition}
+  A semisimple module has finite length if it is a finite direct sum of simple modules.
+\end{definition}
+
+\begin{proposition}
+  If $M \in _R \mathrm{Mod}$ is semisimple of finite length, then $\en_R (M)$
+  is isomorphic to a finite product of matrix rings over division rings.
+\end{proposition}
+
+\begin{myproof}
+  Let $M \cong \bigoplus_{i = 1} ^k M_i ^{n_i}$, where $M_i$ are simple (we call them isotypical components) and $M_i \not\cong M_j$ for $i \neq j$.
+  By Schur's lemma, we have $\ho_R (M_i, M_j) = (0)$ for $i \neq j$.
+  So every endomorphism of $M$ must take each isotypical component into itself.
+  Hence 
+  \begin{align*}
+    \en_R (M) &= \en_R \left(\bigoplus_{i = 1} ^k M_i ^{n_i}\right)\\
+    &= \prod_{i = 1} ^k \en_R (M_i^{n_i})\\
+    &= \prod_{i = 1} ^k M_{n_i} (\en_R (M_i)),
+  \end{align*}
+  where $\en_R (M_i)$ is a division ring by Schur's lemma.
+\end{myproof}
+
+\subsection{Semisimple rings}
+
+\begin{definition}
+  Ring $R$ is (left) semisimple ring if it is a semisimple left $R$-module.
+\end{definition}
+
+\begin{theorem}
+  For a ring the following is equivalent.
+  \begin{enumerate}
+    \item $R$ is semisimple;
+    \item every $R$-module is semisimple;
+    \item any short exact sequence of $R$-modules splits.
+  \end{enumerate}
+\end{theorem}
+
+\begin{myproof}
+  Start with the statement $(1) \Rightarrow (2)$. Since $R \in {}_{R} \mo$ is semisimple,
+  so for any index set $I$, $\bigoplus_I R \in {}_R \mo $ is semisimple. Any $M \in {}_R \mo$
+  is a quotient of some free $R$-module $\bigoplus_I R$ and is therefore semisimple by an earlier proposition.
+  The implication $(2) \Rightarrow (3)$ follows from the fact that semisimple modules have the complement property.
+  Finally, we need to prove the implication $(3) \Rightarrow (1)$.
+  Let $I \leq_R R$. Then 
+  $$0 \to I \to R \to \quot{R}{I} \to 0$$
+  is a short exact sequence. By assumption it splits, so $I$ is a direct summand of $R$. So $R$
+  has the complement property, so it is semisimple.
+\end{myproof}
+
+\begin{corollary}
+  Suppose $R$ is semisimple. Then $R \in {}_R \mathrm{Mod}$ has finite length
+  and any simple $R$-module is isomorphic to a simple component of $R$.
+  In particular, there are only finitely many nonisomorphic simple $R$-modules.
+\end{corollary}
+
+\begin{myproof}
+  Let $R \cong \bigoplus_{i \in I} M_i$ as $R$-module, where $M_i$ are simple.
+  Recall that $R$ is generated by $1 \in R$, so the set $I$ must be finite.
+  Indeed, write $1 = \sum_{i \in I} e_i$, where $e_i \in M_i$ and $e_i \neq 0$ for finitely many indices $i$.
+  Let $M_i$ be some module such that $e_i = 0$ and $x \in M_i.$ Then $x = 1 \cdot x = e_i = 0$ and $M_i$ is a zero module.
+  Therefore $R$ is of finite length.
+  Suppose $M \in {}_R \mo$ is simple. Then we have the surjective map 
+  $$\bigoplus_{i \in I} M_i \cong R \rightarrow M = Rm$$
+  and thus at least one of the induced maps $M_i \to M$ is nonzero, therefore an isomorphism by Schur.
+\end{myproof}
+
+\begin{example}
+    Any division ring $D$ is semisimple; $D$ is a simple $D$-module.
+\end{example}
+
+\begin{example}
+  If $F$ is a field, then $F[x]$ is not semisimple. 
+\end{example}
+
+\begin{example}
+  The ring $\Z$ is not semisimple, since the simple $\Z$-modules $\quot{\Z}{p\Z}$
+    and there's infinitely many of them. Additionally, we know that $\Z \not\cong \quot{\Z}{p\Z}$
+    for every prime $p$.
+\end{example}
+
+\begin{example}
+    Let $D$ be a division ring and $V$ a $n$-dimensional vector space over $D$.
+    Let $R = \en_D (V)$. Then $R$ is semisimple. Indeed, let $\{e_1, \dots, e_n\}$
+    be a basis of $V$. Define a map 
+    $$\Omega: R \to V \oplus \dots \oplus V,\quad f \mapsto (f(e_1), \dots, f(e_n))$$
+    and it is clear to see that $\Omega$ is an isomorphism. Since we know that $V$ is 
+    a simple $R$-module, $R \cong V^n$ is a semisimple $R$-module, so $R$ is a semisimple ring like we wanted.
+    Notice that $R$ has a unique simple $R$-module, namely $V$.
+    In matrix form, we have 
+    $$\en_D (V) = \en_D (D^n) \cong M_n (D^{\mathrm{op}}).$$
+    The space 
+    $$V_i = \begin{pmatrix}
+      0 & \cdots & a_{1i} & \cdots & 0\\
+      \vdots &&&& \vdots\\
+      0 & \cdots & a_{ni} & \cdots & 0
+    \end{pmatrix}$$
+    is a simple submodule of $M_n(D^{\mathrm{op}}) \cong \en_D (V) = R$ and $R \cong \bigoplus_{i = 1} ^r V_i$,
+    where $V_i \cong V$.
+\end{example}
+
+\begin{example}
+  If $R, S$ are semisimple rings, then $R \times S$ is semisimple.
+\end{example}
+
+\begin{corollary}
+  A finite product of matrix rings over division rings is semisimple.
+\end{corollary}
+
+\subsection{Wedderburn structure theorem}
+
+\begin{theorem}[Wedderburn]
+  Every semisimple ring $R$ is isomorphic to a finite product of matrix rings over division rings.
+  If $R$ is also commutative, then it is a finite direct product of fields.
+\end{theorem}
+
+\begin{myproof}
+  We know that $R \in {}_R \mo$ is semisimple of finite length, so $R^{\mathrm{op}} \cong \en_R (R)$
+  is isomorphic to a finite product $\prod M_{n_i} (D_i)$.
+  Then we have 
+  \begin{equation*}
+    R \cong (R^{\mathrm{op}})^{\mathrm{op}} \cong \left(\prod M_{n_i} (D_i)\right)^{\mathrm{op}} = \prod M_{n_i} (D_i) ^{\mathrm{op}} \cong \prod M_{n_i} (D_i ^{\mathrm{op}}). \qedhere
+  \end{equation*}
+\end{myproof}
+
+\begin{definition}
+  A ring is simple if it has no nontrivial proper two-sided ideals.
+\end{definition}
+
+\begin{remark}
+  \begin{enumerate}
+    \item This is not the same as $R$ being a simple $R$-module. For example $M_n (D)$ is a simple ring but is not simple as a module.
+    \item Simple ring is not necessarily semisimple: an example would be $\mathcal{A} (k)$.
+  \end{enumerate}
+\end{remark}
+
+%ZAKOMENTIRAN IZREK
+
+\begin{comment}
+\begin{theorem}
+  For a ring $R$ the following properties are equivalent.
+  \begin{enumerate}
+    \item $R$ is simple and semisimple.
+    \item $R$ is semisimple and all simple left $R$-modules are isomorphic.
+    \item $R \cong M_n (D)$ for some $n > 0$ and some division ring $D \cong \en_{R} ^{\op} (S)$,
+    where $S$ is a simple left $R$-module.
+    \item $R$ is left artinian and there exists a faithful, simple left $R$-module.
+    \item $R$ is simple and left-artinian.
+  \end{enumerate}
+\end{theorem}
+
+
+\begin{myproof}
+  Pierre Antoine Grillet, theorem IX.3.8.
+\end{myproof}
+\end{comment}
+
+\begin{theorem}
+  Let $R$ be semisimple and $S_1, \dots, S_s$ be, up to isomorphism, all the distinct simple left $R$-modules.
+  Let $R_i$ be the sum of all the minimal left ideals $L \cong S_i$ of $R$.
+  Then $R_i$ is a two-sided ideal of $R$, $R_i$ is a simple left artinian ring and $$R = R_1 \times \cdots \times R_s.$$
+\end{theorem}
+
+\begin{myproof}
+  Pierre Antoine Grillet, proposition IX.3.9.
+\end{myproof}
+
+\begin{remark}
+  Here, we the product of rings was "internal" (see the above reference).
+\end{remark}
+
+\begin{proposition}[Uniqueness of decomposition of semisimple rings]
+  If $R = \prod_{i = 1} ^n R_i$ and $R = \prod_{j = 1} ^m R_j '$, where $R_i, R_j'$ are simple rings,
+  then $n = m$ and each $R_i$ equals some $R_j'$.
+\end{proposition}
+
+\begin{myproof}
+  Since $R_i \lhd R$, we have $R_i R = R_i$. From $R = \prod R_j '$
+  we get $R_i = \prod_{j} R_i R_j'$. Since $R_i R_j ' \lhd R_i$ and $R_i$
+  is simple, we either have $R_i R_j' = (0)$ or $R_i R_j' = R_i$.
+  There has to exist some $j$ such that $R_i R_j' = R_i$.
+  But since $R_i R_j' \lhd R_j'$ and $R_j'$ is also simple, we have $R_i = R_j'$.
+  We then proceed by induction. 
+\end{myproof}
+
+\subsection{Jacobson radical}
+
+\begin{definition}
+  Jacobson radical of a ring $R$, denoted by $\rad R$, is the intersection of all 
+  maximal left ideals of $R$.
+\end{definition}
+
+\begin{lemma}
+  For $y \in R$ the following is equivalent.
+  \begin{enumerate}
+    \item $y \in \rad R$;
+    \item $1 - xy$ is left invertible, $\forall x \in R$;
+    \item for every simple $M \in {}_R \mo$ we have $yM = (0)$.
+  \end{enumerate}
+\end{lemma}
+
+\begin{myproof}
+  We start with $(1) \Rightarrow (2)$. We prove by contraposition: if there exists $x \in R$ 
+  such that $1 - xy$ is not left invertible. Then $R(1 - xy) \lhd R$ is a proper left ideal of $R$,
+  so by Zorn lemma there exists a maximal left ideal $m$ such that $R(1 - xy) \subseteq m \lhd R$.
+  In particular, $1 - xy \in m$. But since $m$ is maximal, $y$ can't be included in it and as a result $y \notin \rad R$.
+  We now prove the second implication $(2) \Rightarrow (3)$. If $(3)$
+  fails, then there exists an element $m \in M$ such that $y \cdot m \neq 0$, so by simplicity of $R$ we get $R (ym) = M$.
+  There exists a $x \in R$ such that $xym = m$ or equivalently $(1 - xy) m = 0$, which means $(1 - xy)$ is not left invertible.
+  Lastly, we show that $(3) \Rightarrow (1)$. Take an arbitrary left maximal ideal $m \lhd R$.
+  Then $\quot{R}{m} \in {}_R \mo$ is simple, so $y \cdot \quot{R}{m} = (0)$, so $y \in m$.
+  But since $m$ is arbitrary, we have $y \in \rad R$.
+\end{myproof}
+
+\begin{definition}
+  Annihilator of $M \in {}_R \mo$ is $$\ann (M) = \{y \in R\ |\ y \cdot M = (0)\}.$$
+  We notice that $\ann (M) \lhd R$.
+\end{definition}
+
+\begin{corollary}
+  $\rad R = \bigcap \{\ann M\ |\  \textrm{$M \in {}_R \mo$ simple}\}$
+\end{corollary}
+
+\begin{lemma}
+  For $y \in R$ the following is equivalent.
+  \begin{enumerate}
+    \item $y \in \rad R$;
+    \item $1 - xyz$ is invertible, $\forall x, z \in R$.
+  \end{enumerate}
+\end{lemma}
+
+\begin{myproof}
+  It's enough to show that $(1) \Rightarrow (2)$. 
+  If $y \in \rad R$, then $yz \in \rad R$ and $1 - xyz$ is left invertible,
+  so there exists $u \in R$ so that $u(1 - xyz) = 1$.
+  Since $xyz \in \rad R$, $1 - u(xyz) = u$ is left invertible.
+  So $u$ is left and right invertible and we have $(1 - xyz)^{-1} = u$.
+\end{myproof}
+
+\begin{proposition}
+  \begin{itemize}
+    \item Jacobson radical $\rad R$ is the largest (left) ideal $J$ satisfying $1 + J \subseteq R^{-1}$.
+    \item Jacobson radical for left ideals concides with the one for right ideals.
+    \item Suppose $I \lhd R$ and $I \subseteq \rad R$. Then $\rad \left(\quot{R}{I}\right) = \quot{\rad R}{I}$. 
+  \end{itemize}
+\end{proposition}
+
+\begin{myproof}
+  We only prove the third item. The maximal left ideals in $\quot{R}{I}$ correspond to the maximal left ideals in $R$ which contain $I$, and the rest is routine.
+\end{myproof}
+
+\begin{definition}
+  A ring $R$ is $J$-semisimple if $\rad R = (0)$.
+\end{definition}
+
+\begin{remark}
+  Note that for each ring $R$, the ring $\quot{R}{\rad R}$ is $J$-semisimple.
+\end{remark}
+
+\begin{proposition}
+  \begin{itemize}
+    \item $R$ and $\quot{R}{\rad R}$ have the same simple left modules.
+    \item A element $x \in R$ if (left) invertible iff $\overline{x} = x + \rad R$ is (left) invertible in $\quot{R}{\rad R}$.
+  \end{itemize}
+\end{proposition}
+
+\begin{myproof}
+  \begin{itemize}
+    \item First point follows from $(1) \Rightarrow (3)$ in the lemma above.
+    \item It's enough to prove $(\Leftarrow)$. Suppose $\overline{y} \overline{x} = 1$ for some $y \in R$.
+    Then $1 - yx \in \rad R$, so $yx \in 1 + \rad R \subseteq R^{-1}$ and $yx$ is invertible, therefore $x$ has a left inverse. \qedhere
+  \end{itemize}
+\end{myproof}
+
+\begin{definition}
+  A one-sided or two-sided ideal $I \subseteq R$ is:
+  \begin{itemize}
+    \item nil if all its elements are nilpotent;
+    \item nilpotent if there exists $n \in \N$ such that $I^n = (0)$.
+  \end{itemize}
+\end{definition}
+
+\begin{example}
+  Let $R = \quot{\Z [x_1, x_2, x_3 \dots]}{(x_1 ^2, x_2 ^3, x_3^4, \dots)}$.
+  Then $I = (\overline{x_1}, \overline{x_2}, \overline{x_3}, \dots)$ is nil but not nilpotent.
+\end{example}
+
+\begin{lemma}
+  If $I \leq {}_R R$ is nil, then $I \subseteq \rad R$.
+\end{lemma}
+
+\begin{myproof}
+  Let $y \in I$. Then $xy \in I$ for all $x \in I$, so $xy$ is nilpotent.
+  Say $(xy)^n = 0$. Then $1 - xy$ is invertible and its inverse is 
+  \begin{equation*}
+    (1 - xy)^{-1} = \sum_{k = 0} ^{n - 1} (xy)^k. \qedhere
+  \end{equation*}
+\end{myproof}
+
+\begin{theorem}
+  Suppose $R$ is left artinian. Then $\rad R$ is the largest nilpotent left ideal.
+\end{theorem}
+
+\begin{myproof}
+  By lemma, it suffices to show $\rad R$ is nilpotent.
+  Consider a descending chain 
+  $$\rad R \supseteq (\rad R)^2 \supseteq (\rad R)^3 \supseteq \cdots$$
+  Since $R$ is left artinian, there exists a $k \in \N$ such that 
+  $$(\rad R)^k = (\rad R)^{k + 1} = \cdots = I.$$
+  We now prove that $I = (0)$. Suppose it wasn't. By the artinian property,
+  we have a minimal left ideal $I_0$ such that $I \cdot I_0 \neq (0)$,
+  hence $\exists a \in I_0$ such that $I \cdot a \neq (0)$. Then 
+  $$I \cdot (Ia) = I^2 a = Ia \neq (0),$$ so $Ia = I_0$. 
+  In particular, there exists $y \in I$ such that $ya = a$ or equivalently $(1 - y)a = 0$.
+  But since $y \in I \subseteq \rad R$, we have $1 - y \in R^{-1}$. Thus $a = 0$ and we have a contradiction.
+\end{myproof}
+
+\begin{theorem}
+  For a ring $R$ the following is equivalent.
+  \begin{enumerate}
+    \item $R$ is semisimple.
+    \item $R$ is $J$-semisimple and left artinian.
+  \end{enumerate}
+\end{theorem}
+
+\begin{corollary}
+  Simple left artinian ring is semisimple.
+\end{corollary}
+
+\begin{myproof}
+  We begin with the implication $(1) \Rightarrow (2)$. If $R$ is semisimple,
+  then it is left artinian (Artin-Wedderburn theory). Since $R$ is semisimple, there exists $I \leq {}_R R$
+  such that $R = \rad R \oplus I$. If $\rad R \neq (0)$, then $I \subsetneq R$, so there exists a maximal submodule 
+  $m \leq {}_R R$ such that $I \subseteq m$. Hence $I \subseteq m$ and $\rad R \subseteq m$ which implies 
+  $R = \rad R + I \subseteq m$, a contradiction. Now the converse $(2) \Rightarrow (1)$.
+  By definition $$\rad R = \bigcap_{m^{\max} \leq {}_R R} m$$ and since $R$ is artinian, there exist 
+  $m_1, \dots, m_n^{\max} \leq {}_R R$ such that $$\rad R = \bigcap_{i = 1} ^n m_i.$$
+  Consider $$\varphi: R \to \bigoplus_{i = 1} ^r \quot{R}{m_i},\quad x \mapsto \oplus (x + m_i).$$
+  This is obviously a homomorphism of $R$-modules. We have 
+  $$\ker \varphi = \bigcap_{i = 1}^n m_i = \rad R = (0),$$
+  so it is also injective. Since ${}_R R \leq \bigoplus_{i = 1} ^n \quot{R}{m_i}$, ${}_R R$ is also semisimple.
+\end{myproof}
+
+\begin{example}
+  Let $k$ be a field and $R$ a ring of upper-triangular $n \times n$ matrices on $k$
+  and let $J$ be the set of all matrices in $R$ with the zero diagonal.
+  It's clear to see that $\rad R = J$.
+  Indeed, since $J^n = (0)$, $J$ is nilpotent and therefore included in $R$.
+  But since
+  $$\quot{R}{J} \cong \begin{pmatrix}
+    k & 0 & 0\\
+    0 & \ddots & 0\\
+    0 & 0 & k\\
+  \end{pmatrix} \cong k \times \cdots \times k$$
+  is semisimple, it is $J$-semisimple and we can conclude 
+  $$\quot{\rad R}{J} = \rad \left(\quot{R}{J}\right) = (0),$$
+  so $J = \rad R$. We can also point out that $R$ has $n$ simple modules.
+  They are $V_i = {}_R k$ with the action 
+  $$\begin{pmatrix}
+    a_{11} & * & *\\
+     & \ddots & *\\
+     &  & a_{nn}\\
+  \end{pmatrix} \cdot b = a_{ii} b.$$
+\end{example}
+
+\begin{lemma}[Nakayama]
+  For a left ideal $J \leq {}_R R$ the following is equivalent.
+  \begin{enumerate}
+    \item $J \subseteq \rad R$.
+    \item For every finitely generated $M \in {}_R \mo$ we have $$JM = M \Rightarrow M = (0).$$
+    \item For every $N, M \in {}_R \mo$ such that $N \subseteq M$ and $\quot{M}{N}$ is finitely generated, we have
+    $$N + J M = M \Rightarrow N = M.$$
+  \end{enumerate}
+\end{lemma}
+
+\begin{myproof}
+  First we prove $(1) \Rightarrow (2)$. Suppose $M \neq (0)$ is finitely generated and take a ,minimal set of generators 
+  $x_1, \dots, x_k$. Since $JM = M$, there are $a_1, \dots, a_k \in J$ such that 
+  $$x_k = a_1 x_1 + a_2 x_2 + \dots + a_k x_k.$$
+  Thus $(1 - a_k) x_k = a_1 x_1 + \cdots + a_{k - 1} x_{k - 1}$.
+  But $1 - a_k \in 1 + J \subseteq 1 + \rad R \subseteq R^{-1}$, so 
+  $x_k \in R x_1 + \cdots + Rx_{k - 1}$, which contradicts our assumption of minimality.
+  The implication $(2) \Rightarrow (3)$ is proved by directly applying item $(2)$
+  to $\quot{M}{N}$. Lastly, we need to prove $(3) \Rightarrow (1)$.
+  Suppose there exists $y \in J \setminus \rad R$. Then there exists a maximal ideal $m \leq {}_R R$
+  such that $y \notin m$. Then $m + J = R$, so $m + J \cdot R = R$. Now we apply $(3)$
+  to get $m = R$, which is a contradiction.
+\end{myproof}
+
+\subsection{Group rings and Maschke's theorem}
+
+Recall: given a group $G$ and field $k$, the group ring $kG$ is a vector space with basis $G$ 
+and multiplication induced by $G$.
+
+\begin{theorem}[Maschke]
+  Suppose $G$ is a finite group and $\chara k$ is not a divisor of $|G|$. Then $k G$ is semisimple.
+\end{theorem}
+
+\begin{myproof}
+  Let $W \leq V$ be $kG$-modules. In particular, $W, V$ are $k$-vector spaces.
+  That means there exists a $k$-linear map $f: V \to W$ such that $f\big|_W = \mathrm{id}$.
+  Define a new map $g: V \to V$ by 
+  $$v \mapsto \frac{1}{|G|} \sum_{\sigma \in G} \sigma^{-1} f(\sigma v).$$
+  It's obvious that $g$ maps to $W$. We now prove that $g\big|_W = \mathrm{id}$:
+  \begin{align*}
+    g(w) &= \frac{1}{|G|} \sum_{\sigma \in G} \sigma^{-1} f(\sigma w)\\
+    &= \frac{1}{|G|} \sum_{\sigma \in G} \sigma^{-1} \sigma w\\
+    &= \frac{1}{|G|} \sum_{\sigma \in G} w\\
+    &= w.
+  \end{align*}
+  Clearly, $g$ is $k$-linear since it is a sum of $k$-linear maps.
+  We just have to prove that $g$ is a $kG$-module homomorphism.
+  Let $v \in V$ and $\tau \in G$:
+  \begin{align*}
+    g(\tau \cdot v) &= \frac{1}{|G|} \sum_{\sigma \in G} \sigma^{-1} f(\sigma \tau v)\\
+    &= \frac{1}{|G|} \sum_{\sigma \tau \in G} \tau (\sigma \tau)^{-1} f(\sigma \tau v)\\
+    &= \frac{1}{|G|} \sum_{\sigma' \in G} \tau (\sigma')^{-1} f(\sigma' v)\\
+    &= \tau \cdot \frac{1}{|G|} \sum_{\sigma' \in G} (\sigma')^{-1} f(\sigma' v)\\
+    &= \tau \cdot g(v).
+  \end{align*}
+  Since $V = W \oplus \ker g$ and $\ker g \leq {}_{kG} V$, $V$ has the complement property, hence is semisimple.
+  So $kG$ has to be semisimple.
+\end{myproof}
+
+\begin{proposition}
+  If $k$ is a field and $G$ is an infinite group, then $kG$ is not semisimple.
+\end{proposition}
+
+\begin{myproof}
+  Consider the augmentation map $\varepsilon: kG \to k$, given by $\varepsilon\big|_k = \mathrm{id}$ and 
+  $\varepsilon (g) = 1,\ \forall g \in G$. The map $\varepsilon$ is not only a homomorphism of modules, but also of rings.
+  Denote $I = \ker \varepsilon \leq kG$. (DOPOLNI)
+\end{myproof}
+
+\begin{remark}
+  \begin{enumerate}
+    \item $\C G$ is always $J$-semisimple.
+    \item If $G$ is finite and $\chara k$ divides $|G|$, then $kG$ is not semisimple.
+  \end{enumerate}
+\end{remark}
+
+\begin{example}
+  The ring $\C S_3$ is semisimple by Maschke's theorem. By Wedderburn, we have 
+  $$\C S_3 \cong \prod_{i = 1} ^r M_{n_i} (D_i),$$
+  where $D_i$ are division rings that include $\C$.
+  Since $\dim_{\C} \C S_3 = |S_3| = 3! = 6$ , we have $\dim_{\C} D_i < \infty$
+  and since $\C$ is an ACF, we have $D_i = \C$, so 
+  $$\C S_3 = \prod_{i = 1} ^r M_{n_i} (\C).$$
+  Its dimension is $6 = \sum_{i = 1} ^r {n_i}^2$.
+  Since $6 = 1 + 1 + 1 + 1 + 1 + 1 = 4 + 1 + 1$, we have two options:
+  $CS_3 = \C^6$ or $CS_3 = M_2 (\C) \times \C \times \C$.
+  Since $CS_3$ is not commutative, we get $CS_3 = M_2 (\C) \times \C \times \C$.
+\end{example}
+
+\section{Primitive rings}
+
+In commutative rings, we often reduce the general problem to a problem for fields.
+If we have a commutative ring $R$, then we can quotient it with its 
+Jacobson radical to get a reduced ring (i. e. a ring 
+with no nilpotents). Then we can quotient it with a prime ideal to 
+get an integral domain (i. e. a ring with no zero divisors). Lastly, we take a 
+quotient ring of our integral domain to reduce a problem to a field.
+
+In noncommutative case, we would like to proceed as follows: from a general ring, we want to obtain
+a ring without nilpotents, from which we would get domains and lastly division ring.
+The problem is that in general, there is no way to reduce a problem on domain to a problem on a division ring.
+
+\begin{example}
+  Let $H$ be the monoid generated by $a, b, c, d, u, v, x, y$ subject to 
+  $$ax = by,\quad au = bv,\quad cx = dy.$$
+  In matrix form, that would be 
+  $$\begin{pmatrix}
+    a & b\\
+    c & d
+  \end{pmatrix} \begin{pmatrix}
+    x & u\\
+    -y & -v
+  \end{pmatrix} = \begin{pmatrix}
+    0 & 0\\
+    0 & *
+  \end{pmatrix}.$$
+  The $H$ is a cancellative monoid and there does not exist a group $G$ containing $H$.
+  If there were, then 
+  $$cu = cx x^{-1} a^{-1} a u = dy y^{-1} b^{-1} bv = dv,$$
+  a contradiction. Furthermore, given a field $k$ the semigroup algebra $kH$
+  is a domain that does not embed in a division ring.
+\end{example}
+
+\begin{example}
+  There exist domains that embed into different division rings.
+  Let $k\langle x, y\rangle$ be a free algebra on 2 generators.
+  This free algebra embeds into a division algebra; in fact it embeds into many.
+  \begin{enumerate}
+    \item Let's start with $k [x; \sigma]$ which embeds into a division ring (Ore domains).
+    \item Let $R$ be a ring and $a, b \in R$ two $R$-independent elements. Define 
+    $$C := \{x \in R\ |\ ax = xa,\ bx = xb\}$$
+    and the subring of $R$, generated by $C, a, b$, is isomorphic to $C\langle u, v \rangle$.
+    \item Let $C$ be a field, $k := C(t)$ and $n > 1$. Define $\sigma_n \in \en (k)$ by $\sigma_n \big|_C = \mathrm{id}$
+    and $\sigma_n (t) = t^n$. By the first item, we can embed $R_n$ into some division ring $D_n$.
+    Without loss of generality, we can assume that $D_n$ is generated as a division ring by $D_n$, so we have a ring epimorphism from $R_n$ to $D_n$.
+    By the second item, the map $$u \mapsto x,\quad v \mapsto t \cdot x$$ is an surjective embedding of $C\langle u, v\rangle$ into $R_n$. 
+    But $n \in \N$ was arbitrary, so we have surjective embeddings of $C\langle u, v \rangle$
+    into different division rings $D_n$ and $D_m$ for $n \neq m$, which proves our goal.
+  \end{enumerate}
+\end{example}
+
+A second approach for noncommutative rings would be to focus on ideals instead of elements.
+We would ideally reduce rings to semiprime rings where $(0)$ would be a semiprime ideal (a semiprime ideal $I \lhd R$ is an ideal 
+such that $(a) \cdot (a) \subseteq I$ implies $a \in I$).
+From there we would proceed to prime rings where $(0)$ is a prime ideal ($I \lhd R$ is prime if $(a) (b) \subseteq I$ implies $a \in I$ or $b \in I$).
+Lastly, we would reduce our problem from prime to simple rings. This approach is better than the first, but still not feasible.
+Instead of ideals, let's focus on modules!
+
+\begin{definition}
+  A ring $R$ is primitive if it is a faithful simple module $M$ (meaning that $\ann_R (M) = (0)$).
+  The module $M$ is faithful iff the map
+  $$\rho: R \mapsto \en_R (M),\quad r \mapsto (m \mapsto r \cdot m)$$
+  is injective. If $M$ is also simple, such a $\rho$ is called an irreducible representation.
+\end{definition}
+
+\begin{example}
+  Simple artinian rings (By Wedderburn these are $M_n (D)$)
+  are exactly those artinian rings that have a faithful simple module (namely $D^n$).
+  Hence simple artinian rings are primitive.
+\end{example}
+
+\begin{example}
+  Let $R$ be a simple ring and $I < {}_R R$ a maximal left ideal.
+  Then $M:= \quot{R}{I} \in {}_R \mo$ is simple.
+  Let $\rho: R \to \en_R (M)$ be a representation.
+  Since $\ker \rho \lhd R$ and $R$ is simple, we get $\ker \rho = (0)$ and $M$ is faithful.
+\end{example}
+
+\begin{example}
+  Let $D$ be a division ring and $V$ a $D$-vector space (can be infinitely-dimensional).
+  It's trivial to check that $R = \en_D (V)$ is faithful, but if $\dim_D V = \infty$, it is not simple.
+\end{example}
+
+\subsection{Density theorem}
+
+\begin{definition}
+  Let $V$ be a vector space over a division ring $D$ and let $R \subseteq \en_D (V)$ be a subring.
+  Then $R$ is a dense ring of linear transformations ($R$ acts densely on $V$) if for every finite set $\{v_1, \dots, v_n\} \subseteq V$ of linearly independent vectors and any 
+  $\{w_1, \dots, w_n\} \subseteq V$ there exists $\phi \in R$ such that $\phi(v_i) = w_i$.
+\end{definition}
+
+\begin{example}
+  Let $\dim_D V < \infty$ and $R$ acts densely on $V$.
+  We can show that $R = \en_D (V)$. Let $\phi \in \en_D (V)$ and pick a basis $\{v_1, \dots, v_n\}$ of $V$
+  By density, there exists a $\psi \in R$ such that $\phi$ and $\psi$ agree on a basis $\{v_1, \dots, v_n\}$.
+  But that means that $\phi = \psi \in R$.
+\end{example}
+
+\begin{remark}
+  Endow $V$ with the discrete topology and $\en_D (V)$ with the compact-open topology.
+  The $R$ acts densely on $V$ iff $R$ is dense in $\en_D (V)$ with regards to the compact- open topology.
+\end{remark}
+
+\begin{theorem}[Density]
+  Let $M \in {}_R \mo$ be semisimple, $S = \en_R (M)$ and $\phi \in \en_S (M)$.
+  Then for any finite set $\{x_1, \dots, x_n\} \subseteq M$ there exists $r \in R$ such that 
+  $\phi (x_i) = r \cdot x_i$ for all $i = 1, \dots, n$.
+\end{theorem}
+
+\begin{myproof}
+  Start with $n = 1$. The module $Rx_1 \leq M$ is complemented in $M$:
+  there exists $M' \leq M$ such that $M = Rx_1 \oplus M'$. Define a projection $\pi: M \to Rx_1$.
+  Clearly, $\pi \in S$, so we have 
+  $$\phi(x_1) = \pi(\phi(x_1)) = \phi(\pi (x_1))$$
+  and $$\phi(x_1) \in \{y \in M\ |\ \pi(y) = y\} = Rx_1.$$
+  Now onto the general $n$. Define a map 
+  $$\phi^{(n)} : M^n \to M^n,\quad (y_1, \dots, y_n) \mapsto (\phi(y_1), \dots, \phi(y_n)).$$
+  By assumption, $\phi^{(n)} \in \en_{\en_R (M^n)} (M^n)$ and $M_n (\en_R (M)) = M_n (S)$.
+  By the case $n = 1$, there exists $r \in R$ such that 
+  \begin{equation*}
+    (rx_1, \dots, rx_n) = \phi^{(n)} (x_1, \dots, x_n) = (\phi x_1, \dots, \phi x_n). \qedhere
+  \end{equation*}
+\end{myproof}
+
+\begin{theorem}[Jacobson density theorem]
+  A ring $R$ is primitive iff $R$ is a dense ring of linear transformations on a vector space over a division ring.
+\end{theorem}
+
+\begin{myproof}
+  Start with the right direction $(\Rightarrow)$.
+  Let $M \in {}_R \mo$ faithful and simple.
+  By Schur's lemma, $D = \en_R (M)$ is a division ring.
+  Clearly, $M$ is a $D$-vector space. Since $M$ is faithful,
+  we have $R \subseteq \en_D (M)$, so $R$ acts as a ring of linear transformations on $D$.
+  Now we just have to prove that it acts densely.
+  Let $\{v_1, \dots, v_n\}$ be $D$-linearly independent in $M$
+  and let $\{w_1, \dots, w_n\} \subseteq M$.
+  As before, there exists a linear transformation $\phi$
+  such that $\phi(v_i) = w_i$ for all $i$. Thus $\phi \in \en_D (M)$.
+  Apply the previous density theorem for semisimple modules, so there exists $r \in R$ such that 
+  $$r \cdot v_i = \phi(v_i) = w_i$$
+  for all $i$. Hence $R$ acts densely on $M$. Now the converse direction $(\Leftarrow)$.
+  Suppose $R$ acts densely on a vector space $V$ on a division ring $D$.
+  In particular, $V$ is a $R$-module. By definition, $R \subseteq \en_D (V)$, so $V$
+  is a faithful $R$-module. We now have to prove that it is also simple.
+  Pick a $v \in V \setminus \{0\}$. By density, for any $w \in V$
+  there exists a $\phi \in R$ such that $\phi (v) = w$, meaning that $Rv = V.$
+\end{myproof}
+
+This brings us to the statement that we have already seen before.
+We can prove it again using primitive rings.
+
+\begin{corollary}
+  Any simple artinian ring $R$ is isomorphic to $M_n (D)$
+  for some division ring $D$.
+\end{corollary}
+
+\begin{myproof}
+  Since $R$ is simple, it is primitive.
+   Let $M \in {}_R \mo$ be faithful $R$-module, $D = \en_R (M)$
+   is a division ring 
+   by Schur's lemma. By Jacobson's density theorem, $R$ is a dense subring of $\en_D (M)$, which is $\en_D (M)$ itself.
+   Now assume $\dim_D M = \infty$ and let $v_1, v_2, \dots$
+   be a set of linearly independent vectors in $M$. Define 
+   $$I_n = \{r \in R\ |\ \textrm{$r v_i = 0$ for $1 \leq i \leq n$}\} \leq {}_R R.$$
+   Then $I_1 \supset I_2 \supset I_3 \supset \cdots$
+   This chain is strictly decreasing. By density, there exists $r \in R$
+   such that $r v_i = 0$ for $i = 1, \dots, n$ and $r v_{n + 1} \neq 0$.
+   This infinitely descending chain of submodules violates the artinian assumption.
+   So $\dim_D V < \infty$, which implies $R = \en_D (M) \cong M_{\dim_D V} (D)$.
+\end{myproof}
+
+\begin{theorem}[Structure theorem for primitive rings]
+  Let $R$ be a primitive ring with a faithful simple module $M$. Let $D = \en_R (M)$.
+  Then at least one of the following is true:
+  \begin{enumerate}
+    \item $R \cong M_n(D)$ for some $n \in \N$ or
+    \item for every $n \in \N$ there exists a subring $R_n \subseteq R$
+  such that there is a surjective homomorphism $R_n \to M_n (D)$.
+  \end{enumerate}
+\end{theorem}
+
+\begin{myproof}
+  If $\dim_D M < \infty$, then as previously we have $R = \en_D (M) \cong M_n (D)$
+  for $n = \dim_D M$. Now assume $\dim_D M = \infty.$ If $x_1, x_2, \dots$
+  is an infinite set of linearly independent vectors in $M$, form a span the first $n$ vectors (call it $V_n$).
+  This is of course a $D$-subspace of $M$. Define 
+  $$R_n := \{r \in R\ |\ r \cdot V_n \subseteq V_n\},\quad I_n = \{r \in R\ |\ rv_i = 0,\ 1 \leq i \leq n\}.$$
+  Then $I_n \lhd R_n$ and by Jacobson, $\quot{R_n}{I_n} \cong M_n (D)$.
+\end{myproof}
+
+\begin{remark}
+  \begin{enumerate}
+    \item In the case of finite-dimensional algebras, the notions of primitive and simple coincide.
+    \item The free algebra is primitive (so any algebra is the image of some primitive algebra).
+  \end{enumerate}
+\end{remark}
+
+\subsection{An application of primitive rings}
+
+\begin{example}
+  Suppose $R$ is a ring in which $x^2 = x$ for all $x \in R$.
+  Then $R$ is commutative.
+\end{example}
+
+\begin{myproof}
+  (DOPOLNI)
+\end{myproof}
+
+\begin{theorem}[Jacobson]
+  Let $R$ be a ring such that for all $x \in R$ there exists $n > 1$
+  such that $x^n = x$. Then $R$ is commutative.
+\end{theorem}
+
+\begin{theorem}[Jacobson-Herstein]
+  A ring $R$ is commutative iff 
+  \begin{equation}
+    \forall x, y \in R:\ \exists n > 1:\ (xy - yx)^n = xy - yx. \label{eq:jacobson-herstein}
+  \end{equation}
+\end{theorem}
+
+\begin{proposition}
+  $R$ is $J$-semisimple iff there exists a faithful semisimple module $M$.
+\end{proposition}
+
+\begin{myproof}
+  Start with the left implication $(\Leftarrow)$. We know that $\rad R$
+  kills every simple $R$-module. Since $M$ is semisimple, we have $\rad R = (0)$.
+  Now the opposite direction $(\Rightarrow)$.
+  Let $(M_i)_i$ be all non-isomorphic simple $R$-modules. Then $M = \bigoplus_{i} M_i$ is semisimple
+  and $\ann (M) = \bigcap_i \ann M_i = \rad R$. By J-semisimplicity, $\ann(M) = 0$,
+  so $M$ is a faithful $R$-module.
+\end{myproof}
+
+\begin{corollary}
+  Every J-semisimple $R$ is a subdirect product of primitive rings.
+\end{corollary}
+
+\begin{myproof}
+  We know that $\rad R = \bigcap_{i} \ann (M_i) = \{0\}$, so $R \hookrightarrow \prod_i \quot{R}{\ann (M_i)}$
+  is the desired representation.
+\end{myproof}
+
+This lends us a convienient way of tackling problems on noncommutative rings.
+We first kill the Jacobson radical of the original ring in order to obtain a J-semisimple
+(also called semiprimitive) ring. From the previous corollary, we can write any J-semisimple ring 
+as a subdirect product of primitive rings, which we can reduce to division rings (or matrices over those) using density.
+
+\begin{myproof}[Proof of Jacobson-Herstein]
+  \begin{enumerate}
+    \item For now we assume that the conclusion holds for division rings. This will be proved in the next chapter.
+    \item Let $R$ be a primitive ring that satisfies \eqref{eq:jacobson-herstein}.
+    By the structure theorem, we either have $R \cong M_n(D)$ for some $n \in \N$ or
+    for every $n \in \N$ there exists a subring $R_n \subseteq R$
+    such that there is a surjective homomorphism $R_n \to M_n (D)$.
+    If $n \geq 2$ then $M_2 (D)$ does not satisfy the Jacobson-Herstein property (take for example $x = E_{11}$ and $y = E_{12}$).
+    So the first statement applies and $R = D$ is a division ring, so we are done.
+    \item Now suppose $R$ is $J$-semisimple and satisfies \eqref{eq:jacobson-herstein}.
+    We know that $R$ is a subring of $\prod_i R_i$, where $R_i$ are primitive and satisfy \eqref{eq:jacobson-herstein},
+    so the're commutative. This implies that $\prod_i R_i$ is commutative and so is $R$.
+    \item Let $R$ be an arbitrary ring with the property \eqref{eq:jacobson-herstein}. Then $\quot{R}{\rad R}$
+    is J-semisimple and also satisfies \eqref{eq:jacobson-herstein}, so it is commutative.
+    Thus $d := [a, b] = ab - ba \in \rad R$ for any $a, b \in R$. Since there exists a $n \in \N$
+    such that $d^n = d$, we have $d(1 - d^{n - 1}) = 0$. But since $d^{n - 1}$
+    is in $\rad R$, it is left-invertible, so $d = 0$. \qedhere 
+  \end{enumerate} 
+\end{myproof}
+
+\section{Central simple algebras}
+
+\subsection{Cyclic algebras}
+
+If $D$ is a division ring with center $Z(D)$, then $Z(D)$ is a field.
+If $\dim_{Z(D)} D = \infty$, we cannot say much in general. But for the case $\dim_{Z(D)} D < \infty$,
+the theory is very well developed.
+
+\begin{example}
+  Let $k$ be a field and $\sigma$ a $k$-automorphism.
+  Then 
+  $$D = k((x, \sigma)) = \left\lbrace \sum_{i = m} ^\infty a_i x^i\ |\ m \in \Z, a_i \in k \right\rbrace$$
+  with the multiplication rule 
+  $$x \cdot a = \sigma(a) x,\quad \forall a \in k$$
+  is a division ring.
+\end{example}
+
+\begin{proposition}
+  Let $k_0 = \{a \in k\ |\ \sigma(a) = a\}$ be the fixed field of $\sigma$.
+  Then 
+  $$Z(D) = \begin{cases}
+    k_0;& \textrm{$\sigma$ of order $\infty$}\\
+    k_0((x^s));& \textrm{$\sigma$ of order $s$}
+  \end{cases}.$$
+  Morover, $\dim_{Z(D)} D < \infty$ iff $\sigma$ is of finite order.
+\end{proposition}
+
+\begin{myproof}
+  Let $f = \sum_{i = m} ^\infty a_i x^i \in Z(D)$ and $a_j \neq 0$.
+  For all $a \in k$ we have $af = fa$. Notice that 
+  $$af = \sum a a_i x^i,\quad fa = \sum a_i \sigma^i(a) x^i.$$
+  From there we get $a a_i = a_i \sigma^i (a) = \sigma^i (a) a_i$.
+  If $a_j \neq 0$, we have $\sigma^j (a) = a$ for all $a \in k$.
+  \begin{itemize}
+    \item[(a)] Firstly, if $\sigma$ has $\infty$ order, then 
+    $\sigma^j = \mathrm{id}$ implies $j = 0$, so $f = a_0 \in k$.
+    Since $f \in Z(D)$, we have 
+    $$\sigma(a_0) x = x a_0 = x f = f x = a_0 x,$$
+    so $f = a_0 = \sigma (a_0)$. Hence $Z(D) \subseteq k_0$. The converse inclusion is trivial.
+    \item[(b)] Suppose $\sigma$ has order $s$. Then if $\sigma^j = \mathrm{id}$, the integer $s$ divides $j$.
+    Thus any element $f \in Z(D)$ is of the form $\sum a_i x^{s \cdot i}$.
+    Like in the previous item, we have 
+    $$\sum \sigma(a_i) x^{s \cdot i + 1} = \sum x^{s \cdot i + 1} a_i = x f = f x = \sum a_i x^{s \cdot i + 1},$$
+    so $a_i = \sigma(a_i)$ for all $i$ and therefore $Z(D) \subseteq k_0 ((x^s))$.
+    The converse inclusion follows from the observation that if we have $a_0 x^{si} \in k_0 ((x^s))$, we have 
+    $$(a_0 x^{si}) a = a_0 \sigma^{si} (a) x^{si} = a_0 a x^{si} = a(a_0 x^{si})$$
+    and 
+    $$(a_0 x^{si}) x = a_0 x^{si + 1} = \sigma (a_0) x^{si + 1} = x (a_0 x^{si}).$$
+    In this case we also obtain the equality $s^2 = \dim_{Z(D)} D < \infty$. \qedhere
+  \end{itemize}
+\end{myproof}
+
+\begin{example}[Hilbert]
+  Let $k = \Q(t)$, $\sigma$ a $k$-automorphism that sends $t \mapsto 2t$.
+  Then $D:= \Q(t) ((x, \sigma))$ is an infinite-dimensional division ring (this was the first ever example).
+\end{example}
+
+There is an alternative view of the case where $\sigma$ is of finite order.
+Let $F = k_0 ((x^s))$ and $K = k((x^s))$. If $\sigma$ has order $s$ and $C_s = \langle \sigma \rangle$ (a cyclic group of $k$-automorphisms generated by $\sigma$).
+Then $k_0 = k^{C_s}$, so $\quot{k}{k_0}$ is a finite Galois extension\footnote{Milne: Fields and Galois theory, theorem 3.10} and therefore $[k : k_0] = s$.
+We know that $\sigma$ extends to an automorphism of $K$:
+$$\sum a_i x^{si} \mapsto \sum \sigma (a_i) x^{si},$$
+so $[K: F] = s$, where $F = K^{C_s}$. As a $K$-vector space 
+$$D = K \cdot 1 \oplus K \cdot x \oplus \cdots \oplus K \cdot x^{s - 1},$$
+so $\dim_K D = s$ and $\dim_{Z(G)} D = \dim_K D \cdot \dim_{Z(G)} K = s^2$.
+
+
+\begin{definition}
+  Let $\quot{K}{F}$ by a cyclic Galois extension and $s = [K : F]$.
+  Fix $a \in F \setminus \{0\}$ and define the $s$-dimensional $K$-vector space
+  $$D = K1 \oplus Kx \oplus \cdots \oplus Kx^{s - 1}.$$
+  Multiplication in $D$ is determined by $x^s = a$ and $x \cdot b = \sigma(b) x$ for $b \in K$.
+  Then $D = (\quot{K}{F}, \sigma, a)$ is a cyclic algebra.
+  Obviously, $F \subseteq Z(D)$ and $\dim_F D = s^2$.
+\end{definition}
+
+\begin{example}
+  We show that $\Ha$ is a cyclic algebra.
+  We set $F = \R$, $K = \C$ and $\sigma$ is a complex conjugation.
+  Now we take $a = -1$, $x = j$ and 
+  $$D = \C \oplus \C_j = \R \oplus \R_i \oplus \R_j \oplus \R_{ij}.$$
+\end{example}
+
+\begin{remark}
+  We have a shortcut to cyclic algebras.
+  If $B := K[t, \sigma]$ is a skew polynomial ring, then 
+  $$(\quot{K}{F}, \sigma, a) = \quot{B}{(t^s - a)}.$$
+\end{remark}
+
+\begin{theorem}
+  Let $D = (\quot{K}{F}, \sigma, a)$ be a cyclic algebra. Then:
+  \begin{enumerate}
+    \item $D$ is a simple $F$-algebra and $Z(D) = F$.
+    \item $C_D (K) := \{y \in D\ |\ \forall b \in K:\ by = yb\} = K$.
+    \item $K$ is a maximal subfield of $D$.
+  \end{enumerate}
+\end{theorem}
+
+\begin{myproof}
+  \begin{enumerate}
+    \item Let $(0) \neq I \lhd K$ and pick $0 \neq z \in I$, say 
+    $$z = b_{i_1} x^{i_1} + \dots + b_{i_r} x^{i_r},\quad b_j \in K,\quad 0 \leq i_1 < i_2 < \dots < i_r \leq s - 1.$$
+    Choose $z$ with the smallest possible number $r$. We will prove that $r = 1$.
+    If $r > 1$, then $\sigma^{i_1} \neq \sigma^{i_r}$, so there exists a $b \in K$ such that 
+    $\sigma^{i_1} (b) \neq \sigma^{i_r} (b)$. Then $\sigma^{i_1} (b) z - zb \in I$
+    is a nonzero element that has shorter length than $r$, contradiction. Thus $z = b_{i_1} x^{i_1} \in I$ and since 
+    both $x^{i_1}$ and $b_{i_1} \in K \setminus \{0\}$ are invertible, so is $z$. This means that $I = K$.
+    \item Clearly, $K \subseteq C_D (K)$. We now need to prove the opposite inclusion.
+    Let $d = \sum_{i = 0} ^{n - 1} b_i x^i \in C_D (K)$, where $b_i \in K$. Then we have 
+    $$\sum b b_i x^i = b \sum b_i x^i = bd = db = \sum \sigma^i (b) b_i x^i.$$
+    If $b_i \neq 0$, then $\sigma^i (b) = b,\ \forall b$, so $\sigma^i = \mathrm{id}$ and $i = 0$.
+    We have proved that $d = b_0 \in K$.
+    \item Suppose $L \subseteq D$ is a subfield and $L \supset K$. Then $K \subseteq L \subseteq C_D (K) = K$, so $L = K$.
+    Equipped with all this, we can prove $Z(D) \subseteq F$. If $b \in Z(D)$, then $b \in C_D(K) = K$.
+    From $\sigma(b) x = xb = bx$, we have $\sigma(b) = b$, so $b \in K^{\langle \sigma \rangle} = F$. \qedhere
+  \end{enumerate}
+\end{myproof}
+
+\begin{example}
+  Not every cyclic algebra is a division ring. Say $a = 1$.
+  Then $x^s = 1$, so we can factor 
+  $$0 = x^s - 1 = (x - 1) (1 + x + \cdots + x^{s - 1})$$
+  and both factors are nonzero by construction, so they are zero divisors.
+  Of course, this means that $(\quot{K}{F}, \sigma, 1)$ is not a division ring.
+\end{example}
+
+\begin{definition}
+  Let $\quot{K}{F}$ be a cyclic Galois extension, $s = [K : F]$ and $\langle \sigma \rangle = \aut (\quot{K}{F})$.
+  Then we define a norm
+  $$N_{\quot{K}{F}}: K \to F,\quad a \mapsto a \cdot \sigma(a) \cdot \sigma^2(a) \cdots \sigma^{s - 1} (a).$$
+\end{definition}
+
+\begin{theorem}
+  If $a \in N_{\quot{K}{F}} (K)$, then $(\quot{K}{F}, \sigma, a) \cong M_s (F)$.
+\end{theorem}
+
+\begin{myproof}
+  Since $a \in N_{\quot{K}{F}} (K)$, there exists a $d \in K$ such that $N_{\quot{K}{F}} (d) \cdot a = 1$.
+  Set $y := dx$. Then $$y^s = dx \cdot dx \cdots dx = d \sigma(d) \sigma^2 (d) \cdots \sigma^{s - 1} (d) x^s = N_{\quot{K}{F}} (d) \cdot a = 1.$$
+  For all $b \in K$, we have 
+  $$y b = dxb = d \sigma(b) x = \sigma (b) dx = \sigma(b)y.$$
+  It's enough to prove that $D = (\quot{K}{F}, \sigma, 1) \cong M_s (F)$ since we can take $y =dx$.
+  If $B = K[t, \sigma]$, then $$D = (\quot{K}{F}, \sigma, 1) \cong \quot{B}{(t^s - 1)}.$$
+  Recall that $$(t^s - 1) = (1 + t + \cdots + t^{s - 1}) (t - 1).$$
+  As a $K$-module, $\quot{B}{B(t - 1)} \cong K$, so it has no $K$-submodules and therefore also no $B$-submodules. 
+  Therefore, it is a maximal left ideal in $B$, so we have $(t^s - 1) \subseteq B(t - 1) \leq {}_B B$. 
+  As a result, $\quot{B}{(t^s - 1)}$ has a simple left module $M = \quot{B}{B(t - 1)} \cong K$ (as a left $K$-module).
+  We know that $\dim_F K = s$, so
+  $$(\quot{K}{F}, \sigma, 1) \to \en_F (M) = \en_F(F^s) = M_s (F).$$
+  Since $(\quot{K}{F}, \sigma, 1)$ is simple, the map is injective. But because $\dim_F (\quot{K}{F}, \sigma, 1) = s^2 = \dim_s (F)$, it is also surjective.
+\end{myproof}
+
+\begin{remark}
+  The converse of this theorem is also true.
+  Furthermore, if $s$ is a prime then $(\quot{K}{F}, \sigma, a)$
+  is a division ring iff $a \notin N_{\quot{K}{F}} (K)$.
+\end{remark}
+
+\subsection{Tensor products of algebras}
+
+All algebras will be over the field $k$ and so is the tensor product.
+If $R, S$ are $k$-modules, then so is $R \otimes_k S$. If they are $k$-algebras, then again 
+$R \otimes_k S$ has a $k$-algebra structure such that 
+$$(r \otimes s) (r' \otimes s') = rr' \otimes ss'.$$
+To justify that, notice that $(r, s, r', s') \mapsto rr' \otimes ss'$
+is multilinear, so it induces a map $(R \otimes S) \otimes (R \otimes S) \mapsto (R \otimes S)$.
+Multiplication in $R \otimes S$ is distributive, associative, has a unit element $1 \otimes 1$
+and is compatible with a $k$-module structure.
+In general, the multiplication in $R \otimes S$ satisfies
+$$\left(\sum_i r_i \otimes s_i\right) \cdot \left(\sum_j r_j ' \otimes s_j '\right) = \sum_{i, j} r_i r_j' \otimes s_i s_j'.$$
+Denote 
+$$i: R \to R \otimes S,\quad r \mapsto r \otimes 1$$
+and 
+$$j: S \to R \otimes S,\quad s \mapsto 1 \otimes s.$$
+If $(e_\alpha)_\alpha$ is a basis for $S$ over $k$, then every element $x \in R \otimes S$ 
+has a unique expansion
+$$x = \sum r_\alpha \otimes e_\alpha = \sum (r_\alpha \otimes 1) (1 \otimes e_\alpha) = \sum i(r_\alpha) j(e_\alpha).$$
+Clearly, $R \otimes S$ is an $R$-module via $i$. It is free generated with basis $(j(e_{\alpha}))_{\alpha}$.
+In particular, $i$ is injective; in fact, both $i$ and $j$ are injective.
+Hence we can idenitfy $R, S$ with their images in $R \otimes S$ under $i, j$.
+For $r \in R, s \in S$, we have $i(r) \cdot j(s) = j(s) \cdot i(r)$.
+
+\begin{proposition}
+  Let $k$ be a field and $R, S$ $k$-algebras. Then $R \otimes S$ is a $k$-algebra with the following properties.
+  \begin{enumerate}
+    \item $R \otimes S$ contains $R$ and $S$ as commuting $k$-subalgebras.
+    \item Any basis $(s_{\mu})_\mu$ of $S$ over $k$ is a basis for $R \otimes S$ as a (free) $R$-module.
+    \item Any basis $(r_{\alpha})_\alpha$ of $R$ over $k$ is a basis for $R \otimes S$ as a (free) $S$-module.
+  \end{enumerate}
+\end{proposition}
+
+\begin{proposition}[Universal property]
+  Given any $k$-algebra $T$ and $k$-algebra homomorphisms $f: R \to T$, $g: S \to T$
+  such that $f(R)$ and $g(S)$ commute elementwise and $f\big|_k = g \big|_k$,
+  then there exists a unique $k$-algebra homomorphism $h: R \otimes S \to T$ such that
+  $hi = f$ and $hj = g$.
+  \[\begin{tikzcd}
+    & R \\
+    {R \otimes S} && T \\
+    & S
+    \arrow["i"', from=1-2, to=2-1]
+    \arrow["j", from=3-2, to=2-1]
+    \arrow["f", from=1-2, to=2-3]
+    \arrow["g"', from=3-2, to=2-3]
+    \arrow["{\exists! h}"', dashed, from=2-1, to=2-3]
+  \end{tikzcd}\]
+\end{proposition}
+
+
+\begin{myproof}
+  See homeworks.
+\end{myproof}
+
+\subsection{Scalar multiplication and semisimplicity}
+
+If $R$ is a $k$-algebra and $\quot{K}{k}$ is a field extension,
+then $R_K := K \otimes_k R$ is an extension of scalars.
+The $k$-algebra $R$ can be described by giving a basis $(e_i)_i$ 
+over $k$ and prescribing the multiplication of these basis elements:
+$$e_i \cdot e_j = \sum_k c_{ijk} e_k,$$
+where $c_{ijk} \in k$. Then $R_K$ is the $K$-algebra with some basis vectors $(e_i)_i$ and their multiplication,
+given as above (of course, $c_{ijk} \in k \subseteq K$).
+
+\begin{example}[Complexification]
+  Given an $\R$-algebra $S$, we form its complexification $S_{\C} := \C \otimes_{\R} S$,
+  where $S_{\C}$ becomes a $\C$-algebra. If $S = \R$, then $S_{\C} = \C$.
+  But for $S = \Ha$, we get a $4$-dimensional $\C$-algebra $\Ha \oplus \C$
+  which is simple and homeomorphic to $M_2 (\C)$, as we shall see later.
+\end{example}
+
+\begin{theorem}[Primitive element]
+  If $\quot{K}{k}$ is a finite separable extension, there exists $c \in K$ such that $K = k(c)$.
+\end{theorem}
+
+\begin{theorem}\label{thm:1}
+  Let $\quot{L}{k}$ be a finite field extension. Then $L_K = K \otimes_k L$
+  is semisimple for all $\quot{K}{k}$ iff $\quot{L}{k}$ is separable.
+\end{theorem}
+
+\begin{myproof}
+  Start with $(\Leftarrow)$. By primitive element theorem, there exists $\theta \in L$ such that $L = k(\theta)$.
+  The field $L$ has a $k$-basis $1, \theta, \cdots, \theta^{n - 1}$, where $\theta$ satisfies 
+  a separable, irreducible polynomial $f \in k[x]$ of degree $n = [L:k]$.
+  That is, $L = \quot{k[t]}{(f)}$. Then $L_K$ has $K$-basis $1, \theta, \cdots, \theta^{n - 1}$
+  and $\theta$ satisfies some polynomial relation $f(\theta) = 0$.
+  So $L_K = \quot{K[t]}{(f)}$. Since $f$ is separable, it factors in $K$
+  into distinct irreducible polynomials, say $f = f_1 \cdots f_r$
+  for some $f_i \in F[t]$. By the Chinese remainder theorem:
+  $$L_K = \quot{K[t]}{(f)} = \quot{K[t]}{(f_1 \dots f_r)} \cong \prod_{j = 1} ^r \quot{K[t]}{(f_j)},$$
+  so $L_K$ is a direct product of fields and therefore semisimple.
+  Now the converse $(\Rightarrow)$. Suppose $L$ is not separable over $k$.
+  Then there exists $\theta \in L$ that is not separable, meaning its minimal polynomial $f \in k[t]$ is not separable.
+  Hence there exists an extension $\quot{K}{k}$ such that $f$ has repeated factors in $K$.
+  Then $\quot{K[t]}{(f)} = k(\theta)_K \subseteq L_K$ has nilpotent elements.
+  But that implies that $L_K$ has nilpotent elements, say $a \neq 0$, and is commutative.
+  Since $(0) \neq (a) \lhd L_K$ is nil, $(a) \subseteq \rad (L_K) \neq (0)$, $L_K$ cannot be semisimple.
+\end{myproof}
+
+\begin{corollary}
+  The tensor product of two field extensions over $K$ is semisimple provided one of the two factors is finite and separable over $k$.
+\end{corollary}
+
+\subsection{Tensor products, (semi)simplicity}
+
+Assume that all algebras are over some fixed field $k$.
+
+\begin{definition}
+  Given an algebra $S$, its center is $Z(S) = \{y \in S\ |\ \forall x \in S: xy = yx\}$.
+  We call $S$ central over $k$ if $k = Z(S)$ and central simple if $S$ is simple and central.
+\end{definition}
+
+\begin{example}
+  \begin{enumerate}
+    \item The quaternion ring $\Ha$ is a central simple $\R$-algebra.
+    \item If $S$ is simple, then $S$ is a central simple $Z(S)$-algebra.
+    \item A matrix ring $M_n (k)$ is a central simple algebra over $k$.
+    \item The complex field $\C$ is a central simple algebra over $\C$, but not over $\R$.
+    No proper field extension $\quot{K}{k}$ is central over $k$.
+  \end{enumerate}
+\end{example}
+
+\begin{theorem}
+  Let $S$ be a central simple algebra and $R$ any algebra.
+  \begin{enumerate}
+    \item Every two-sided ideal of $R \otimes S$ has the form $I \otimes S$
+    for some $I \lhd R$. In particular, if $R$ is simple, then so is $R \otimes S$.
+    \item We have equality $Z(R \otimes S) = Z(R)$. In particular, taking $R = K$ a field, $S_K = K \otimes S$ is a central simple algebra over $K$.
+  \end{enumerate}
+\end{theorem}
+
+\begin{corollary}
+  If $R, S$ are central simple algebra, then $R \otimes S$ is central simple algebra.
+\end{corollary}
+
+\begin{lemma}
+  Let $S, R$ be as in the theorem. If $(0) \neq J \lhd R \otimes S$, then $J \cap R \neq (0)$.
+\end{lemma}
+
+\begin{myproof}
+  Choose $(0) \neq x \in J$ so that $x = \sum_{j = 1} ^l r_i \otimes s_i$ with $r_i \in R$ and $s_i \in S$ has minimal $l$.
+  Then $(r_i)_i$ are $k$-linearly independent and the same for $(s_i)_i$.
+  In particular, $s_1 \neq 0$. Thus $\langle s_1 \rangle = S$. Since $1 \in (s_1)$, 
+  we have $1 = \sum_{j = 1} ^m x_j s_1 y_j$ for some $x_j, y_j \in S$.
+  Set \begin{align*}
+    x' &= \sum_{j = 1} ^m (1 \otimes x_j) x (1 \otimes y_j)\\
+    &= \sum_{j = 1} ^m \sum_{i = 1} ^l (1 \otimes x_j) (r_i \otimes s_i) (1 \otimes y_j)\\
+    &= \sum_{j = 1} ^m \sum_{i = 1} ^l r_i \otimes x_j s_i y_j\\
+    &= \sum_{i = 1} ^l r_i \otimes \sum_{j = 1} ^m x_j s_i y_j\\
+    &= \sum_{i = 1} ^l r_i \otimes s_i '.
+  \end{align*}
+  Obviously, $x' \in J$. Since $r_i$ are linearly independent and $s_1 ' = 1$, $x' \neq 0$.
+  For any $s \in S$, we have 
+  \begin{align*}
+    J \ni (1 \otimes s) x' - x' (1 \otimes s) &= \sum_{r = 1} ^l r_i \otimes s s_i ' - \sum_{r = 1} ^l r_i \otimes s_i ' s\\
+    &= \sum_{r = 1} ^l r_i \otimes (s s_i ' - s_i ' s )\\
+    &= \sum_{r = 2} ^l r_i \otimes (s s_i ' - s_i ' s).
+  \end{align*}
+  By minimality of $l$, this element is $0$, so $s s_i' = s_i' s$ for each index $2 \leq i \leq l$.
+  Since this holds for all $s \in S$, we get $s_i' \in Z(S) = k$.
+  Finally, we can rewrite 
+  $$x' = \sum_{i = 1} ^l r_i \otimes s_i' = \left(\sum_{i = 1} ^l r_i s_i '\right) \otimes 1 \in R,$$
+  so $0 \neq x' \in J \cap R$.
+\end{myproof}
+
+\begin{myproof}[Proof of theorem]
+  \begin{enumerate}
+    \item Let $J \lhd R \otimes S$, $I = J \cap R$. Consider the map 
+    $$\varphi: R \otimes S \to \left(\quot{R}{I}\right) \otimes S,\quad r \otimes s \mapsto (r + I) \otimes s.$$
+    First we prove that $\ker \varphi = I \otimes S$. We know that $k$-linearly independent elements of $R$ 
+    stay $S$-linearly independent in $R \otimes S$. Pick a basis $(x_i)_i$ 
+    for $I \subseteq R$, extend to a basis $(x_i, y_j)_{i, j}$ for $R$.
+    Then $(y_j + I)_j$ is a basis for $\quot{R}{I}$ and 
+    $$\sum x_i \otimes a_i + \sum y_j \otimes b_j \in \ker \varphi \Leftrightarrow b_j = 0,\quad \forall j.$$
+    We use this fact in the following way:
+    $$R \otimes S \xrightarrow{\pi} \quot{(R \otimes S)}{(I \otimes S)} \xrightarrow[\cong]{\overline{\varphi}} (\quot{R}{I}) \otimes S.$$
+    Clearly, $I \otimes S \subseteq J$. If $I \otimes S \subsetneq J$, then the image of the above map is nonzero, so 
+    $(\overline{\varphi} \pi) (J) \cap (\quot{R}{I} \otimes S) \neq (0)$. By previous lemma, $(\overline{\varphi} \pi) (J) \cap (\quot{R}{I}) \neq (0)$.
+    Pulling back (since $\overline{\varphi}$ is an isomorphism), this tells us that 
+    $$\quot{J}{(I \otimes S)} \cap \quot{(R \otimes 1)}{(I \otimes S)} \neq (0).$$
+    This is a contradiction by definition of $I$.
+    \item Let $x = \sum r_i \otimes s_i \in Z(R \otimes S)$. Without loss of generality, $(r_i)_i$ are $k$-linearly independent.
+    For $s \in S$, we have 
+    $$0 = (1 \otimes s) x - x (1 \otimes s) = \sum r_i \otimes (s s_i - s_i s),$$
+    so by independence of $r_i$ we can conclude $s s_i - s_i s = 0$ for all indexes $i$.
+    This implies that $s_i \in Z(S) = k$, hence
+    $$x = \sum r_i \otimes s_i = \underbrace{\sum r_i s_i}_{r} \otimes 1 =: r \otimes 1.$$
+    For any $y \in R$, we have 
+    $$0 = (y \otimes 1) x - x (y \otimes 1) = (yr - ry) \otimes 1,$$
+    so $r \in Z(R)$. \qedhere
+  \end{enumerate}
+\end{myproof}
+
+Suppose $S$ is a simple $k$-algebra with center $C$. Then $C$ is a field, so $S$ is a central simple algebra over $C$.
+We prove that 
+$$C \cong \en _{S \otimes S^{\op}} (S),$$
+where $S \otimes S^{\op}$ acts on $S$ by 
+$$(s_1 \otimes s_2 ^{\op}) \cdot s = s_1 s s_2.$$
+Define a map 
+$$\Phi:  C \to \en_{S \otimes S^{\op}} (S),\quad c \mapsto (s \mapsto c \cdot s).$$
+Firstly, we need to check whether this is well defined.
+This is fairly simple:
+\begin{align*}
+  \Phi(c) ((s_1 \otimes s_2^{\op}) \cdot s) &= \Phi(c) (s_1 s s_2) = c \cdot s_1 s s_2\\
+  &= s_1 c s s_2 = (s_1 \otimes s_2^{\op}) \cdot (cs)\\
+  &= (s_1 \otimes s_2^{\op}) \cdot (\Phi(c) (s)).
+\end{align*}
+It is easy to verify $\Phi$ is a homomorphism. We prove that it is an isomorphism.
+Clearly, it is injective:
+$\Phi(c) = \Phi(d)$ implies 
+$$c = \Phi(c) (1) = \Phi(d) (1) = d.$$
+Every $\varphi \in \en_{S \otimes S^{\op}}$ is determined by $\varphi(1) = x$:
+we have to prove that $x \in C$.
+This follows easily:
+\begin{align*}
+  sx &= (s \otimes 1) \cdot x = (s \otimes 1) \varphi(1)\\
+  &= \varphi((s \otimes 1) \cdot 1) = \varphi(s)\\
+  &= \varphi((1 \otimes s^{\op}) \cdot 1) = (1 \otimes s^{\op}) \cdot \varphi(1)\\
+  &= (1 \otimes s^{\op}) \cdot x = xs,
+\end{align*}
+thus proving our assertion.
+
+\begin{remark}
+  In general, suppose $A \supseteq B$ are algebras and $C_A (B) := \{a \in A|\ \forall b \in B:\ ab = ba\}$.
+Then $A \otimes B^{\op}$ acts on $A$ and $C_A (B) ^{\op} \cong \en _{A \otimes B^{\op}} (A)$. 
+\end{remark}
+
+  Let $R,S$ be rings. If $R\times S$ is a $K$-algebra, so are $R$ and $S$.
+  Also, if $M_n(R)$ is a $K$-algebra, so is $R$. This allows us to generalize
+Wedderburn theory to algebras.
+
+\begin{proposition}[Wedderburn for $K$-algebras]
+  Let $A$ be a semi-simple $k$-algebra. There are division algebras $D_1,\dots ,D_n$ and $m_1,\dots ,m_n \in \N$ such that
+  $$A \cong M_{m_1}(D_1)\times\dots \times M_{m_n}(D_n).$$
+\end{proposition}
+
+The following lemma, repurposed for $k$-algebras, will be particularly useful.
+
+\begin{lemma}[Wedderburn]
+  A $k$-algebra $A$ is simple left artinian iff it is isomorphic to $M_n (D)$ for some $n > 0$
+  and a division $k$-algebra $D \cong \en_A ^{\op} (S)$, where $S$ is a simple left $A$-module.
+\end{lemma}
+
+\begin{remark}
+  This $S$ is unique up to isomorphism (see Pierre Antoine Grillet, proposition IX.1.8).
+\end{remark}
+
+We will often use this lemma in conjunction with the fact that a finite dimensional $k$-algebra is artinian.
+Also, note that $A \cong M_n (D) \cong \en_{D^{\op}} (S)$.
+
+\begin{remark}
+  The center of $M_n (D)$ is isomorphic to the center of the division ring $D$.
+\end{remark}
+
+\begin{definition}
+  Let $S$ be a finite-dimensional semisimple algebra over $k$. If $C = Z(S)$,
+  then $C = C_1 \times \cdots \times C_m$ for some fields $C_j$. $S$ is called separable if each $\quot{C_j}{k}$ is separable.
+\end{definition}
+
+\begin{remark}
+  If $R = R_1 \times R_2$, then $R \otimes S = (R_1 \otimes S) \times (R_2 \otimes S)$.
+  Similarly, if $R = \prod_{i = 1} ^n R_i$, then $R \otimes S = \prod_{i = 1} ^n R_i \otimes S$.
+\end{remark}
+
+\begin{remark}
+  For a simple $k$-algebra $S$ with center $K$ and a $k$-algebra $R$, we have $$R \otimes_k S = \underbrace{(R \otimes_k C)}_{R_C} \otimes_C S.$$
+  Indeed, $C \otimes_C S$ is isomorphic to $S$ as a $C$-algebra, so it is isomorphic as a $k$-algebra. 
+\end{remark}
+
+\begin{proposition}
+  If $S$ is separable, then $S_K$ is semisimple for all field extensions $\quot{K}{k}$.
+\end{proposition}
+
+\begin{myproof}
+  By one of the above remarks, we can assume WLOG that $S$ is simple with separable center $C$.
+  Then 
+  $$K \otimes_k S = (K \otimes_k C) \otimes_C S \cong (\prod_i R_i) \otimes_C S = \prod_i (R_i \otimes_C S),$$
+  where $R_i$'s are fields from the proof of theorem \ref{thm:1}.
+\end{myproof}
+
+\begin{proposition}
+  If $R, S$ are finite-dimensional semisimple algebras and at least one of them is separable,
+  then $R \otimes S$ is semisimple.
+\end{proposition}
+
+\begin{myproof}
+  WLOG $R$ is separable and $R, S$ simple. Let $C := Z(S)$.
+  Then 
+  $$R \otimes_k S = (R \otimes_k C) \otimes_C S = (\prod R_i) \otimes_C S = \prod R_i \otimes_C S$$
+  is a direct product of semisimple algebras, so it is semisimple. 
+\end{myproof}
+
+\subsection{Applications of tensor products}
+
+\begin{theorem}
+  If $D$ is a finite-dimensional division algebra over its center $k$,
+  then $[D: k]$ must be a square.
+\end{theorem}
+
+\begin{myproof}
+  By assumption, $[D: k] = [D_{\overline{k}}: \overline{k}] < \infty$. 
+  Then $D_{\overline{k}} = \overline{k} \otimes D$ is simple and artinian (as a finite-dimensional $\overline{k}$-algebra), so it is semisimple.
+  By Wedderburn, $D_{\overline{k}} \cong M_n (E)$ for some finite-dimensional 
+  division algebra $E$ over $\overline{k}$. But since $\overline{k}$ is algebraic closure,
+  $E = \overline{k}$ and $D_{\overline{k}} \cong M_n (\overline{k})$, so $[D_{\overline{k}}: \overline{k}] = n^2$.
+\end{myproof}
+
+\begin{corollary}
+  If $A$ is a simple algebra and $[A: Z(A)] < \infty$,
+  then $[A: Z(A)]$ is a square.
+\end{corollary}
+
+\begin{myproof}
+  By Wedderburn, $A \cong M_n (D)$ for some division algebra $D$ over $Z(A)$, where $[D: Z(A)] < \infty$.
+  Then $$[A: Z(A)] = [A:D] [D: Z(A)] = n^2 [D : Z(D)] = n^2 m^2$$
+  by the previous theorem.
+\end{myproof}
+
+\begin{definition}
+  The degree of a finite-dimensional central simple algebra $S$ over $k$ is $\deg S = \sqrt{[S : k]}$.
+\end{definition}
+
+\begin{proposition}
+  Let $R$ be a finite-dimensional central simple algebra. 
+  Then $R \otimes R^{\op} \cong M_n (k)$, where $n = [R:k]$.
+\end{proposition}
+
+\begin{myproof}
+  Let $$A = \{L_r \in \en_k (R)\ |\ r \in R\},\quad B = \{T_r \in \en_k (R)\ |\ r \in R\}.$$
+  Then $A \cong R$ and $B \cong R^{\op}$. Elements od $A$ and $B$ commute because multiplication 
+  in $R$ is associative. By universal property of tensor products,
+  $$\Omega: R \otimes R^{\op} \to \en_k (R),\quad r \otimes s \mapsto L_r \circ T_s$$
+  is a homomorphism. Since $R, R^{\op}$ are csa's over $k$, $R \otimes R^{\op}$ is simple and therefore $\Omega$ is injective.
+  Furthermore, 
+  $$\dim_k (R \otimes R^{\op}) = \dim_k (R) ^2 = \dim_k (\en_k (R)),$$
+  so $\Omega$ has to be surjective and $\Omega$ is an isomorphism. 
+\end{myproof}
+
+\begin{example}
+  We have $\Ha \otimes_{\R} \Ha^{\op} \cong M_4 (\R)$ and $\Ha \otimes_{\R} \C = \Ha_{\C} \cong M_2 (\C)$.
+  We can show that $\Ha \otimes_{\R} \Ha \cong M_4 (\R)$. We notice that we have an involution 
+  $$\sigma: \Ha \to \Ha,\quad \sigma (a + bi + cj + dk) = a -bi - cj - dk$$
+  which is also $\R$-linear. Clearly, $\sigma^2 = \mathrm{id}$ and $\sigma(xy) = \sigma(x) \sigma(y)$.
+  But any ring with $R$ with involution is isomorphic to $R^{\op}$, so 
+  \begin{equation*}
+    \Ha \otimes_{\R} \Ha \cong \Ha \otimes_{\R} \Ha^{\op} \cong M_4 (\R). \qedhere
+  \end{equation*}
+\end{example}
+
+\subsection{Skolem-Noether theorem}
+
+\begin{lemma}
+  Let $R$ be a finitely dimensional simple $k$-algebra. If $M_1, M_2$ are $R$-modules
+  that are finitely-dimensional over $k$ with $\dim_k M_1 = \dim_k M_2$, then $M_1 \cong M_2$.
+\end{lemma}
+
+\begin{myproof}
+  We know that $R$ is simple and artinian. By Wedderburn, there exists a unique simple $R$-module $M$.
+  Thus $M_j \cong M^{\alpha_j} \in \N$. Hence $\dim M_j = \alpha_j \dim M$,
+  so from $\dim M_1 = \dim M_2$ we deduce $\alpha_1 = \alpha_2$. So $M_1 \cong M^{\alpha_1} = M^{\alpha_2} \cong M_2$.
+\end{myproof}
+
+\begin{theorem}[Noether-Skolem]
+  Let $S$ be a finitely-dimensional central simple algebra over $k$
+  and let $R$ be a simple $k$-algebra. If $f, g: R \to S$ are homomorphisms, then there exist an inner automorphism $\alpha: S \to S,\ \alpha(x) = z^{-1} x z$
+  such that $\alpha f = g$. Equivalently, if $R_1, R_2$ are simple subalgebras of $S$, then for every homomorphism $f: R_1 \to R_2$ there exists an
+  inner automorphism $\alpha: S \to S$ such that $\alpha\big|_{R_1} = f$.
+  In particular, every automorphism of $S$ is inner. 
+\end{theorem}
+
+\begin{remark}
+  It is key that $S$ is a central simple algebra.
+  \begin{itemize}
+    \item If $S$ is a proper field extension of $k$, then $S$ will typically have many automorphisms,
+    but none of them would be inner ($S$ is commutative).
+    \item Complex conjugation on $\C$ is a non-inner $\R$-algebra automorphism of $\C$.
+  \end{itemize} 
+\end{remark}
+
+\begin{myproof}
+  Since $S$ is artinian and simple, Wedderburn tells us that $S \cong \en_D (V) = M_n (D^{\op})$,
+  where $D$ is a division algebra over $k$ and $V$ is a finitely-dimensional $D$-vector space.
+  The maps $f, g$ induce $R$-module structures in $V$ by multiplication 
+  $$r \cdot v = f(r) \cdot v,\quad r \cdot v = g(r) \cdot v.$$
+  Since $S$ is a $D$-linear map on $V$, those two actions commute with actions of $D$,
+  so $V$ becomes a $\R \otimes D$-module in two different ways.
+  We know that $R \otimes D$ is artinian and and simple, so by the previous lemma those two module structures on 
+  $V$ are isomorphic. There exists an abelian group isomorphism $h: V \to V$
+  such that 
+  $$h(f(r) v) = g(r) h(v),\quad h(dv) = d h(v).$$
+  This implies that $h \in \en_D (V) = S$ and $h \cdot f(r) = g(r) h$, which is exactly what we wanted.
+\end{myproof}
+
+\begin{corollary}
+  If $\alpha: M_n (k) \to M_n (k)$ is an automorphism, then there exists $P \in GL_n (k)$
+  such that $\alpha(x) = P^{-1} x P$ for some $x \in M_n (k)$.
+\end{corollary}
+
+\subsection{The (double) centralizer theorem}
+
+\begin{definition}
+  If $R$ is an algebra and $S \subseteq R$, the centralizer of $S$ in $R$ is 
+  $$C_R (S) = \{r \in R\ |\ \forall s \in S:\ rs = sr\}.$$
+  This is a subalgebra of $R$.
+\end{definition}
+
+\begin{remark}
+  \begin{enumerate}
+    \item If $S$ is a central simple algebra, then $C_S (C_S (S)) = C_S (k) = S$,
+    then $S$ is its own double centralizer.
+    \item It's obvious that for a general algebra $R \subseteq C_R (C_R (R))$.
+  \end{enumerate}
+\end{remark}
+
+If $S$ is a finite-dimensional simple algebra, then by Wedderburn $S \cong M_n (D)$
+for some $n \in \N$ and some division ring $D$. We use the notation $S \sim D$.
+Observe that $D$ is unique up to isomorphism: $S$ has a unique (up to isomorphism) simple module, say $V$ and 
+$D ^{\op} = \en_S (V)$.
+
+\begin{theorem}[Centralizer theorem]
+  Let $S$ be a finitely-dimensional central simple algebra over $k$ and $R$ a simple subalgebra of $S$.
+  Then:
+  \begin{enumerate}
+    \item $C_S (R)$ is simple;
+    \item if $S \sim D_1$ and $R \otimes D_1^{\op} \sim D_2$, then $C(R) \sim D_2^{\op}$;
+    \item $[S: k] = [R: k][C_S (R): k]$;
+    \item $C_S (C_S (R)) = R$.
+  \end{enumerate}
+\end{theorem}
+
+\begin{myproof}
+  Apply Wedderburn to $S$; then we have 
+  $$S \stackrel{\theta}{\cong} \en_D (V) \cong M_n (D^{\op})$$
+  where $D$ is a division algebra and $V$ is a $n$-dimensional vector space.
+  Then $V$ is a $(R \otimes D)$-module.
+  Since $\theta$ is an isomorphism, we see that $a \in C_S (R)$ iff $ab = ba$ for all $b \in B$
+  iff $\theta(a) \theta(b) = \theta(b) \theta (a)$ for all $b \in B$ iff $\theta$ is a $R \otimes D$-module endomorphism of $V$.
+  This bijection induces the isomorphism $C_S (R) = \en_{R \otimes D} (V)$.
+  \begin{enumerate}
+    \item Since $R \otimes D$ is simple, we get $R \otimes D \cong \en_E (W) = M_d (E^{\op})$,
+    where $W$ is the unique simple $(R \otimes D)$-module and $E = \en_{R \otimes D} (W)$.
+    Since $R \otimes D$ is semisimple and $V$ is a $(R \otimes D)$-module, it is semisimple, so $_{R \otimes D} V = W^m$ for some $m \in \N$.
+    Then 
+    \begin{align*}
+      C_S(R) &= \en_{R \otimes D} (V)\\
+      &\cong \en_{R \otimes D} (W^m)\\
+      &\cong M_m (\en_{R \otimes D} (W)) = M_m (E )
+    \end{align*} 
+    is simple.
+    \item Since $S \sim D^{\op} = D_1$, $R \otimes D_1^{\op} = R \otimes D \sim E^{\op} = D_2$.
+    From there we get $C_S(R) \sim E = D_2^{\op}$.
+    \item From $C(R) \cong M_m (E)$ it follows that $[C(R): k] = m^2 [E : K]$.
+    But $V \cong W^m$, so $[V: k] = m [W : k] = m [W: E] [E: k]$.
+    So \begin{align*}
+      [C_S(R): k] &= m^2 \frac{[E: k]^2}{[E: k]}\\
+      &= \frac{[V: k]^2}{[W: E]^2 [E: k]}.
+    \end{align*}
+    Now the following calculation:
+    $$[R: k] [D: k] = [R \otimes D: k] = d^2 [E:k] = [W: E]^2 [E: k],$$
+    so $$[C_S(R): k] = \frac{[V: k]^2}{[R:k] [D: k]}$$
+    and 
+    $$[R: k] [C_S(R): k] = \frac{[V: k]^2}{[D: k]} = \frac{[V : D]^2 [D : k]^2}{[D : k]} = [V : D]^2 [D : k] = [S : k],$$
+    concluding our proof.
+    \item We have $$[R : k] [C_S(R) : k] = [S : k] = [C_S(R) : k] [C_S(C_S(R)): k],$$
+    so $[R : k] = [C_S(C_S (R)): k]$ and $R = C_S (C_S (R))$. \qedhere
+  \end{enumerate} 
+\end{myproof}
+
+\begin{corollary}
+  If $R$ is a central simple algebra contained in a finite dimensional central simple algebra $S$,
+  then $S \cong R \otimes C_S(R)$.
+\end{corollary}
+
+\begin{myproof}
+  Consider the algebra homomorphism 
+  $$\Psi: R  \otimes C_S(R) \to S,\quad r \otimes r' \mapsto rr'.$$
+  Since $R \otimes C_S (R)$ is simple, $\Psi$ is injective. By the centralizer theorem,
+  $$[S: k] = [R: k] [C_S (R): k] = [R \otimes C_S (R) : k],$$
+  so $\Psi$ is also surjective.
+\end{myproof}
+
+\begin{definition}
+  Let $D$ be a division algebra over $k$. A field $K \supseteq k$
+  such that $$D_K = K \otimes D \cong M_n (K)$$ (as $K$-algebras) is called a splitting field for $D$.
+\end{definition}
+
+\begin{remark}
+  \begin{enumerate}
+    \item Let $\overline{k}$ be the algebraic closure of $k$. Then $\overline{k}$
+    is a splitting field of any finitely dimensional algebra $D$ over $k$.
+    \item If $K$ splits $D$ and $\quot{K'}{K}$, then $K'$ also splits $D$:
+    $$D_{K'} \cong K' \otimes_K D_K \cong K' \otimes_K M_n (K) \cong M_n (K').$$
+  \end{enumerate}
+\end{remark}
+
+\begin{proposition}
+  Let $D$ be a division algebra with center $k$ and $[D: k]= n^2$.
+  If $K$ is a maximal subfield of $D$, then $[K: k] = n$.
+  Furthermore, $K$ is a splitting field for $D$.
+\end{proposition}
+
+\begin{myproof}
+  For $\alpha \in C_D(K) \setminus K$, $K(\alpha)$ would be a proper extension of $K$.
+  This means that $C_D(K) \subseteq K$, therefore $C(K) = K$. By the third item in the double centralizer theorem,
+  $$n^2 = [D : k] = [K : k] [C_D(K) : k] = [K : k]^2.$$
+  Now onto the second statement. We know that $D$ is a simple $D \otimes K$-module.
+  So $$\en_{D \otimes K} (D) \cong C_D (K) ^{\op} = K^{\op} = K.$$
+  Since $D \otimes K$ is simple, it is isomorphic to matrices over $\en_{D \otimes K} (D) \cong K$.
+\end{myproof}
+
+
+\subsection{Theorems for division rings}
+
+\begin{theorem}[Little Wedderburn]
+  Every finite division ring is a field.
+\end{theorem}
+
+\begin{myproof}
+  Let $D$ be a finite division ring and $k = Z(D)$ a field.
+  Let $K$ be a maximal subfield of $D$, so $k \subseteq K \subseteq D$.
+  if $K = D$, we are done. Assume $K \subsetneq D$.
+  Since $[D: k] = n^2$ for some $n \in \N$, we have $[K: k] = n$ for some $n \in \N$ by the above proposition.
+  If $|k| = q = p^m$, then $|K| = q^n$. We already know that any two subfields of $D$ of $q^n$ are isomorphic,
+  hence they are conjugates by Skolem-Noether. Every element of $D$ is contained in a maximal subfield,
+  so $D = \bigcup_{x \in D^{-1}} x K x^{-1}$ and $D^{-1} = \bigcup_{x \in D^{-1}} x K^{-1} x^{-1}$. 
+  Now we claim that if $H \lneqq G$ are finite groups, then $\bigcup_{g \in G} g H g^{-1} \subsetneq G$.
+  Indeed, if $|H| = k$ and $[G: H] = n$, then $|G| = n k$ and there are at most $n$ conjugates of $H$ in $G$.
+  But each of these contains the unit element, so 
+  $$| \bigcup_{g \in G} gHg^{-1} | \leq n(k - 1) + 1 < nk = |G|.$$
+  This concludes our proof.
+\end{myproof}
+
+\begin{theorem}[Frobenius]
+  If $D$ is a division algebra with $\R \subseteq Z(D)$ and $[D: \R] < \infty$, then $D \in \{\R, \C, \Ha\}$.
+\end{theorem}
+
+\begin{myproof}
+  Without loss of generality, assume $[D: \R] \geq 2$. For any $\alpha \in D \setminus \R$,
+  $\R (\alpha)$ is a proper algebraic field extension of $\R$, so $\R (\alpha) \cong \C$ (since $\C$ is algebraically closed).
+  Fix a copy of $\C$ in $D$. Then 
+  $$D^+ = \{d \in D\ |\ di = id\} \leq {}_{\R} D,\quad D^- = \{d \in D\ |\ di = -id\} \leq {}_{\R} D.$$
+  Clearly, $D^{+} \cap D^- = \{0\}$. We prove that $D = D^+ \oplus D^-$. 
+  Now for any $a \in D$, we define 
+  $$a^+ = ai + ia \in D^+,\quad a^- = ia - ai \in D^-$$
+  and $$a = (2i)^{-1} (a^+ + a^-) \in D^+ + D^-.$$
+  For all $d^+  \in D^+$, $\C (d^+)$ is an algebraic extension of $\C$, so $\C (d^+) = \C$ and $D^+ = \C$.
+  If $D^- = (0)$, then $D = D^+ = \C$. Take $z \in D^- \setminus \{0\}$ and consider a map 
+  $$\mu: D^- \to D^+,\quad x \mapsto xz.$$
+  This map is injective and $\C$-linear, which implies that 
+  $$0 \neq \dim_{\C} D^- \leq \dim_{\C} D^+ = 1,$$
+  so we have $\dim_{\R} D^- = 2 \dim_{\C} D^- = 2.$ Finally, we have $\dim_{\R} D = 4.$
+  Since $z$ is algebraic over $\R$ and $\dim_{\R} D^- = 2$, we have $z^2 \in \R + \R z$, but also $z^2 \in D^+ = \C$.
+  This means that $z^2 \in (\R + \R z) \cap \C = \R$. If $z^2 = r^2 \in \R_{\geq 0}$, then 
+  $(z - r)(z + r) = 0$ and $z = \pm r \in \R$, which implies $z = r = 0$ since $\R \cap D^{-} = (0)$, which is a contradiction. 
+  So $z^2 = - r^2$ for some $r \in \R$. Define $j := \frac{z}{r}$.
+  Then $i^2 = j^2 = -1$ and $ij = -ji$ and therefore 
+  $$D = \C \oplus \C j = \R \oplus \R i \oplus \R j \oplus \R \underbrace{ij}_{k}.$$
+\end{myproof}
+
+\subsection{Application of primitive rings to Jacobson-Herstein theorem}
+
+\begin{theorem}[Jacobson-Herstein for division rings]
+  Suppose $D$ is a division ring. If $\forall a, b \in D$ there exists a $n > 1$
+  such that $$(ab - ba)^n = ab - ba,$$
+  then $D$ is a field.
+\end{theorem}
+
+\begin{proposition}
+  Let $D$ be a division ring. If $y \in D$ commutes with all commutators,
+  then $y \in Z(D)$.
+\end{proposition}
+
+\begin{myproof}
+  Assume $y \notin Z(D)$. We have the $x \in D$ such that $[x, y] \neq 0$.
+  Notice that we have 
+  $$[x, xy] = x^2y - xyx = x(xy - yx) = x[x, y].$$
+  By assumption, $y$ commutes with $[x, y]$ and $[x, xy]$,
+  so it commutes with $[x, xy]^{-1} [x, y]^{-1} = x.$ \qedhere
+\end{myproof}
+
+\begin{corollary}
+  If all commutators in a division ring $D$ are central, then $D$ is a field.
+\end{corollary}
+
+\begin{proposition}
+  Let $D$ be a division ring and $K \subseteq D$ a finite subring. Then $K$ is a field.
+\end{proposition}
+
+\begin{myproof}
+  Pick $0 \neq a \in K$ and consider $$L_{a}: K \to K,\quad x \mapsto a x.$$
+  Then $L_a$ is injective, since $ax = ay$ implies $x = y$. 
+  Since $K$ is finite, $L_a$ is also bijective and $K$ is a division ring.
+  By little Wedderburn, it is also a field.
+\end{myproof}
+
+\begin{lemma}
+  If $F$ is a field and $G \leq F^{-1}$ is a finite subgroup, then $G$ is cyclic.
+\end{lemma}
+
+\begin{myproof}
+  Let $G = \bigoplus_i \quot{\Z}{n_i \Z}$ and $n = \lcm (n_i) \leq \prod n_i$.
+  Then $x^n = 1$ for all $x \in G$. The equation $x^n -1 = 0$ has at most $n$ solutions in $F$,
+  so 
+  $$n \leq \prod n_i = |G| \leq n$$
+  and therefore $n = \lcm (n_i) = \prod n_i$, so $G \cong \quot{\Z}{n \Z}$.
+\end{myproof}
+
+\begin{example}
+  The quaternion field includes the quaternion group:
+  $$\Ha \geq \{\pm 1, \pm i, \pm j, \pm k\},$$
+  which is finite but not cyclic.
+\end{example}
+
+\begin{corollary}
+  Let $D$ be a division ring with $\chara D = p > 0$.
+  Then any finite subgroup $G \leq D^{-1}$ is cyclic.
+\end{corollary}
+
+\begin{myproof}
+  Let $F := \F_p \subseteq D$ be the prime subfield. Form a finite subring 
+  $$K := \{\sum_i \alpha_i g_i\ |\ \alpha_i \in F,\ g_i \in G\} \subseteq D.$$
+  By the previous proposition, $K$ is a field, and by the previous lemma $G \leq K^{-1}$ is cyclic. 
+\end{myproof}
+
+\begin{lemma}
+  Let $D$ be a division ring with $\chara D = p > 0$.
+  Suppose $a \in D$ is non-central and torsion. Then $\exists y \in D^{-1}$
+  such that $y a y^{-1} = a^i \neq a$ for some $i \in \N$.
+  Then $y$ can be chosen to be a commutator.
+\end{lemma}
+
+\begin{myproof}
+  Let $\F_p  \subseteq D$ be a prime subfield, $K = \F_p [x]$.
+  Since $a$ is torsion, $K$ is a finite field. Then $|K| = p^n$
+  and in particular $a^{p^n} = a$.
+  Now we define (this is called an inner derivation) a map
+  $$\delta_a : D \to D,\quad r \mapsto [a, r] = ar - ra.$$
+  Since $a \notin Z(D)$, this is not a zero map, however $\delta_a \big|_K = 0$
+  since $K$ is a field. This implies that $\delta_a : D \to D$ is $K$-linear, so 
+  $\delta_a \in \en_K (D)$. Now we prove that $\delta_a$ has an eigenvector 
+  $\delta_a = L_a - R_a$, where $L_a : D \to D$ and $R_a : D \to D$ are left and right multiplication maps.
+  Since these two maps commute, we have 
+  $$(\delta_a)^{p^n} = (L_a - R_a)^{p^n} = L_a ^{p^n} - R_a ^{p^n}.$$
+  But since $a^{p^n} = a$, we get $\delta_a ^{p^n} = \delta_a$.
+  Now a polynomial $t^{p^n} - t \in K[t]$ can be split into 
+  $$t^{p^n} - t = \prod_{b \in K^{-1}} (t - b) t,$$
+  so $${\delta_a}^{p^n} - {\delta_a} = \prod_{b \in K^{-1}} ({\delta_a} - b) t.$$
+  Since $\delta_a \neq 0$ and monomorphisms are left-cancellative, there exists a $b \in K^{-1}$
+  such that $\delta_a - b$ is not injective.
+  There $\exists x \in D^{-1}$ such that $(\delta_a - b)(x) = 0$.
+  So $$\delta_a (x) = [a, x] = ax - xa = ba$$ and $x a x^{-1} = a - b \in K \setminus \{a\}$.
+  In the cyclic group $K^{-1}$, $a$ and $x ax^{-1}$ have the same order, so they generate the same subgroup.
+  In particular, there exists an $i \in \N$ such that $xax^{-1} = a^i \neq a$.
+  Instead of $x$, let's use $y = \delta_a (x) = [a, x] \neq 0$.
+  then
+  \begin{align*}
+    y \cdot a &= axa - xaa\\
+    &= a a^i x - a^i x a\\
+    &= a^i (ax - xa) = a^i y. \qedhere 
+  \end{align*} 
+\end{myproof}
+
+\begin{myproof}[Proof of Jacobson-Herstein for division rings]
+  Suppose $D \neq Z(D)$. Then there exist $b_1, b_2 \in D$ such that 
+  $$a = [b_1, b_2] \notin Z(D).$$ For each $c \in Z(D)$, we have 
+  $$ca = c(b_2 b_1 - b_2 b_1) = cb_1 b_2 - b_2 c b_1 = [cb_1, b_2].$$
+  By assumption, there exists a $k \geq 1$ such that 
+  $$1 = a^k = (ca)^k = c^k a^k = c^k,$$
+  which implies $\chara D = p > 0$ (since every element of a field $Z(D)$ is a root of unity). By previous lemma,
+  there exists a commutator $y \in D^{-1}$ such that $y a y^{-1} = a^i \neq a$ for some $i \in \N$.
+  Then again by assumption, $y$ is torsion. The product of the groups $\langle a \rangle \langle y\rangle$
+  is finite since $\langle a \rangle$, $\langle y \rangle$ are finite and $y$ normalizes $\langle a \rangle$.
+  By an earlier corollary this group must be cyclic, thus abelian, which contradicts $y a y^{-1} = a^i$.
+\end{myproof}
+
+\section{Brauer group}
+
+Our goal is to classify all finite dimensional central simple algebras over a given field $k$.
+Equivalently (by Wedderburn), all finite dimensional division algebras over $k$.
+We have already done this for:
+\begin{itemize}
+  \item finite fields $k$: $M_n (k)$ for $n \in \N$.
+  \item algebraically closed fields $k$: again $M_n (k)$ for $n \in \N$.
+  \item $k = \R$: by Frobenius, $M_n (\R)$ and $M_n (\Ha)$ for $n \in \N$.
+\end{itemize}
+
+\subsection{An equivalence relation on central simple algebras}
+
+\begin{definition}
+  Let $S, T$ be finite-dimensional csa over $k$. We say that $S$ and $T$ are similar, $S \sim T$,
+  if any one of the following equivalent conditions hold.
+  \begin{enumerate}
+    \item If $S \cong M_n (D)$ and $T \cong M_m (E)$ for division rings $D, E$, then $D \cong E$.
+    \item There exist $m, n \in \N$ such that $S \otimes_k M_m (k) \cong T \otimes M_n (k)$.
+    \item There exist $m, n \in \N$ such that $M_m (S) \cong M_n (T)$.
+    \item If $M$ is the unique simple $S$-module and $N$ is the unique simple $T$-module, then 
+    $\en_S (M) \cong \en_T (N)$.
+  \end{enumerate}
+\end{definition}
+
+\begin{remark}
+  Tension product of csa's is a csa. However, a tensor product of central division algebras is not necessarily a division algebra:
+  $$\Ha \otimes \Ha \cong M_4 (\R).$$
+\end{remark}
+
+\subsection{Definition of Brauer groups}
+
+\begin{definition}
+  Let $k$ be a field. The Brauer group of $k$ $\brauer (k)$
+  is the set of equivalence classes of finite-dimensional csa over $k$
+  with regards to similarity defined before.
+  The group operation is induced by $\otimes$, the equivalence class of $k$ is the identity element:
+  $$[S] \cdot [T] = [S \otimes T], \quad [k] = 1 \in \brauer (k).$$
+\end{definition}
+
+So far, we have not shown that $\brauer (k)$ is a group. In fact, we need to  check whether the multiplication 
+is even well-defined.
+
+\begin{remark}
+  \begin{enumerate}
+    \item The brauer group is trivial iff $k$ is the only central division algebra over $k$ (for example if $k$ is a finite field).
+    \item $[M_n (k)] = [k] = 1 \in \brauer (k)$. 
+    \item If $A, B$ are csa over $k$ of finite dimension, then 
+    $$A \cong B \Leftrightarrow [A] = [B] \in \brauer (k),\ [A: k] = [B: k].$$
+  \end{enumerate}
+\end{remark}
+
+\begin{lemma}
+  \begin{enumerate}
+    \item $M_n (R) \cong R \otimes_k M_n (k)$ for every $k$-algebra $R$.
+    \item $M_m (k) \otimes M_n (k) \cong M_{mn} (k)$.
+    \item $(R \otimes_k S) \otimes_k K \cong (R \otimes_k K) \otimes_K (S \otimes_k K)$ for $k$-algebras $R, S$ and a field extension $K$.
+  \end{enumerate}
+\end{lemma}
+
+\begin{myproof}
+  \begin{enumerate}
+    \item We have natural inclusions ($k$-algebra homomorphisms) $R \hookrightarrow M_n (R)$
+    and 
+    $M_n (k) \hookrightarrow M_n (R)$ whose images commute in $M_n (R)$, so there exists a ring homomorphism $R \otimes_k M_n (k) \to M_n (R)$.
+    This map sends an element of $R$-basis $1 \otimes E_{ij}$ to an element of $R$-basis $E_{ij}$, so it is an isomorphism of $R$-algebras.
+    \item This item is a direct corollary of the previous one:
+    \begin{equation*}
+      M_m (k) \otimes M_n (k) \cong M_n (M_m(k)) \cong M_{mn} (k).
+    \end{equation*}
+    \item See homeworks. \qedhere
+  \end{enumerate}
+\end{myproof}
+
+\begin{lemma}
+  If $S_1 \sim S_2$ and $T_1 \sim T_2$, the $S_1 \otimes T_1 \sim S_2 \otimes T_2$.
+\end{lemma}
+
+\begin{myproof}
+  Let $S_j \cong M_{n_j} (D)$ and $T_j \cong M_{m_j} (E)$.
+  Then 
+  \begin{align*}
+    S_j \otimes T_j &= M_{n_j} (D) \otimes M_{m_j} (E)\\
+    &= D \otimes M_{n_j} (k) \otimes E \otimes M_{m_j} (k)\\
+    &= D \otimes E \otimes M_{n_j} (k) \otimes M_{m_j} (k)\\
+    &= D \otimes E \otimes M_{n_j m_j} (k)\\
+    &= M_{n_j m_j} (D \otimes E). \qedhere
+  \end{align*}
+\end{myproof}
+
+\begin{theorem}
+  Brauer group is an abelian group.
+\end{theorem}
+
+\begin{myproof}
+  If $S, T$ are central simple algebras over $k$, then $S \otimes T$ is a central simple algebra over $k$,
+  so by previous lemma the operation $[S] \cdot [T] = [S \cdot T]$ is well-defined.
+  This multiplication is associative because $\otimes$ is associative.
+  Also, $[k] = [M_n (k)] = 1 \in \brauer (k)$, since $S \otimes_k k \cong S$.
+  We have proved before that $S \otimes S^{\mathrm{op}} = M_n (k)$, so 
+  $$[S] [S^{\op}] = [S \otimes T] = [k] = 1 \in \brauer (k)$$
+  and we get $[S]^{-1} = [S^{\op}]$. Finally, $\brauer (k)$ is abelian since $\otimes$ is abelian.
+\end{myproof}
+
+\begin{example}
+  \begin{itemize}
+    \item By little Wedderburn, $\brauer (\F_q) = 1$ for any $q = p^n$. Furthermore, $\brauer (k) = 1$ even for every algebraic extension $k$ of a finite field (stated without proof).
+    \item $\brauer (k) = 1$ for algebraically closed $k$.
+    \item $\brauer (\R) \cong \Z_2$, generated by $[\Ha].$
+  \end{itemize}
+\end{example}
+
+\begin{remark}
+  A field $K$ is $C_1$ if every homogenous polynomial $f \in K[x_1, \dots, x_n]$
+  of degree $\leq n$ has a nontrivial zero in $K$. Examples of $C_1$ fields are finite fields, ACF's and $\C(t)$ (Tsen's theorem).
+  Brauer group of any $C_1$ field is trivial.
+\end{remark}
+
+Let's sketch the proof of the Brauer group of $\Q$.
+An absolute value of the field $K$ is a map $|\cdot|: K \to \R$ that satisfies:
+\begin{enumerate}
+  \item $|x| \geq 0, \forall x \in K$;
+  \item $|x| = 0 \Leftrightarrow x = 0$;
+  \item $|xy| = |x| |y|$;
+  \item $|x + y| \leq |x| + |y|$.
+\end{enumerate}
+By Ostrowski's theorem, the only absolute values on $\Q$ are the regular 
+absolute value and the $p$-adic absolute values. The completion of $\Q$ for a regular absolute value is 
+$\R$, however the completion of $\Q$ for a $p$-adic absolute value is the set of elements of the form 
+$$\sum_{i = k} ^\infty a_i p^i,\quad k \in \Z,\quad a_i \in \{0, 1, \dots, p - 1\}.$$
+(DOPOLNI)
+
+We now turn our attention to local-global principles. 
+
+(DOPOLNI)
+
+\begin{theorem}[Albert-Brauer-Hasse-Noether]
+  If $A$ is a central simple algebra over $\Q$ and $A$ splits over the completion of $\Q$,
+  then $A$ splits. That is if $A \otimes \Q_p \cong M_k (\Q_p)$ for all $p$
+  and $A \otimes \R \cong M_n (\R)$, then $A \cong $ (DOPOLNI)
+\end{theorem}
+
+(DOPOLNI)
+
+\subsection{Relative Brauer group}
+
+Given a field extension $\quot{K}{k}$, there is a homomorphism 
+$$\brauer (k) \to \brauer (K),\quad [S] \mapsto [S_K].$$
+This map is well defined:
+\begin{align*}
+  S \sim T &\Rightarrow S \otimes_k M_m(k) \cong T \otimes_k M_n (k)\\
+  &\Rightarrow (S \otimes_k M_m(k)) \otimes_k K \cong (T \otimes_k M_n (k)) \otimes_k K\\
+  &\Rightarrow (S \otimes_k K) \otimes_K (M_m(k) \otimes_k K) \cong (T \otimes_k K) \otimes_K (M_n (k) \otimes_k K)\\
+  &\Rightarrow S_K \otimes_K M_m (K)\cong T_K \otimes_K M_n (K)\\
+  &\Rightarrow S_K \sim T_K.
+\end{align*}
+
+\begin{definition}
+  The relative Brauer group $\brauer (\quot{K}{k}) = \ker (\brauer (k) \to \brauer (K))$.
+\end{definition}
+
+These are central simple algebras over $k$ that we split by $K$.
+
+\begin{definition}
+  Let $S$ be a simple $k$-algebra. A self-centralizing subfield of $S$ is a field $K \subseteq S$
+  containing $k$ such that $C_S(K) = K$.
+\end{definition}
+
+\begin{remark}
+  \begin{enumerate}
+    \item In division rings, maximal subfields coincide with self-centralizing subfields.
+    \item For $n > 1$, $M_n (\Ha)$ has no self-centralizing subfields.
+    By the centralizer theorem, each such subfield has dimension $2n$.
+    But the only field extensions of $\R$ are $\R$ and $\C$, which have the dimension $\leq 2 < 2n$.
+    \item There exists a csa where both a maximal and self-centralizing subfield exist, but are not the same.
+  \end{enumerate}
+\end{remark}
+
+\begin{theorem}
+  \begin{enumerate}
+    \item Let $S$ be a csa over $k$ of dimension $n^2$. Then any self-centralizing 
+    subfield $K$ of $S$ is a splitting field for $S$ and $[K : k] = [S: K] = n$.
+    \item Given any field extension $K \supseteq k$ of degree $n$, any element of $\brauer (\quot{K}{k})$
+    has a unique representative $S$ of degree $n$ that contains $K$ as a self-centralizing subfield.
+  \end{enumerate}
+\end{theorem}
+
+\begin{myproof}
+  \begin{enumerate}
+    \item We know that 
+    \begin{align*}
+      n^2 &= [S: k]\\
+      &= [K: k] [C_S(K) : k]\\
+      &= [K: k] ^2,
+    \end{align*}
+    so $n = [K: k]$. Now we prove splitting: $S$ acts on $S$ from the left and $K$ acts on $S$ from the right.
+    These two actions commute, which means there exists 
+    $$f: S \otimes_k K \to \en_K (S) \cong M_n (K),\quad s \otimes x \mapsto (s' \mapsto ss'x).$$
+    Since $S$ is csa and $K$ is simple, $S \otimes K$ is simple and $f$ injective.
+    Now since 
+    \begin{align*}
+      [S \otimes K : k] &= [S: k] [K : k]\\
+      &= n^3 \\
+      &= n^2 [K : k] \\
+      &= [M_n (K): k],
+    \end{align*}
+    $f$ is an isomorphism.
+    \item Any element in $\brauer (\quot{K}{k})$ is represented by a central division algebra, say $D$.
+    Then $K \otimes_k D^{\op} \cong M_m (K)$ for some $m \in \N$.
+    In particular, $[D^{\op} : k] = m^2$. Let $V$ be the unique simple $K \otimes_k D^{\op}$ module,
+    so that $K \otimes_k D^{\op} \cong V^m$.
+    then 
+    \begin{align*}
+      m [V : D^{\op}] [D^{\op} : k] &= m [V : k] \\
+      &= [V^m : k]\\
+      &= [K \otimes D^{\op} : k]\\
+      &= [K : k] [D^{\op}: k],
+    \end{align*}
+    so $$m [V : D^{\op}] = [K : k].$$
+    Since $K$ acts on $V$ from the left, this action commutes with the action of $D^{\op}$, so there exists 
+    $$K \hookrightarrow \en_{D^{\op}}  (V) \cong M_{[V : D^{\op}]} (D) =: S$$
+    as a $K$-algebra isomorphism.
+    Hence $[S] = [D] \in \brauer (\quot{K}{k})$ and 
+    \begin{align*}
+      [S : k] &= [V : D^{\op}]^2 [D : k]\\
+      &= [V : D^{\op}]^2 m^2\\
+      &= (m [V : D^{\op}])^2\\
+      &= [K: k]^2
+    \end{align*}
+    But since $$[K : k]^2 = [S : k] = [K: k] [C(K) : k],$$ we have 
+    $[K : k] = [C(K): k]$. Since $K \subseteq C(K)$, $K = C(K)$.
+    Also, $S$ is unique because of the dimension assumption. \qedhere
+  \end{enumerate}
+\end{myproof}
+
+\begin{remark}
+  For any division algebra with center $k$, there exists a splitting field $K$,
+  which is separable over $k$. This is obvious if $\chara k = 0$ and is the Jacobson-Noether theorem 
+  for general $k$. 
+\end{remark}
+
+\begin{theorem}[Jacobson-Noether]
+  If $D$ is noncommutative division ring which is algebra over its center $k$, then there is an element in $D \setminus k$ which is separable over $k$.
+\end{theorem}
+
+\begin{myproof}
+  Exercises (DOPOLNI).
+\end{myproof}
+
+\begin{corollary}[Koethe]
+  If $D$ is a finite-dimensional division algebra with center $k$ and $K \subseteq D$ is a separable extension of $k$,
+  then $D$ has a maximal subfield containing $K$ which is separable over $k$.
+\end{corollary}
+
+\begin{myproof}
+  Let $D_0 = C_D (K)$. By the double centralizer theorem, $C_D (D_0) = K$, so $Z(D_0) = K$
+  and $D_0$ is a division algebra over center $K$.
+  Now we simply use the Jacobson-Noether.
+\end{myproof}
+
+\begin{corollary}
+  Let $D$ be a finite-dimensional division algebra with center $k$. Then there exists a finite Galois extension 
+  $\quot{K}{k}$ which is a splitting field for $D$.
+\end{corollary}
+
+\begin{myproof}
+  By Jacobson-Noether, there exists a maximal subfield $L \leq D$ that is separable over $k$.
+  Let $k \subseteq L \subseteq K$ be the normal closure of $L$. Then $\quot{K}{k}$
+  is (finite) Galois and since $L$ splits $D$, so does $K$.
+\end{myproof}
+
+\begin{corollary}
+  $$\brauer (k) = \bigcup \{\brauer (\quot{K}{k})\ |\ \textrm{$\quot{K}{k}$ finite Galois extension}\}.$$
+\end{corollary}
+
+\begin{myproof}
+  Let $[A] = [D]$, where $D$ is a central division algebra over $k$.
+  Since the map 
+  $$\brauer(k) \to \brauer(K),\quad [A] \mapsto [A_K]$$
+  is well defined, any
+  extension $\quot{K}{k}$ which splits $D$ also splits $A$.
+  Hence in order to split $A$ it suffices to split the division ring $D$.
+  The rest follows from the previous corollary.
+\end{myproof}
+
+\begin{corollary}\label{cor:1}
+  Suppose $D$ is a central division $k$-algebra such that $[D : k] = n^2$.
+  Then any splitting field $K$ of $D$ satisfies $n \ |\ [K : k]$.
+\end{corollary}
+
+\begin{myproof}
+  Let $K$ be the splitting field for $D$.
+  Then by the previous theorem, $[D] \in \brauer(\quot{K}{k})$
+  has a unique representative $S$ such that $[S : k] = [K : k]^2$.
+  This implies that $$n^2 = [D : k]\ |\ [S : k]\ |\ [K: k]^2,$$
+  which gives us $n\ |\ [K : k]$.
+\end{myproof}
+
+\subsection{Factor sets and crossed product algebras}
+
+Let $\quot{K}{k}$ be a Galois field extension, $G = \gal{\quot{K}{k}}$.
+Let $S$ be a csa with $K$ as a self-centralizing subfield.
+Let $\sigma \in G$ be a $k$-automorphism of $K$.
+By the Skolem-Noether theorem, $\sigma$ extends to an inner isomorphism of $S$,
+so there exists a $x_{\sigma} \in S^{-1}$ such that 
+$$x_{\sigma} a x_{\sigma} ^{-1} = \sigma (a), \quad \forall a \in K.$$
+How unique is this $x_{\sigma}$? Suppose $x_{\sigma} '$ also satisfies this relation.
+Then 
+$$x_{\sigma} a x_{\sigma} ^{-1} = x_{\sigma} ' a (x_{\sigma} ') ^{-1},\quad \forall a \in K.$$
+This is equivalent to $(x_{\sigma} ')^{-1} x_{\sigma} \in C(K) = K$.
+By the control of the non-uniqueness of $x_{\sigma}$'s, there exists $a_{\sigma, \tau} \in K^{-1}$
+such that 
+$$a_{\sigma, \tau} x_{\sigma \cdot \tau} = x_{\sigma} x_{\tau}.$$
+Then $(a_{\sigma, \tau})_{\sigma, \tau \in G}$ is a factor set of $S$ relative to $K$ and we have 
+$$a: G \times G \to K^{-1},\quad (\sigma, \tau) \mapsto a_{\sigma, \tau}.$$
+How are factor sets associated to different choices of $x_{\sigma}$ related?
+There exists a $f_{\sigma} \in K^{-1}$ such that $x_{\sigma} ' = f_{\sigma} x_{\sigma}$.
+Assume that $(b_{\sigma, \tau})$ is the factor set associated to $x_{\sigma} '$:
+$$b_{\sigma, \tau} x_{\sigma \cdot \tau} ' = x_{\sigma} ' x_{\tau}'.$$
+We now have 
+\begin{align*}
+  f_{\sigma} \sigma (f_{\tau}) a_{\sigma, \tau} x_{\sigma \cdot \tau} &= f_\sigma \sigma (f_\tau) x_{\sigma} x_{\tau} = f_{\sigma}x_\sigma f_\tau x_\tau\\
+  &=x_\sigma ' x_\tau ' = b_{\sigma , \tau} x_{\sigma \tau} '\\
+  &= b_{\sigma, \tau} f_{\sigma, \tau} x_{\sigma \tau},
+\end{align*}
+so $$b_{\sigma, \tau} f_{\sigma \tau} = f_{\sigma} \sigma(f_\tau) a_{\sigma, \tau}.$$
+If we choose $x_1 ' = 1$, then $a_{\sigma, 1} = a_{1, \sigma} = 1$ 
+for all $\sigma \in G$. Such a factor set is normalized.
+
+\begin{proposition}
+  The set $(x_\sigma)_{\sigma \in G}$ is a basis for $S$ over $K$.
+\end{proposition}
+
+\begin{myproof}
+  Firstly, 
+  $$|G| = [K : k] = [S: K],$$
+  so it suffices to check that $(x_\sigma)_\sigma$ are linearly independent.
+  Assume the contrary and choose $J \subsetneq G$ which is maximal such that $(x_\tau)_{\tau \in J}$
+  is linearly independent.
+  Let $\sigma \in G \setminus J$.
+  Then there exists $a_{\tau} \in K$ such that 
+  $$x_{\sigma} = \sum_{\tau \in J} a_\tau x_\tau.$$
+  If we multiply this equation on the right with $r \in K$, we get 
+  $$x_\sigma r = \sum_J a_\tau x_\tau r,$$
+  which implies 
+  $$\sigma (r) x_\sigma = \sum_J a_\tau \tau (r) x_\tau.$$
+  Now if we multiply the same equation from the left with $\sigma(r)$, we get 
+  $$\sigma(r) x_\sigma = \sum \sigma(r) a_\tau x_\tau,$$
+  which together with the previous line implies
+  $$a_\tau \tau (r) = \sigma(r) a_\tau,\quad \forall \tau \in J,\quad \forall r \in K.$$
+  Since $x_\sigma \neq 0$, at least $a_\tau \neq 0$ (for $\tau \in J$).
+  We thus deduce that $\tau (r) = \sigma (r)$ for all $r \in K$, so $\sigma = \tau \in J$,
+  which is a contradiction. 
+\end{myproof}  
+  
+As a $K$-vector space, $S = \bigoplus_{\sigma \in G} K x_\sigma$
+and the multiplication in $S$ is given by 
+$$x_\sigma a = \sigma (a) x_\sigma,\quad  \forall a \in K$$
+and 
+$$x_\sigma  x_\tau = a_{\sigma, \tau} x_{\sigma \tau},\quad \forall \sigma,\tau \in G.$$
+Which $a: G \times G \to K$ are factor sets? Not every such function works.
+If we check associativity, we get 
+\begin{equation}\label{eq:factor}
+  \rho (a_{\sigma, \tau}) a_{\rho, \sigma \tau} = a_{\rho, \sigma}  a_{\rho \sigma, \tau},\quad \forall \rho, \sigma, \tau \in G.
+\end{equation}
+
+\begin{proposition}
+  Given a Galois extension $\quot{K}{k}$ with $G = \gal{\quot{K}{k}}$,
+  any set of elements $(a_{\sigma, \tau})_{\sigma, \tau \in G} \subseteq K^{-1}$
+  satisfying the above property is the factor set relative to $K$ 
+  of a csa $A$ over $k$. Furthermore, $A$ contains $K$ as a self-centralizing subfield.
+\end{proposition}
+
+\begin{definition}
+  Any set $(a_{\sigma, \tau})_{\sigma, \tau \in G}$ in $K^{-1}$ satisfying the \eqref{eq:factor} is called a factor set relative to $K$ 
+  (regardless or not if the algebra of which they are a factor set is given). 
+\end{definition}
+
+\begin{myproof}
+  Let $A$ be the $K$-vector space with basis $(e_\sigma)_{\sigma \in G}$.
+  Define multiplication in $A$ by 
+  $$(\alpha e_\sigma) \cdot (\beta e_\tau) = \alpha \sigma (\beta) a_{\sigma, \tau} e_{\sigma \tau}.$$
+  First, we will show that $A$ is an associative algebra with identity.
+  Multiplication is associative by the above property. The identity element is $a_{1, 1} ^{-1} e_1$, since 
+  \begin{align*}
+    1 (a_{1, \tau} a_{1, \tau}) = a_{1, 1} a_{1, \tau}
+  \end{align*} by property \eqref{eq:factor}, which implies $a_{1, \tau = a_{1, 1}}$ for all $\tau \in G$.
+  Similarly, we have 
+  $$\sigma (a_{1, 1}) a_{\sigma, 1} = a_{\sigma, 1} a_{\sigma, 1},$$
+  which implies $a_{\sigma, 1} = \sigma(a_{1, 1})$ for all $\sigma \in G$. Together, this implies 
+  $$(a_{1, 1}^{-1} e_1) e_{\sigma} = a_{1, 1}^{-1} a_{1, \sigma} e_\sigma = e_\sigma$$ and 
+  $$e_\sigma (a_{1, 1}^{-1} e_1) = \sigma(a_{1, 1})^{-1} a_{\sigma, 1} e_\sigma = e_\sigma.$$
+  Next, $K$ is a subfield of $A$ via 
+  $$K \to A,\quad r \mapsto r \cdot 1 = r \cdot a_{1, 1} ^{-1} e_r.$$
+  Now we prove that $K = C(K)$. Suppose $\sum_{\sigma \in G} a_{\sigma} e_\sigma \in C(K)$ for some $a_\sigma \in K$.
+  then 
+  $$a \left(\sum_G a_\sigma e_\sigma\right) = \left(\sum_G a_\sigma e_\sigma\right) a.$$
+  From there, we get 
+  $$a \cdot a_\sigma = a_\sigma \sigma(a),\quad \forall a \in K,\quad \forall \sigma \in G.$$
+  If some $a_\sigma \neq 0$, then $a = \sigma (a)$ for all $a \in K$ and $\sigma = \mathrm{id}$.
+  Thus $a_\sigma = 0$ for $\sigma \neq \mathrm{id}$, hence $x \in K$,
+  so $C(K) \subseteq K$. The reverse inclusion is obvious.
+  Finally, we prove that $Z(A) = k$. Obviously, $Z(A) \subseteq C(K) = K$.
+  Now suppose $a \cdot e_1 \in K$ is in $Z(A)$. Then $(a e_1) e_\sigma = e_\sigma (a e_1)$ and therefore $a a_{1, \sigma} e_\sigma = \sigma(a) a_{\sigma, 1} e_\sigma$.
+  From there, we get $a \cdot a_{1, \sigma} = \sigma(a) a_{\sigma, 1}$, which we can rewrite as 
+  $$a \cdot a_{11} = \sigma(a) \sigma(a_{11}) = \sigma(a a_{11}).$$ From there, we get $a a_{11} \in K^G = k$ and 
+  $$a e_1 = \underbrace{a a_{11}}_{\in k} \cdot (a_{11} ^{-1} e_1) \in k.$$
+  Finally, we prove that $A$ is simple. Suppose that $I \lhd A$ is a nontrivial ideal.
+  The map $K \mapsto \quot{A}{I}$ is injective. Let $\overline{e_\sigma}$ be the image of $e_{\sigma}$ in $\quot{A}{I}$.
+  Then $\overline{e_\sigma} a = a \overline{e_\sigma}$ for all $a \in k$.
+  As in the proof of the previous proposition, $(\overline{e_\sigma})_{\sigma \in G}$ are linearly independent in $\quot{A}{I}$.
+  But then $$\dim \quot{A}{I} \geq |G| = \dim A,$$ a contradiction.
+\end{myproof}
+
+\begin{definition}
+  The algebra $A$ is the crossed product of $K$ and $G$ relative to the factor set $(a_{\sigma, \tau})_{\sigma, \tau \in G}$.
+  Notation: $A = (K, G, a)$. 
+\end{definition}
+
+\begin{remark}
+  Any finite set $(a_{\sigma, \tau})_{\sigma, \tau \in G}$ is the factor set 
+  of the csa $(K, G, a)$ and $(K, G, a)$ contains $K$ as a self-centralizing subfield.
+  A factor set of a csa isn't uniquely determined since $x_\sigma$ are only uniquely determined up to multiplication in $K^{-1}$:
+  if we choose some different $x_\sigma ' = f_\sigma x_\sigma$, we get a factor set 
+  $$b_{\sigma, \tau} = \frac{f_\sigma \sigma(f_\tau)}{f_{\sigma \tau}} \cdot a_{\sigma, \tau}.$$
+  We say that the factor sets $a_{\sigma, \tau} \sim b_{\sigma, \tau}$ are equivalent.
+  This brings us to the following.
+\end{remark}
+
+\begin{remark}
+  The crossed product algebra $(K, G, a)$ from the above proof is isomorphic to the algebra $S$ from the beginning of the section
+  (the same vector basis for $K$ and their multiplication).
+\end{remark}
+
+\begin{lemma}
+  The crossed algebras, generated by equivalent factor sets are isomorphic by map 
+  $$(K, G, b) \to (K, G, a),\quad x_\sigma ' \mapsto f_\sigma x_\sigma.$$
+\end{lemma}
+
+\begin{theorem}
+  Let $\quot{K}{k}$ be a finite Galois extension with Galois group $G$.
+  Then there is a bijective correspondence between $\brauer(\quot{K}{k})$
+  and equivalence classes of factor sets $(a_{\sigma, \tau})$.
+  In other words, every element in $\brauer (\quot{K}{k})$ is of the form $[(K, G, a)]$ for some factor set $a$.
+\end{theorem}
+
+\begin{myproof}
+  Given $x \in \brauer (\quot{K}{k})$, there exists a unique csa $A$ such that $[A] = x$ and $A$ contains $K$ as a self-centralizing subfield.
+  Then we get define a map
+  $$\brauer (\quot{K}{k}) \xrightarrow{\psi_1} \quot{(a_{\sigma, \tau})}{\sim},\quad A \mapsto [a_{\sigma, \tau}].$$
+  This map is well defined because $A$ is unique and all factor sets in $A$ relative to are 
+  $[A]$ into a factor set of $A$ relative to $K$ (such factor sets are all equivalent).
+  Conversely, given a factor set $(a_{\sigma, \tau})$, the previous proposition constructs a csa $(K, G, a)$
+  which has $(a_{\sigma, \tau})$ as a factor set. 
+  Since equivalent factor sets relative to $K$ give rise to isomorphic crossed product algebras (the previous lemma),
+  we have a well defined map 
+  $$\quot{(a_{\sigma, \tau})}{\sim} \xrightarrow{\psi_2} \brauer (\quot{K}{k}),\quad [(a_{\sigma, \tau})] \mapsto [(K, G, a)].$$
+  Now $\psi_2 \circ \psi_1$ maps $[A]$ into $[(K, G, a)]$, but by last remark, $A$ and $(K, G, a)$ are isomorphic, so $\psi_2 \circ\psi_1$ is an identity.
+  Similarly, $\psi_1 \circ \psi_2$ maps a $[a_{\sigma, \tau}]$ into itself, so it is again an identity and $\psi_1, \psi_2$ are inverses.
+\end{myproof}
+
+\subsection{Group cohomology and Brauer group}
+
+Let $G$ be a group and $M$ an abelian group on which $G$ acts\footnote{based on Brown: Cohomology of groups}.
+Denote $C^0 (G, M) := M$ and 
+$$C^n (G, M) := \left\{ \textrm{functions $G^n \to M$} \right\}$$
+for $n \in \N$. Clearly, $C^n (G, M)$ is an abelian group under pointwise 
+addition of functions and the zero function as the identity element.
+In addition, $G$ acts on $C^n (G, M)$ as 
+$$(g \cdot f) (g_1, \dots, g_n) = g \cdot f(g_1, \dots, g_n).$$
+We call $C^n (G, M)$ the $n$-th cochain group. Its elements are $n$-cochains of $G$ with coefficients in $M$.
+We define the maps $$\delta_0 : C^0 (G, M) \to C^1 (G, M),\quad f \mapsto (g_1 \mapsto g_1 f - f)$$
+and $$\delta_n : C^n (G, M) \to C^{n + 1} (G, M)$$ 
+as \begin{align*}
+  (\delta_n f) (g_1, \dots, g_{n + 1}) &:= g_1 \cdot f(g_1, \dots, g_{n + 1}) \\
+  &+ \sum_{i = 1} ^n (-1)^n f(g_1, \dots, g_i g_{i + 1}, \dots, g_{n + 1})\\
+  &+ (-1)^{n + 1} f(g_1, \dots, g_n).
+\end{align*}
+The map $\delta_n$ is called the $n$-th coboundary map. It is a group homomorphism.
+
+\begin{proposition}
+  $\delta_{n + 1} \circ \delta_n = 0$. 
+\end{proposition}
+
+\begin{myproof}
+  This is a routine calculation.
+\end{myproof}
+
+With the above definitions, $(C^n (G, M), \delta_n)$ is called a cochain complex:
+$$0 \to C^0 \xrightarrow{\delta_0} C^1 \xrightarrow{\delta_1} C^2 \xrightarrow{\delta_2} C^3 \to \cdots $$
+Taking its homology, we get the $n$-cocycles $Z^n = \ker (\delta_n)$ and $n$-coboundaries $B^n = \im (\delta_{n - 1})$.
+Since $\delta \circ \delta = 0$, we have $B^n \subseteq Z^n$. We define the $n$-th cohomology group of $G$ 
+with coefficients in $M$ as $H^n (G, M) := \quot{Z^n}{B^n}$. The elements of $H^1 (G, M)$ are group homomorphisms $G \to M$
+and elements of $H^2 (G, M)$ are called central extensions of $G$ by $M$.
+We now restrict our attention to $G = \gal (\quot{K}{k})$ and $M = K^{-1}$ for Galois extension $\quot{K}{k}$.
+Then $H^n (G, K^{-1})$ are Galois cohomology groups of the extension $\quot{K}{k}$
+with coefficients in $K^{-1}$. Elements $(f_\sigma)_{\sigma} : G \to K^{-1}$ are 1-cochains and $a: G \times G \to G^{-1}$
+are 2-cochains.
+
+\begin{theorem}[Hilbert's theorem 90]
+  \begin{enumerate}
+    \item $H^0 (G, K^{-1}) = k^{-1}$;
+    \item $H^1 (G, K^{-1}) = 1$.
+  \end{enumerate}
+\end{theorem}
+
+\begin{lemma}
+  If $K$ is a field and $\sigma_1, \dots, \sigma_n$ are distinct automorphisms of $K$, they are $K$-linearly independent.
+\end{lemma}
+
+\begin{myproof}
+  Suppose $\sum c_i \sigma_i = 0$ for $c_i \in K$, where $c_1, \dots, c_r$ are nonzero and $c_{r + 1} = \cdots = c_n = 0$.
+  In addition, assume that $r$ is the smallest possible. There exists
+  Clearly, $r > 1$. There exists $a \in K$ such that $\sigma_1 (a) \neq \sigma_r (a)$.
+  Then $$c_1 \sigma_1 (ax) + \dots + c_r \sigma_r (ax) = 0,$$
+  which immediately gives us 
+  $$c_1 \sigma_1 (a) \sigma_1 (x) + \dots + c_r \sigma_r (a) \sigma_r (x) = 0.$$
+  By subtracting 
+  $$c_1 \sigma_r(a) \sigma_1 (x) + \dots + c_r \sigma_r (a) \sigma_r (x) = 0,$$
+  we get 
+  $$c_1 (\sigma_1 (a) - \sigma_r(a)) \sigma_1 (x) + \dots + c_{r - 1} (\sigma_{r - 1} (a) - \sigma_r (a)) \sigma_{r - 1} (x) = 0$$
+  for all $x \in K$. But since $c_1 (\sigma_1 (a) - \sigma_r (a)) \neq 0$, this contradicts the minimality of $r$.
+\end{myproof}
+
+\begin{myproof}[Proof of the theorem]
+  \begin{enumerate}
+    \item The first part is a trivial calculation:
+    \begin{align*}
+      Z^0 = \ker \delta_0 = \{f \in K^{-1}\ |\ \forall g \in G,\ g \cdot f = f\} = k^{-1}.
+    \end{align*}
+    \item Let $f \in Z^1$. Then $f: G \to K^{-1}$ and 
+    $$\delta_1 f(\sigma, \tau) = \sigma (f(\tau)) \cdot f(\sigma \cdot \tau)^{-1} \cdot f(\sigma) = 1.$$
+    From this we get $f(\sigma \tau) = \sigma(f(\tau)) f(\sigma)$ or, written more compactly, $f_{\sigma \tau} = \sigma (f_\tau) f_\sigma$.
+    Note that $f \in B^1$ is equivalent to 
+    $$f(\tau) =\delta_0 g(\tau) = \tau (g) \cdot g^{-1}$$ 
+    for some $g \in K^{-1}$ This is what we're effectively proving. Consider 
+    $$\sum_{\tau \in G} f_\tau \cdot \tau \neq 0$$
+    by the previous lemma. There exists $a \in K^{-1}$ such that $b = \sum_{\tau \in G} f_\tau \tau (a) \neq 0$.
+    Finally, we have 
+    \begin{align*}
+      \sigma (b) &= \sum_{\tau \in G} \sigma (f_{\tau}) \sigma \tau (a) = \sum_{\tau \in G} f_\tau ^{-1} \cdot f_{\sigma \tau} (\sigma \tau) (a)\\
+      &= f_{\sigma} ^{-1} \sum_{\sigma \in G} f_{\sigma \tau} (\sigma \tau) (a) = f_{\sigma} ^{-1} \sum_{\mu \in G} f_{\mu} \cdot \mu (a) = f_{\sigma} ^{-1} \cdot b,
+    \end{align*}
+    so $f_\sigma = \quot{b}{\sigma (b)} = \quot{\sigma (b^{-1})}{b^{-1}}$ and $g = b^{-1}$ works. \qedhere
+  \end{enumerate}
+\end{myproof}
+
+Elements of $Z^2$ are functions $a: G \times G \to K^{-1}$ such that $\delta_2 (a) = 1$.
+Note that this is equivalent to 
+$$1 = \delta_2 (\rho, \sigma, \tau) = \rho (a (\sigma, \tau)) a(\rho \sigma, \tau)^{-1} a(\rho, \sigma \tau) a(\rho, \sigma)^{-1},$$
+which is precisely the factor set (also: cocycle) condition \eqref{eq:factor}.
+Therefore, $2$-cocycles of $C^2 (G, K^{-1})$ are just the factor sets relative to $K$.
+Likewise, $B^2$ are functions which are in the image of $\delta_1$, so they are in the form $\delta_1 (f)$ for some $f: G \to K^{-1}$:
+$$\delta_1 (f) (\sigma, \tau) = \sigma (f(\tau)) f (\sigma \tau)^{-1} f(\tau) = \sigma (f_{\tau}) f_{\sigma \tau}^{-1} f_{\sigma}.$$
+Two cocycles give rise to the same element in $H^2 (G, K^{-1})$ precisely when they differ by a coboundary.
+Hence $H^2 (G, K^{-1})$ consists of all factor sets modulo the equivalence realtion in $Z^2$, which is 
+$$b_{\sigma, \tau} = \frac{\sigma (f_{\tau}) f_\sigma}{f_{\sigma \tau}} a_{\sigma, \tau}$$
+for some $f$. By one of the previous theorems, there exists a bijective map 
+$$\psi: H^2 (G, K^{-1}) \to \brauer (\quot{K}{k}),\quad a \mapsto [(K, G, a)].$$
+\begin{lemma}
+  As stated abobe, $\psi$ is a group homomorphism. That is, if $\quot{K}{k}$ is Galois with the group $G$ and $a, b$
+  are factor sets, then $$[(K, G, a)] [(K, G, b)] = [K, G, ab]$$ in $\brauer (\quot{K}{k})$.
+\end{lemma}
+
+\begin{myproof}
+  Let $A = (K, G, a)$, $B = (K, G, B)$ and $C = (K, G, ab)$.
+  We need to show that $A \otimes_k B \sim C$.
+  We shall find a module on which both $A \otimes_k B$ and $C$ act (on different sides).
+  Define a left $K$-module $M := A^{\op} \otimes_K B$. Then $M$ is a right $A \otimes_k B$ module with multiplication 
+  $$(a' \otimes_K b') \cdot (a \otimes_k b) = (a' a \otimes_k b' b).$$
+  But $M$ is also a left $C$ module: indeed, if $(u_\sigma)$, $(v_\sigma)$ and $(w_\sigma)$ are bases of $A$, $B$ and $C$ respectively,
+  then we can define an action 
+  $$(x w_\sigma) (a \otimes_K b) = (x u_{\sigma} a \otimes_K v_\sigma b).$$
+  This action makes $M$ into a left $C$-module. We just verify associativity: 
+  take any $x, x' \in K$, $\sigma, \tau \in G$, $a \in A$ and $b \in B$.
+  Then 
+  \begin{align*}
+    ((x w_{\sigma}) (x' w_{\tau})) (a \otimes_K b) &= (x \sigma(x') a_{\sigma, \tau} b_{\sigma, \tau} w_{\sigma \tau}) (a \otimes_K b)\\
+    &= (x \sigma(x') a_{\sigma, \tau} b_{\sigma, \tau} u_{\sigma \tau} a \otimes_K v_{\sigma \tau} b)\\
+    &= (x \sigma(x') a_{\sigma, \tau} u_{\sigma \tau} a \otimes_K b_{\sigma, \tau} v_{\sigma, \tau} b)\\
+    &= (x \sigma(x') u_{\sigma} u_{\tau} a \otimes_K v_{\sigma} v_{\tau} b)\\
+    &= (x u_{\sigma} x' u_{\tau} a \otimes_K v_{\sigma} v_{\tau} b)\\
+    &= (x w_{\sigma}) \cdot (x' u_{\tau} a \otimes_K v_{\tau} b)\\
+    &= (x w_{\sigma}) ((x' w_{\tau}) (a \otimes_K b)).
+  \end{align*}
+  Therefore, $M$ is a $C$-$A \otimes_k B$ bimodule. Define a $k$-algebra isomorphism 
+  $$\Phi: (A \otimes_k B)^{\op} \to \en_C (M),\quad (a \otimes_k b) \to (m \to m \cdot (a \otimes_k b)).$$
+  Since $A \otimes_k B$ is a csa, so is $(A \otimes_k B)^{\op}$, hence $\Phi$ is injective. Now we have to show that it is onto.
+  Denote $$n = |G| = [A:K] = [B:K] = [C:K].$$
+  Then $[M : K] = n^2$ and $[M : k] = n^3 = n [C : k]$.
+  Modules over a simple algebra are determined by the dimension over the base field: if $C \cong M_l (D)$
+  for some $l$ and some division algebra $D$ over $k$, then every $C$-module $M$ is of the form $D^{ls}$.
+  Therefore, 
+  $$\frac{[M : k]}{[C: k]} = \frac{[D: k] s}{[D : k]l^2} = n,$$
+  so $M \cong D^{n l^2} \cong C^n$ as a $C$-module.
+  Now $$\en_C (M) \cong \en_C (C^n) \cong M_n (\en_C (C)) \cong M_n (C^{\op}) \cong C^{\op} \otimes_k M_n (k).$$
+  In the end,
+  $$\dim_k \en_C (M) = n^2 \dim_k C = n^4 = \dim_k A \cdot \dim_k B = \dim_k (A \otimes_k B),$$
+  so $\Phi$ is an isomorphism. As a result $$(A \otimes_k B)^{\op} \cong C^{\op} \otimes_k M_n (k),$$
+  which implies $(A \otimes_k B)^{\op} \sim C^{\op}$ and finally $(A \otimes_k B) \sim C$.
+\end{myproof}
+
+Everything proved so far culminates in the following statement.
+
+\begin{theorem}
+  For a Galois extension $\quot{K}{k}$, $\brauer (\quot{K}{k}) \cong H^2 (\gal{\quot{K}{k}}, K^{-1})$.
+\end{theorem}
+
+\subsection{The Brauer group is torsion}
+
+\begin{theorem}
+  If $G$ is a finite group, then $|G| \cdot H^2 (G, M) = 0$.
+\end{theorem}
+
+\begin{myproof}
+  Let $f \in Z^2$, so $\delta_2 f = 0$. We have 
+  $$(\delta_2 f) (g_1, g_2, g_3) = g_1 f(g_2, g_3) - f(g_1 g_2, g_3) + f(g_1, g_2 g_3) - f(g_1, g_2) = 0.$$
+  Rearrange to get 
+  $$f(g_1, g_2) = g_1 f(g_2, g_3) - f(g_1 g_2, g_3) + f(g_1, g_2 g_3).$$
+  Summing over all $g_3 \in G$ and setting $h(g_2) := \sum_{g_3 \in G} f(g_2, g_3)$, we get 
+  \begin{align*}
+    |G| \cdot f(g_1, g_2) &= \sum_{g_3 \in G} g_1 f(g_2, g_3) - f(g_1 g_2, g_3) + f(g_1, g_2 g_3)\\
+    &= g_1 \cdot h(g_2) - h(g_1 g_2) + h(g_1) \\
+    &= (\delta_1 h) (g_1, g_2) \in B^2.
+  \end{align*}
+  So $|G| Z^2 \subseteq B^2$, which directly implies $|G| H^2 (G, M) = |G| \frac{Z^2}{B^2} = 0.$
+\end{myproof}
+
+\begin{remark}
+  Similarly, $|G| \cdot H^n (G, M)$.
+\end{remark}
+
+\begin{corollary}
+  For any field $k$, $\brauer (k)$ is a torsion abelian group.
+\end{corollary}
+
+\begin{myproof}
+  We know that $\brauer (k) = \bigcup_{\textrm{$\quot{K}{k}$ Galois}} \brauer (\quot{K}{k})$.
+  But $$\brauer(\quot{K}{k}) \cong H^2 (\gal {\quot{K}{k}}, K^{-1})$$
+  and $H^2 (\gal {\quot{K}{k}}, K^{-1})$ is annihilated by $|G| = [K: k]$.
+\end{myproof}
+
+As a result, if $A$ is a csa over $k$, then there exists a $r \in \N$
+such that $$\underbrace{A \otimes \dots \otimes A}_{r} \cong M_s (k)$$ for some $s \in \N$.
+
+\subsection{Primary decomposition for division algebras}
+
+Let $D$ be a finite-dimensional central division algebra over $k$. 
+Then $[D]$ has finite order in $\brauer (k)$, say $\ord ([D]) = p_1 ^{\alpha_1} \dots p_r ^{\alpha_r}$
+for distinct primes $p_j$ and $\alpha_j \in \N$.
+We will show that $D$ decomposes as a tensor product of central division algebras $D_j$
+with $\ord([D]) = p_j^{\alpha_j}$.
+
+Let $K$ be a splitting field for $D$: $D_K = D \otimes_k K \cong M_n (K)$ for some $n\in \N$.
+The degree of $D$ is $\deg D = \sqrt{[D: k]} = n$:
+indeed, $$[D_K : k] = [D: K] \cdot [K: k] = n^2 [K: k].$$
+If $A$ is a central simple algebra over $k$, then $A \cong M_m (D)$
+for a unique central division algebra $D$.
+The index of $A$ (denoted as $\ind (A)$) is defined to be the degree of $D$.
+The exponent of $A$ (denoted as $\exp (A)$) is the order of $[A]$ in $\brauer (k)$.
+This is the smallest $r \in \N$ such that $A^{\otimes r} \cong M_s(k)$
+for some $s \in \N$. 
+
+\begin{proposition}
+  $[A]^{\ind(A)} = 1$ in $\brauer (k)$, that is to say that $\exp (A) \ |\ \ind (A)$.
+\end{proposition}
+
+\begin{myproof}
+  Let $[A] = [(K, G, a)]$ for some finite Galois extension $\quot{K}{k}$,
+  where $G = \gal{\quot{K}{k}}$ and $a \in Z^2 (G, K^{-1})$.
+  WLOG we can take $A$ to be a unique representative csa over $k$ such that $K$ is its centralizing subfield
+  and then $A = (K, G, a)$.
+  Assume $A \cong M_r (D)$ for some central division algebra $D$ over $k$
+  where $[D : k] = m^2$ and $m = \ind (A)$.
+  Assume $[A : k] = n^2 = r^2 m^2$. By an earlier lemma,
+  $$[A]^m = [(K, G, a)]^m = [(K, G, a^m)].$$
+  Lastly, it suffices to show $a^m \in B^2$.
+  Let $V = (D^{\op})^r$. This is a left $\en_{D^{\op}} (V)$-module 
+  by $\phi \cdot v = \phi (v)$ for $v \in V$ and $\phi \in \en_{D^{\op}} (V)$
+  and $V$ is also a left $A$-module. Since $K \subseteq A$, $V$ is a $K$-vector space.
+  But since 
+  \begin{align*}
+    r \cdot m^2 &= [V : D^{\op}] [D^{\op} : k]\\
+    &= [V : k] = [V: K] [K : k]\\
+    &= [V : K]n = [V : K] rm,
+  \end{align*}
+  we have $[V : K] = m$. Fix a basis $(v_1, \dots, v_m)$ for $V$ over $K$.
+  For any $c \in A$, we have $c v_i = \sum_{j = 1} ^m c_{ij} v_j$ for some $c_{ij} \in K$.
+  Written in matrix form:
+  $$c \cdot \begin{pmatrix}
+    v_1\\ \vdots\\ v_m
+  \end{pmatrix} = [c_{ij}] \cdot \underbrace{\begin{pmatrix}
+    v_1\\ \vdots\\ v_m
+  \end{pmatrix}}_{v}.$$
+  Take the distinguished basis $(x_\sigma)_{\sigma \in G}$ for $A = (K, G, a)$ over $K$.
+  The above construction associates a matrix $X_{\sigma} \in M_m (K)$ to each $x_{\sigma}$.
+  Notice that 
+  $$\underbrace{x_{\sigma} (x_{\tau} \cdot v)}_{\textrm{module multiplication}} = x_{\sigma} X_{\tau} v = \sigma (X_{\tau}) X_{\sigma} v$$
+  and
+  $$(x_{\sigma} x_{\tau}) \cdot v = a_{\sigma \tau} x_{\sigma \tau} v = a_{\sigma \tau} X_{\sigma \tau} v.$$
+  This directly gives us 
+  $$a_{\sigma, \tau} X_{\sigma\tau} = \sigma (X_{\tau}) \det (X_{\sigma}).$$
+  Taking the determinant of both sides (all matrices are invertible), we get 
+  $$a_{\sigma, \tau} ^m \det (X_{\sigma, \tau}) = \sigma (\det X_{\tau}) \det (X_{\sigma})$$
+  and 
+  $$a_{\sigma, \tau} ^m  = \frac{\sigma (\det X_{\tau}) \det (X_{\sigma})}{\det (X_{\sigma, \tau})} \in B^2$$
+  and we are done.
+\end{myproof}
+
+\begin{proposition}
+  Every prime divisor of the $\ind(A)$ divides $\exp (A)$.
+\end{proposition}
+
+\begin{myproof}
+  Let $(K, G, a) \cong M_n (D)$ be a crossed product algebra with 
+  $$[A] = [(K, G, a)] = [M_n (D)] = [D],$$
+  where $D$ is a central division algebra. Let $d = \ind (A) = \deg (D)$
+  and $p$ be a prime divisor of $d$. First we notice that 
+  $$|G|^2 = [(K, G, a) : k] = n^2 \cdot d^2,$$
+  which implies $|G| = n \cdot d$ and $p\ |\ |G|$.
+  Let $G_p$ be the $p$-Sylow subgroup of $G$ and $K_p := K^{G_p} \subseteq K$. 
+  By the fundamental theorem of Galois theory, 
+  $$[K: K_p] = |G_p| = p^r$$ for some $r \in \N$.
+  Since $G_p$ is $p$-Sylow, $p$ does not divide $[K_p: k]$.
+  If the field $K_p$ split $A$, then it would split $D$.
+  But by corollary \ref{cor:1} we'd have $\deg D \ |\ [K_p : k]$.
+  Since $p$ divides $\deg D$ but not $[K_p : k]$, we arrive at a contradiction,
+  so $K_p$ cannot split $A$. In particular, $\exp (A_{K_p}) \neq 1$.
+  But now notice that
+  $$A \otimes_k K = (A \otimes_k K_p) \otimes_{K_p} K = A_{K_p} \otimes K,$$
+  which means that $K$ splits $A_{K_p}$. Again using corollary \ref{cor:1}, this means that 
+  the degree of its associated division ring (this is exactly $\ind (A_{K_p})$) divides $[K : K_p] = p^r$.
+  By previous proposition, $\exp (A_{K_p})$ divides $\ind (A_{K_p})$ and therefore also divides $p^r$.
+  But $\exp (A_{K_p}) \neq 1$, as we have already argued, so $p \ |\ \exp(A_{K_p})$.
+  Since $$\brauer(k) \to \brauer(K_p),\quad [S] \mapsto [S_{K_p}]$$
+  is a group homomorphism, $p\ |\ \exp(A_{K_p})\ |\ \exp (A)$ and we're done.
+\end{myproof}
+
+\begin{proposition}
+  Suppose $D_1, D_2$ are central division algebras with coprime degrees.
+  Then $D_1 \otimes D_2$ is a division algebra.
+\end{proposition}
+
+\begin{myproof}
+  By Wedderburn theory, $D_1 \otimes D_2 \cong M_n (D)$ for some $n \in \N$ and division algebra $D$.
+  The identity $D_1 ^{\op} \otimes D_1 \cong M_n (k)$ implies 
+  $$n^2 [M_n (k) : k] = [D_1 ^{\op} \otimes D_1 : k] = [D_1 : k]^2,$$
+  which gives us $n = [D_1 : k]$. Consider the following calculation:
+  \begin{align*}
+    M_n (D_2) &\cong M_n (k) \otimes D_2 \cong D_1 ^{\op} \otimes D_1 \otimes D_2\\
+    &\cong D_1 ^{\op} \otimes M_m (D) \cong M_m (D_1 ^{\op} \otimes D)\\
+    &\cong M_m (M_r (D')) \cong M_{mr}
+  \end{align*}
+  for some $r \in \N$ and a division algebra $D'$.
+  By uniqueness (Wedderburn), we get $mr = n$ and $D' = D_2$, so $n \ |\ [D_1 : k]$.
+  By symmetry, $m\ |\ [D_2 : k]$. But since $D_1$ and $D_2$ are of coprime degree, we have $m = 1$
+  and $D_1 \otimes D_2 \cong D$ is a division algebra.
+\end{myproof}
+
+\begin{theorem}
+  Let $D$ be a finite-dimensional central division algebra over $k$ 
+  and $\deg (D) = p_1^{n_1} \cdots p_r ^{n_r}$, where $p_j$ are distinct primes, $n_j \in \N$.
+  Then there exists a unique decomposition (up to isomorphism)
+  $$D = D_1 \otimes D_2 \otimes \dots \otimes D_r,$$
+  where $D_j$ are central division algebras with $\deg (D_j) = p_j ^{n_j}$.
+\end{theorem}
+
+\begin{myproof}
+  It's enough to show that if $\deg D = n_1 \cdot n_2$ and $n_1, n_2$ are coprime,
+  then $D \cong D_1 \otimes D_2$ with $\deg(D_1) = n_1$ and $\deg (D_2) = n_2$.
+  There exist $u, v \in \Z$ such that $u n_1 + u n_2 = 1$. 
+  Let $D_1$ be the unique central simple algebra with $[D_1] = [D]^{v n_2}$.
+  Likewise, $[D_2] = [D]^{un_1}$. We have 
+  $$[D_1 \otimes D_2] = [D]^{un_1 + v n_2} = [D].$$
+  This gives us 
+  $$[D_1]^{n_1} = [D]^{vn_2 n_1} = [D]^{nv} = [k],$$
+  so $\exp (D_1) \ |\ n_1$. By symmetry, $\exp(D_2)\ |\ n_2$.
+  From one of the above propositions, $\exp (D_i)$ and $\ind (D_i) = \deg (D_i)$
+  have the same prime factors. As $\gcd (n_1, n_2) = 1$, we get $\gcd(\deg D_1, \deg D_2) = 1$.
+  So $D_1 \otimes D_2$ is a division algebra and since $[D_1][D_2] = [D]^{un_1 + vn_2} = [D]$,
+  we get $D_1 \otimes D_2 \cong D$ and $\deg (D_j) = n_j$. Uniqueness is obviious. 
+\end{myproof}
+
+\subsection{Miscellaneous and open problems}
+
+\begin{theorem}[Merkurjev-Suslin]
+  If $\chara k = 0$ and $k$ contains all roots of unity, then $\brauer (k)$ is generated by cyclic algebras.
+\end{theorem}
+
+For $\deg A = 2$ and $\deg A = 3$, every division algebra $A$ is cyclic.
+But for $\deg A = 4$, there exist non-cyclic division algebras. The following statement used to be an open problem:
+for a prime $p \geq 5$, construct a noncyclic division algebra of degree $p$.
+It has been shown that such division algebras do in fact exist. Another question we could ask ourself is whether 
+all central division algebras of prime exponents are crossed algebras. So far, this problem has not yet been solved.
+Another open problem is whether every division algebra is split by an abelian field extension (i.e. $\gal{\quot{K}{k}}$ is abelian).
+Finally, another topic of interest is whether for field $h$ we can bound $\ind(A)$ in terms of $\exp (A)$.
+
+We now turn our attention to a generic/universal division algebra.
+Let $F$ be an infinite field and $n, r \in \N$, where $r \geq 2$.
+Define a polynomial ring 
+$$S := F[x_{ijk}\ |\ 1 \leq i, j \leq n,\ 1 \leq k \leq r]$$
+and a matrix ring $M_n (S)$. We define a generic $n \times n$ matrix $X_k = [x_{ijk}]_{1 \leq i, j \leq n}$.
+
+Let $GM_n (F, r)$ be an $F$-subalgebra of $M_n (S)$ generated by $X_1, \dots, X_r$.
+We call this the ring of $r$ generic $n \times n$ matrices.
+We have the following universal property: let $A$ be a csa over $L$, where $\quot{L}{F}$ is a field extension.
+Pick $a_1, \dots, a_r \in A$. Then there exists a $F$-algebra homomorphism 
+$GM_n (F, r) \to A$ such that $X_j \mapsto a_j,\ \forall j$.
+
+\begin{theorem}
+  $GM_n (F, r)$ is a domain (i.e. it has no zero divisors).
+\end{theorem}
+
+We denote $C: = C(F, n, r)$ as the center of $GM_n (F, r)$.
+
+\begin{proposition}
+  $I \lhd GM_n$ implies $I \cap C = (0)$.
+\end{proposition}
+
+Let $Z$ be the quotient field of $C$. Then we define universal division algebra as 
+$$UD_n (F, r) := \frac{GM_n (F, r)}{C \setminus \{0\}},$$
+so its elements are fractions with elements of $C$ in denominator.
+
+\begin{theorem}
+  $UD_n (F, r)$ is a division algebra of degree $n$ over its center $Z$.
+\end{theorem}
+
+\begin{theorem}[Anitsur]
+  If $p ^3\ |\ n$ and $p \neq \chara F$, then $UD_n (F, r)$ is not a crossed product algebra.
+\end{theorem}
+
+The group of invertible matrices $GL_n (F)$ has center $F^{-1} \cdot I_n$.
+Define $$PGL_n (F) := \quot{GL_n (F)}{F^{-1}}.$$
+Notice that $PGL_n (F)$ acts on $S = F[x_{ijk}]$; by picking $A \in GL_n (F)$
+$$\phi_A : S \to S,\quad x_{ijk} \mapsto (A^{-1} X_k A)_{ij}.$$
+But $PGL_n (F)$ also acts on $M_n (S)$; for $B \in GL_n (F)$, we have 
+$$\psi_B M_n (S) \to M_n (S),\quad Y \mapsto B (M_n (\psi_B) (Y)) B^{-1},$$
+which means that $\psi_B$ is applied elementwise to $Y$.
+Every generic matrix $X_k$ is invariant under this action, which implies $GM_n (F, r) \subseteq M_n (S)^{PGL_n (F)}$.
+Now if we define $K := F(x_{ijk})$ as the quotient field of $S$, we have the following.
+
+\begin{theorem}
+  $UD_n (F, r) = M_n (K)^{PGL_n (F)}$ and $Z = K^{PGL_n (F)}$.
+\end{theorem}
+
+\section{Local rings, idempotents and decompositions}
+
+\begin{definition}
+  \begin{itemize}
+    \item $R$ is a local ring if $\quot{R}{\rad R}$ is a division ring.
+    \item $R$ is a semilocal ring if $\quot{R}{\rad R}$ is semisimple.
+    \item An element $e \in R$ is an idempotent if $e^2 = e$. 
+  \end{itemize}
+\end{definition}
+
+\begin{example}
+  Left-artinian rings are semilocal.
+\end{example}
+
+\subsection{Semilocal rings}
+
+\begin{theorem}
+  For a ring $R$, the following is equivalent:
+  \begin{enumerate}
+    \item $R$ has a unique maximal left ideal.
+    \item $R$ has a unique maximal right ideal.
+    \item $\quot{R}{\rad R}$ is a division ring ($R$ is local).
+    \item ${R} \setminus {R^{-1}} \lhd R$.
+    \item ${R} \setminus{R^{-1}}$ is a group. 
+    \item If for some $a, b \in R$, we have $a + b \in R^{-1}$, then $a \in R^{-1}$ or $b \in R^{-1}$.
+    \item If for some $a_1, \dots, a_n \in R$ we have $a_1 + \dots + a_n \in R^{-1}$, then there exists an index $i$ such that $a_i \in R^{-1}$.
+  \end{enumerate}
+\end{theorem}
+
+\begin{myproof}
+    First, we tackle $(3) \Rightarrow (1),(2)$. By the basic properties of ideals, there is a bijective correspondence between 
+    left/right ideals in $\quot{R}{\rad R}$ and left/right ideals in $R$ that contain $\rad R$.
+    Since $\quot{R}{\rad R}$ is a division ring, any maximal left/right ideal $M$ in $R$ that contains $\rad R$ must be equal to $\rad R$.
+    Next, $(1) \Rightarrow (3)$. The ring $\quot{R}{\rad R}$ has only two left ideals: $(0)$ and $\quot{R}{\rad R}$.
+    In particular, every nonzero element in $\quot{R}{\rad R}$ has a left inverse, so for $x \in \quot{R}{\rad R}$ there exists an $x'$
+    such that $x' x$. Now let $y$ be a left inverse of $x x'$. Then 
+    $$1 \cdot x x' = (y xx') \cdot xx' = y \cdot (xx') = 1,$$ so $x'$ is a right inverse of $x$ as well.
+    The implication $(2) \Rightarrow (3)$ is the same as the above.
+    For $(3) \Rightarrow (4)$, recall that $a \in R$ is left/right invertible iff $\overline{a} = a + \rad R \in \quot{R}{\rad R}$ is left/right invertible.
+    Since the image of any element $R \setminus \rad R$ is invertible in $\quot{R}{\rad R}$, we have $R \setminus R^{-1} = \rad R \lhd R$.
+    The implications $(4) \Rightarrow (5)$, $(5) \Rightarrow (6)$ and $(6) \Leftrightarrow (7)$ are obvious.
+    For $(6) \Rightarrow (3)$, let $a \in \quot{R}{\rad R}$. Then there exists a maximal left ideal $M$ of $R$
+    such that $a \notin M$. By maximality of $M$, $M + Ra = R$. In particular, there exists a $m \in M$ and $b \in R$ such that $m + ba = 1$.
+    Then $ba \in R^{-1}$, so $a$ is left invertible and $a + \rad R \in \quot{R}{\rad R}$ is left invertible.
+    By the similar argument, $a + \rad R$ is right invertible, so it is invertible. Therefore, $\quot{R}{\rad R}$ is a division ring.
+\end{myproof}
+
+\begin{proposition}
+  Let $R$ be a local ring.
+  \begin{enumerate}
+    \item $R$ has a unique maximal ideal.
+    \item $R$ has no nontrivial idempotents.
+    \item $R$ is Dedekind-finite.
+  \end{enumerate}
+\end{proposition}
+
+\begin{remark}
+  The converse to $(1)$ is not true: $M_n (k)$ has a unique maximal ideal $(0)$,
+  but is not a local ring.
+\end{remark}
+
+\begin{myproof}
+  \begin{enumerate}
+    \item The unique maximal ideal is of course $\rad R$.
+    \item Suppose $e \in R$ is an idempotent. Then $1 - e$ is also an idempotent,
+    so by the previous theorem we have $e \in R^{-1}$ or $1 - e \in R^{-1}$.
+    But $e (1 - e) = 0$, so either $e = 1$ or $e = 0$.
+    \item If $ab = 1$, then $(ba)^2 = b(ab)a = ba$ is an idempotent, so either $ba = 0$ or $ba = 1$.
+    It it were the former, then $0 = b(ab) = b$, so it has to be the latter.\qedhere
+  \end{enumerate}
+\end{myproof}
+
+\begin{proposition}
+  \begin{enumerate}
+    \item If each $a \in {R} \setminus {R^{-1}}$ is nilpotent, then $R$ is local.
+    \item Suppose $R$ is a subring of a division ring $D$.
+    If for each $d \in D$ we have $d \in R$ or $d^{-1} \in R$ ($R$ is a valuation ring in $D$), then $R$ is local.
+  \end{enumerate}
+\end{proposition}
+
+\begin{myproof}
+  \begin{enumerate}
+    \item We prove that $R \setminus R^{-1} \subseteq \rad R$. Let $a \notin R^{-1}$ and $k \in \N$ be the smallest exponent such that $a^k = 0$.
+    WLOG $a \neq 0$. Notice that $Ra \subseteq R \setminus R^{-1}$, otherwise there would exist $b \in R$ such that $ba \in R^{-1}$ and $ba \cdot a^{k - 1} = 0$ would imply 
+    $a^{k - 1} = 0$, which is a contradiction. This means that $Ra \leq {}_R R$ and all its elements are nilpotent, so $Ra$ is nil and so $Ra \subseteq \rad R$.
+    This implies that $a \in \rad R$, so $R \setminus R^{-1} \subseteq \rad R$, but of course the inclusion also goes the other way around.
+    Therefore $R \setminus R^{-1} = \rad R \lhd R$.
+    \item Let $a, b \in R$ such that $a + b \in R^{-1}$: WLOG $a + b = 1$.
+    Let $c := a^{-1}b \in D$. If $c \in R$, then 
+    $$a^{-1} = a^{-1} \cdot 1 = a^{-1} (a + b) = 1 + a^{-1} b = 1 + c \in R.$$
+    But if $c^{-1} \in R$, then
+    \begin{equation*}
+      b^{-1} = b^{-1} \cdot 1 = b^{-1} (a + b) = b^{-1}a + 1 = c^{-1} + 1 \in R. \qedhere   
+    \end{equation*}
+  \end{enumerate}
+\end{myproof}
+
+\begin{example}
+    Every division ring is a local ring.
+\end{example}    
+
+\begin{example}
+  If $R$ is local, then $R[[X]] = A$ (a power series ring) is local.  
+  Recall that if $a = \sum_{i = 0} ^\infty a_i x^i$ is invertible in $A$ iff $a_0 \in R^{-1}$.
+  Hence $$\rad A = \{\sum_0 ^\infty a_i x^i\ |\ a_0 \in \rad R\}$$
+  and $$\quot{R}{\rad R} = \quot{A}{\rad A}$$ is a division ring.
+  Moreover, if $\sigma \in \aut (R)$, then $R[[x, \sigma]]$ is local, too.
+\end{example}
+  
+\begin{example}
+  Let $D$ be a division ring and $R$ a ring of upper triangular $n \times n$ matrices with elements in $D$.
+  Then $\rad R$ is a set of all strictly upper triangular matrices and $$\quot{R}{\rad R} = \underbrace{D \oplus \dots \oplus D}_{n}.$$
+  Let $A$ be the subring of $R$ containing elements of the form 
+  $$\begin{pmatrix}
+    a & * & *\\
+     & \ddots & *\\
+     & & a
+  \end{pmatrix},$$
+  where $a \in D$. Then $\rad R \subseteq A$ and $\quot{A}{\rad R} \cong D$, so $A$ is local.
+\end{example}
+
+\subsection{Intermezzo: commutative local rings: localization and fractions}
+
+In this subsection, all rings are considered commutative.
+
+\begin{definition}
+  \begin{itemize}
+    \item A set $A \subseteq R$ is multiplicative if $1 \in S$ and $\forall a, b \in S:\ ab \in S$.
+    \item Let $S \subseteq R$ be multiplicative. Define an equivalence relation on $R \times S$ by 
+    $$(a, s) \sim (a', s') \Leftrightarrow \exists u \in S:\ u \cdot (as' - a's) = 0.$$
+    Denote $\frac{a}{s} = [(a, s)]_{\sim}$. Then 
+    $$S^{-1} R := \left\lbrace \quot{a}{s}\ |\ a \in R, s \in S\right\rbrace$$
+    is a localization of $R$ at $S$. This is a ring via operations 
+    $$\frac{a}{s} + \frac{a'}{s'} = \frac{as' + a' s}{as'},\quad \frac{a}{s} \cdot \frac{a'}{s'} = \frac{aa'}{ss'}.$$
+  \end{itemize}
+\end{definition}
+
+\begin{remark}
+  \begin{itemize}
+    \item We have a homomorphism $$\varphi: R \to S^{-1} R,\quad r \mapsto \frac{r}{1}.$$
+    If $S$ has no zero-divisors, then $\varphi$ is injective.
+    \item If $0 \in S$, then $S^{-1} R = (0)$.
+    \item If $R$ is an integral domain and $S = R \setminus \{0\}$, then $S^{-1} R$ is a quotient field of $R$.
+  \end{itemize}
+\end{remark}
+
+Localizations satisfy the following universal property: suppose $S \subseteq R$ is multiplicative
+and $\psi: R \to T$ is a ring homomorphism. If $\psi (s) \in T^{-1}$ for all $s \in S$,
+then there exists a unique homomorphism 
+$\widehat{\psi}: S^{-1} R \to T$ such that $\psi = \widehat{\psi} \circ \varphi$.
+\[\begin{tikzcd}
+	R & {S^{-1}R} \\
+	& T
+	\arrow["\psi"', from=1-1, to=2-2]
+	\arrow["\varphi", from=1-1, to=1-2]
+	\arrow["{\exists!\widehat{\psi}}", dashed, from=1-2, to=2-2]
+\end{tikzcd}\]
+
+\begin{example}
+  If $S = \{1\}$, then $S^{-1} R = R$.
+\end{example}
+
+\begin{example}
+  Let $P \lhd R$ be a prime proper ideal. Then $S := R \setminus P$ is multiplicative.
+  The ring $R_P := S^{-1} R$ is called a localization of $R$ at prime $P$.
+\end{example}
+
+\begin{example}
+  If we let $R = \Z$ and $S = \Z \setminus \{0\}$, then $S^{-1} \Z = \Q$.
+  Now if $p \in \Z$ is a prime and $S = \{p^n\ |\ n \in \N_0\}$, then 
+  $$S^{-1} \Z = \left\lbrace \frac{a}{p^n}\ |\ a \in \Z, n \in \N_0\right\rbrace \subseteq \Q.$$
+  Finally, if we take a prime ideal $(p) \lhd \Z$, we get 
+  $$\Z_{(p)} = \left\lbrace \frac{a}{b}\ |\ a \in \Z, b \in \Z \setminus \{0\}, \textrm{$p$ does not divide $b$}\right\rbrace \subseteq \Q$$
+  which is a valuation ring in $\Q$, therefore a local ring.
+\end{example}
+
+\begin{proposition}
+  Let $S \subseteq R$ be multiplicative and 
+  $$\varphi: R \to S^{-1} R,\quad r \mapsto \frac{r}{1}.$$
+  Then there exists a bijective correspondence between prime ideals of $S^{-1} R$ and prime ideals $P \lhd R$ such that $P \cap S = \emptyset$:
+  \begin{align*}
+    Q \mapsto \varphi^{-1} (Q)
+  \end{align*}
+  or inversely by $$P \mapsto \left\lbrace \frac{a}{s}\ |\ a \in P, s \in S\right\rbrace.$$
+\end{proposition}
+
+\begin{corollary}
+  Let $P \lhd R$ be prime. Then there exists a bijection between prime ideals of $R_P$ and 
+  prime ideals $Q \lhd P$ such that $Q \subseteq P$. In particular, $R_P$ has a unique maximal ideal, namely $P \cdot R_P$.
+  So $R_p$ is a local ring.
+\end{corollary}
+
+\begin{remark}
+  We can compare this to the correspondence between prime ideals of $\quot{R}{P}$ and prime ideals $Q \lhd R$ such that $Q \supseteq P$.
+\end{remark}
+
+\subsection{Indecomposable modules}
+
+\begin{definition}
+  $M \in {}_{R} \mo$ is indecomposable if it is not of the form $M = A \oplus B$ for some $(0) \neq A, B \lneqq M$.
+\end{definition}
+
+\begin{lemma}
+  A module $M$ is indecomposable iff $E:= \en (M)$ has no nontrivial idempotents.
+\end{lemma}
+
+\begin{myproof}
+  $(\Leftarrow)$ If $M$ is decomposable, $M = A \oplus B$ for some $(0) \neq A, B \lneqq M$.
+  The projection $e: M \to A \leq M$ is an element of $E = \en (M)$ and $e^2 = e$ is neither zero nor identity.
+  $(\Rightarrow)$ If $e \in E$ is a nontrivial idempotent, then $1 - e \in E$ is idempotent.
+  We can define $A:= eM$ and $B := (1 - e)M$ and we get $M = A \oplus B$.
+\end{myproof}
+
+\begin{definition}
+  We call $M \in {}_R \mo$ strongly indecomposable if $\en(M)$ is a local ring.
+\end{definition}
+
+\begin{example}
+  If $M$ is simple, then $\en(M)$ is a division ring by Schur's lemma, so $M$ is strongly indecomposable.
+\end{example}
+
+\begin{example}
+  Let $R = \Z$.
+  \begin{itemize}
+    \item If $M = \Z$, then $\en(M) \cong \Z$, so $M$ is indecomposable, but not strongly indecomposable.
+    \item For a prime $p$, let $M = \frac{\Z}{p^n \Z}$. Then $\en (M) = \frac{\Z}{p^n \Z}$ is a local ring, so it is strongly indecomposable.
+  \end{itemize}
+\end{example}
+
+\begin{definition}
+  A module $M \in {}_R \mo$ has finite length iff all of its chains of submodules 
+  $$(0) = \N_0 \lneqq N_1 \lneqq \dots \lneqq N_s = M$$ have bounded length.
+  The largest integer $s$ for which there is such a chain is called the length of $M$.
+\end{definition}
+
+\begin{proposition}
+  Let $M \in {}_R \mo$. The following statements are equivalent.
+  \begin{enumerate}
+    \item $M$ has finite length;
+    \item $M$ is noetherian and artinian;
+    \item $M$ has a composition series chain 
+    $$(0) = N_0 \lneqq N_1 \lneqq \dots \lneqq N_s = M$$
+    such that $\frac{N_{j + 1}}{N_j}$ (composition factors) are simple for all $j$;
+    \item $M$ is a direct sum of finitely many simple $R$-modules.
+  \end{enumerate}
+\end{proposition}
+
+\begin{remark}
+  By Jordan-Hölder, the composition factors are unique up to a permutation.
+\end{remark}
+
+\begin{lemma}[Fitting lemma]
+  Let $M \in {}_R \mo$ have finite length and let $f \in \en (M)$.
+  Then there exists $r \in \N$ such that for all $n \geq r$ we have $M = \ker f^n \oplus \im f^n$.
+\end{lemma}
+
+\begin{myproof}
+  Clearly, 
+  $$M \supseteq \im f \supseteq \im f^2 \supseteq \dots$$
+  and 
+  $$(0) \subseteq \ker f \subseteq \ker f^2 \subseteq \dots$$
+  Since $M$ is noetherian and artinian, both chains stabilize.
+  In particular, there exists $r \in \N$ such that 
+  $$\im f^r = \im f^{r + 1} = \im f^{r + 2} = \dots$$
+  and 
+  $$\ker f^r = \ker f^{r + 1} = \ker f^{r + 2} = \dots$$
+  We now prove that $M = \ker f^r \oplus \im f^r$. Suppose $a \in \ker f^r \cap \im f^r$.
+  Then there exists $b \in M$ such that $a = f^r(b)$, so $b \in \ker f^{2n} = \ker f^n$ and $a = 0$.
+  Let $c \in M$. Then there exists $d \in M$ such that $f^r (c) = f^{2r} (d)$.
+  Hence $f^r (c - f^r (d)) = 0$, so 
+  $$c = \underbrace{(c - f^r(d))}_{\in \ker f^r} \oplus \underbrace{f^r(d)}_{\in \im f^r}$$
+  and we're done.
+\end{myproof}
+
+\begin{theorem}
+  Suppose $M \in {}_R \mo$ is indecomposable and of finite length. Then $E := \en (M)$
+  is local and its maximal ideal $\rad E$ is nil. In particular, $E$ is strongly indecomposable.
+\end{theorem}
+
+\begin{myproof}
+  We prove that every $f \in E \setminus E^{-1}$ is nilpotent. By fitting, there exists $r \in \N$
+  such that $M = \ker f^r \oplus \im f^r$. By indecomposability of $M$, we either have $\ker f^r = (0)$ or $\im f^r = (0)$.
+  If it were the former, then $\im f^r = M$, which would imply that $f^r$ is both injective and surjective and therefore invertible, which is a contradiction.
+  So $\im f^r = (0)$ and $f$ is nilpotent.
+\end{myproof}
+
+\begin{corollary}
+  A right artinian ring is local iff it has no nontrivial idempotents.
+\end{corollary}
+
+\begin{myproof}
+  The right implication $(\Rightarrow)$ is obvious. Let us prove the other one $(\Leftarrow)$.
+  By Hopkins-Levitski (Pierre Antoine Grillet, theorem IX.6.4.), $M := R_R$ is of finite length.
+  Hence $E = \en (M) \cong R$ is without nontrivial idempotents, so $M$ is indecomposable.
+  Then $M$ is strongly indecomposable and $E = \en (M) = R$ is local.
+\end{myproof}
+
+\begin{proposition}
+  Suppose $M \in {}_R \mo$ is noetherian or artinian.
+  Then $M$ admits a Krull-Schmidt decomposition, so $M$ can be written as a finite direct sum 
+  of indecomposable submodules.
+\end{proposition}
+
+\begin{myproof}
+  We call $N \leq {}_R M$ tame if it admits a K-S decomposition and wild otherwise.
+  Firstly, $(0)$ is tame and so is any other indecomposable submodule. Furthermore,
+  if $N, N' \leq {}_R M$ are tame and $N \cap N' = (0)$, then $N + N'$ is tame. Assume 
+  $M$ is wild, so it is decomposable: $M = M_1 \oplus M_2$ and $M_1, M_2 \neq (0)$. WLOG $M_1$ is wild.
+  Then $M_1 = M_{11} \oplus M_{12}$ for $M_{11}, M_{12} \neq (0)$. Again, WLOG $M_{11}$ is wild.
+  Repeat this process to get two chains of submodules:
+  $$M \supsetneq M_1 \supsetneq M_{11} \supsetneq \dots$$
+  and $$(0) \subsetneq M_2 \subsetneq M_2 \oplus M_{12} \subsetneq M_2 \oplus M_{12} \oplus M_{112} \subsetneq \dots$$
+  So $M$ is neither artinian nor noetherian, leading to a contradiction. So $M$ is tame.
+\end{myproof}
+
+\begin{theorem}[Krull-Schmidt]
+  Suppose $M \in {}_R \mo$ is of finite length. If 
+  $$M = M_1 \oplus \dots \oplus M_r = N_1 \oplus \dots \oplus N_s$$
+  are two decompositions of $M$ into direct sums of indecomposables, then $r = s$ and there exists $\sigma \in S_r$ such that $M_i \cong N_{\sigma(i)}$.
+\end{theorem}
+
+\begin{myproof}
+  Let $\alpha_i: M \to M_i$ and $\beta_j : M \to N_j$ be projections, so $\alpha_i, \beta_j \in \en (M)$. Then 
+  $$\alpha_1 + \dots + \alpha_r = 1 = \beta_1 + \dots + \beta_s.$$
+  Then $$\alpha_1 = \alpha_1 \beta_1 + \dots + \alpha_1 \beta_s,$$
+  which implies $$\alpha_1\big|_{M_1} = \mathrm{id}_{M_1} = \sum_{j = 1} ^s \alpha_1 \beta_j\big|_{M_1} \in \en(M_1).$$
+  Since $M_1$ is indecomposable and of finite length, $\en (M_1)$ is local.
+  Hence there exists $j$ such that $\alpha_1 \beta_j\big|_{M_1}$ is invertible, WLOG $j = 1$.
+  Then $\beta_1 \big|_{M_1} : M_1 \to N_1$ is injective with left inverse.
+  The short exact sequence 
+  $$0 \to M_1 \xrightarrow[]{\beta_1} N_1 \to \quot{N_1}{M_1} \to 0$$
+  thus splits. In particular (by the short exact sequence lemma), $N_1 \cong M_1 \oplus \quot{N_1}{M_1}$.
+  By indecomposability of $N_1$, $N_1 \cong M_1$. We claim that $M = M_1 \oplus N_2 \oplus \dots \oplus N_s$.
+  Since $\beta_1 \big|_{M_1} : M_1 \to N_1$ is an isomorphism, so $$M_1 \cap \underbrace{\ker (\beta_1)}_{N_2 \oplus \dots \oplus N_s} = 0.$$
+  It then suffices to show that $N_1 \subseteq M_1 \oplus N_2 \oplus \dots \oplus N_s$.
+  Let $a \in N_1$. Then there exists $b \in M_1$ such that $\beta_1 (b) = a$.
+  Then $\beta_1 (a - b) = 0$. Hence $$a = b + (a - b) \in M_1 \oplus N_2 \oplus \dots \oplus N_s,$$
+  so by quotienting we get 
+  $$M_2 \oplus \dots \oplus M_r = \quot{M}{M_1} = N_1 \oplus \dots \oplus N_s$$
+  and induction does the rest. 
+\end{myproof}
+
+\begin{remark}
+  Krull-Schmidt theorem can fail if $M$ is only noetherian or only artinian.
+\end{remark}
+
+\subsection{Semilocal rings}
+
+\begin{proposition}
+  If $R$ has only finitely many maximal left ideals, then it is semilocal.
+\end{proposition}
+
+\begin{myproof}
+  WLOG $\rad R = (0)$. Let $M_1, \dots, M_r \leq {}_R R$ be all the maximal left ideals.
+  Consider $R$-module map 
+  $$\Phi: R \to \bigoplus_{i = 1} ^r \quot{R}{M_i},\quad x \mapsto (x + M_1, \dots, x + M_r),$$
+  then $\ker \Phi = \bigcap _{i = 1} ^r M_i = \rad R = (0)$.
+  By maximality, each $\quot{R}{M_i}$ is simple, so $\bigoplus_{i = 1} ^r \quot{R}{M_i}$ is semisimple.
+  Hence ${}_R R$ is (via $\Phi$) a submodule of this semisimple module, so semisimple. Thus $R$ is a semisimple ring.
+\end{myproof}
+
+\begin{remark}
+  The converse of this proposition holds if $\quot{R}{\rad R}$ is commutative.
+\end{remark}
+
+\begin{example}
+  \begin{enumerate}
+    \item Every (left) artinian ring is semilocal.
+    \item If $R$ is semilocal, then so is $M_n (R)$. Indeed, $\rad M_n (R) = M_n (\rad R)$, so 
+    $$\quot{M_n (R)}{\rad M_n (R)} = \quot{M_n (R)}{M_n (\rad R)} = M_n \left(\quot{R}{\rad R}\right).$$
+    \item A finite product of local rings is semilocal.
+  \end{enumerate}
+\end{example}
+
+\subsection{Idempotents}
+
+if $R$ is commutative and $e \in R$ is an idempotent, then $R \cong Re \times R(1 - e)$.
+If $e \neq 0, 1$, then such a ring $R$ is not indecomposable. The same holds true in the noncommutative setting if $e \in Z(R)$
+($e$ is a central idempotent).
+
+\begin{definition}
+  A ring $R$ is indecomposable if it cannot be written as a direct product of nontrivial rings.
+\end{definition}
+
+\begin{proposition}
+  $R$ is indecomposable iff $R$ does not have nontrivial central idempotent.
+\end{proposition}
+
+\begin{lemma}
+  Let $e \in R$ be an idempotent and $f := 1 - e$. Then $e$ is a central idempotent iff $eRf = fRe = (0)$.
+\end{lemma}
+
+\begin{myproof}
+  The implication $(\Rightarrow)$ is trivial: $erf = ref = 0$ and $fre = fer = 0$.
+  The reverse $(\Leftarrow)$ follows from 
+  $$erf = er(1 - e) = er - ere = 0$$
+  and \begin{equation*}
+    fre = (1 - e) re = re - ere = 0. \qedhere
+  \end{equation*}
+\end{myproof}
+
+Let $R$ be a ring, $e \in R$ idempotent and $f = 1 - e$.
+Then $R = Re \oplus Rf$ in ${}_R \mo$ and $R = eR \oplus fR$ in $\mo_R$.
+As abelian groups, we have $$R = eRe \oplus eRf \oplus fRe \oplus fRf,$$
+where $eRf$ and $fRe$ are abelian groups and 
+$$eRe = \{r \in R\ |\ er = r = re\},\quad fRf = \{ r \in R\ |\ fr = r = rf \}$$
+are corner rings.
+
+\begin{example}
+  Let $A$ be some ring and $R = M_n (A)$.
+  Let $$e = \begin{pmatrix}
+    I_k & 0\\
+    0 & 0_{n - k}
+  \end{pmatrix},\quad f = \begin{pmatrix}
+    0_k & 0\\
+    0 & I_{n - k}
+  \end{pmatrix}.$$
+  Then $$eRe = \underbrace{\begin{pmatrix}
+    * & 0\\
+    0 & 0
+  \end{pmatrix}}_{M_k (A)},\quad eRf = \begin{pmatrix}
+    0 & *\\
+    0 & 0
+  \end{pmatrix},\quad fRe = \begin{pmatrix}
+    0 & 0\\
+    * & 0
+  \end{pmatrix},\quad fRf = \underbrace{\begin{pmatrix}
+    0 & 0\\
+    0 & *
+  \end{pmatrix}}_{M_{n - k} (A)}.$$
+\end{example}
+
+\begin{proposition}
+  Suppose $e, e' \in R$ are idempotents and $M \in \mo _R$.
+  \begin{enumerate}
+    \item There exists an isomorphism of abelian groups $\ho (eR, M) \to Me$.
+    \item There exists an isomorphism of abelian groups $\ho (eR, e'R) \cong e' R e$.
+  \end{enumerate}
+\end{proposition}
+
+\begin{myproof}
+  \begin{enumerate}
+    \item Let $\theta: eR \to M$ be a homomorphism of right $R$-modules and $m := \theta (e) \in M$.
+    Then $$m \cdot e = \theta(e) \cdot e = \theta(e^2) = \theta(e) = m \in Me.$$
+    Define $$\lambda: \ho (eR, M) \to Me,\quad \theta \mapsto \theta(e).$$ This is a homomorphism of abelian groups.
+    First we show that $\lambda$ is injective. Since $\theta (er) = \theta(e) r$, $\theta$ is uniquely determined by $\theta(e)$.
+    Now surjectivity: take $m \in Me$ and set $\theta (er) := mr$. This $\theta$ is well defined; indeed, if 
+    $er = 0$, then $mr \in Mer = (0)$. Hence $\theta \in \ho (eR, M)$ and $\lambda(\theta) = \theta (e) = m$.
+    \item Apply the previous item to $M = e'R$.
+  \end{enumerate}
+\end{myproof}
+
+\begin{corollary}
+  For each idempotent $e \in R$, there is a canonical isomorphism of rings $\en(eR) \cong eRe$.
+\end{corollary}
+
+\begin{myproof}
+  Apply previous proposition (b) to get an isomorphism of abelian groups $\lambda: \en(eR) \to eRe$.
+  We only have to check that $\lambda$ is multiplicative: for $\theta, \theta' \in \en (eR)$, we get 
+  \begin{align*}
+    \lambda (\theta \theta') &= (\theta \theta') (e) = \theta (\underbrace{\theta'(e)}_{=: m \in eR})\\
+    &= \theta (m) = \theta (em)\\
+    &= \theta (e) \cdot m = \theta (e) \theta' (e)\\
+    &= \lambda(\theta) \lambda (\theta'). \qedhere
+  \end{align*}
+\end{myproof}
+
+\begin{definition}
+  Idempotents $\alpha, \beta \in R$ are orthogonal if $\alpha \beta = \beta \alpha = 0$.
+\end{definition}
+
+\begin{proposition}\label{prop:1}
+  For an element $0 \neq e \in R$. The following is equivalent:
+  \begin{enumerate}
+    \item $eR$ is an indecomposable right $R$-module;
+    \item $Re$ is an indecomposable left $R$-module;
+    \item $eRe$ has no nontrivial idempotents;
+    \item $e$ does not decompose as $e = \alpha + \beta$ for some nonzero orthogonal $\alpha, \beta \in R$. 
+  \end{enumerate}
+  Such an idempotent is called primitive.
+\end{proposition}
+
+\begin{myproof}
+  The points $(1)$ and $(2)$ are left-right symmetric, so it suffices to prove the equivalence of $(1)$, $(3)$ and $(4)$.
+  The equivalence $(1) \Leftrightarrow (3)$ is a direct consequence of the least corollary, since $\en (eR) \cong eRe$
+  is without nontrivial elements iff $eR$ is indecomposable. For $(4) \Rightarrow (3)$,
+  suppose that $\alpha \in eRe$ is a nontrivial idempotent. Then $\beta := e - \alpha$ is its complementary
+  idempotent in $eRe$, thus $\alpha \beta = \beta \alpha = 0$ and $e = \alpha + \beta$.
+  Lastly, we prove $(3) \Rightarrow (4)$. Let $e = \alpha + \beta$ for orthogonal idempotents $\alpha, \beta \neq 0$.
+  Then 
+  $$e\alpha = (\alpha + \beta) \alpha = \alpha^2 + \beta \alpha = \alpha$$
+  and $$\alpha e = \alpha (\alpha + \beta) = \alpha^2 + \alpha \beta = \alpha$$
+  imply that $\alpha \in eRe$ is a nontrivial idempotent.
+\end{myproof}
+
+\begin{corollary}
+  For an idempotent $0 \neq e \in R$, the following is equivalent:
+  \begin{enumerate}
+    \item $eR$ is a strongly indecomposable right $R$-module;
+    \item $Re$ is a strongly indecomposable left $R$-module;
+    \item $eRe$ is a local ring.
+  \end{enumerate}
+  Such an idempotent is called local.
+\end{corollary}
+
+\begin{remark}
+  Every local idempotent is primitive.
+\end{remark}
+
+\begin{myproof}
+  The module $eR$ is strongly indecomposible iff $\en (eR) \cong eRe$ is a local ring.
+  Equivalence between $(1)$ and $(2)$ is, again, due to symmetry.
+\end{myproof}\
+
+\begin{theorem}
+  Suppose $e \in R$ is an idempotent and $J := \rad R$. Then
+  \begin{enumerate}
+    \item $\rad (eRe) = J \cap eRe = eJe$;
+    \item $\quot{eRe}{\rad (eRe)}\cong \overline{e} \overline{R} \overline{e}$.
+  \end{enumerate}
+\end{theorem}
+
+\begin{myproof}
+  \begin{enumerate}
+    \item First, we prove that if $r \in \rad (eRe)$, then $r \in J$.
+    It suffices to show that $1 - yr$ has aleft inverse for an arbitrary $y \in R$.
+    From $r \in \rad (eRe)$ it follows that there exists $b \in eRe$ such that 
+    $b(e - eyer) = e$. But since $b, y \in eRe$, we have $b(1 - yr) = e$ and 
+    $$yrb (1 - yr) = yre = yr.$$
+    Adding $(1 - yr)$ to both sides, we get 
+    $$(yrb + 1)(1 - yr) = 1.$$ Next, if $r \in J \cap eRe$, then
+    $r = ere \in eJe$. Finally, we show that if $r \in eJe$, then $r \in \rad (eRe)$.
+    Take any $y \in eRe$. since $r \in eJe \subseteq J$, we have an $x \in R$ such that $x(1 - yr) = 1$.
+    Then $$e = ex(1 - yr)e = ex(e - yre) = exe (e - yr).$$
+    \item Define the map $$eRe \to \overline{e}\overline{R} \overline{e},\quad ere \mapsto \overline{e} \overline{r} \overline{e}.$$
+    This is a surjective ring homomorphism with kernel $\rad (eRe)$, which implies $\quot{eRe}{\rad (eRe)} \cong \overline{e}\overline{R}\overline{e}$.\qedhere
+  \end{enumerate}
+\end{myproof}
+
+\begin{theorem}
+  Let $e \in R$ be an idempotent.
+  \begin{enumerate}
+    \item If $I \subseteq eRe$ is a left ideal, then $RI \cap eRe = I$ and the map 
+    $$\{\textrm{left ideals in $eRe$}\} \to \{\textrm{left ideals in $R$}\},\quad I \mapsto R \cdot I$$
+    is injective.
+    \item If $I \lhd eRe$ is a left ideal, then $e(RIR)e = I$ and the map 
+    $$\{\textrm{ideals in $eRe$}\} \to \{\textrm{ideals in $R$}\},\quad I \mapsto R I R$$
+    is injective.
+    \item If $e$ satisfies $ReR$ (i.e. it is a full idempotent), then the map in (2) in onto.
+  \end{enumerate}
+\end{theorem}
+
+\begin{myproof}
+  \begin{enumerate}
+    \item Define $I_0 := RI \cap eRe \supseteq I$. Then 
+    $$I_0 \subseteq eI_0 \subseteq eRI = eReI = I$$ and $I = I_0$.
+    \item From $I \lhd eRe$ it follows that $$e(RIR)e = (eRe)I (eRe) = I.$$
+    \item Suppose $e$ is a full idempotent. Let $J \lhd R$ and set $I = eJe \lhd eRe$.
+    Then \begin{equation*}
+      RIR = R(eJe)R = (ReR) J (ReR) = RJR = J. \qedhere
+    \end{equation*}
+  \end{enumerate}
+\end{myproof}
+
+\begin{corollary}
+  Let $e \neq 0$ be an idempotent in $R$. If $R$ is $J$-semisimple, semisimple, left/right noetherian or left/right artinian, then so is $eRe$.
+\end{corollary}
+
+\begin{example}
+  Let $A$ be a ring, $R = M_n (A)$ and $e = E_{11}$ an idempotent.
+  It is easy to see that $ReR = R$, so $e$ is full. Furthermore, $eRe = A$.
+  As a result, all ideals of $R$ are of the form $RIR$, where $I \lhd A$.
+\end{example}
+
+\begin{remark}
+  \begin{enumerate}
+    \item $\mo_R$ and $\mo_{M_n (R)}$ are equivalent categories.
+    \item Suppose $e \in R$ is a full idempotent. Then $\mo_R$ and $\mo_{eRe}$ are equivalent categories.
+    \item If $\mo _R$ is equivalent to $\mo_S$, then $S = e M_n (R) e$ for some $n \in \N$ and a full idempotent $e \in M_n (R)$.
+  \end{enumerate}
+\end{remark}
+
+\begin{theorem}
+  Suppose $I \lhd R$ is nil and $a \in R$ is such that $\overline{a} = a + I \in \quot{R}{I}$ is idempotent.
+  Then there exists an idempotent $e \in aR$ such that $\overline{e} = \overline{a}$.
+\end{theorem}
+
+\begin{myproof}
+  Suppose $b := 1 - a$. Then $ab = ba = a - a^2 \in I$ since $\overline{a}$ is an idempotent.
+  Since $I$ is nil, there exists $m \in \N$ such that $(ab)^m = 0$.
+  Consider \begin{align*}
+    1 &= (a + b)^{2m} = \sum_{k = 0} ^{2m} \binom{2m}{k} a^k b^{2m - k}\\
+    &= \underbrace{a^{2m} + \binom{2m}{1} a^{2m - 1} b + \dots + \binom{2m}{m} a^m b^m}_e\\
+    &+ \underbrace{\binom{2m}{m - 1} a^{m - 1} b^{m + 1} + \dots + \binom{2m}{2m-1} a b^{2m-1} + b^{2m}}_f.
+  \end{align*}
+  Then $e \in aR$ and $ef = 0$ since $(ab)^m = 0$ and $a, b$ commute.
+  As a result,
+  $$e = e \cdot 1 = e (e + f) = e^2 + ef = e^2$$
+  is an idempotent. Finally,
+  \begin{equation*}
+    e \equiv a^{2m} \equiv a^{2m - 1} \equiv \dots \equiv a (\mod I).\qedhere
+  \end{equation*}
+\end{myproof}
+
+\subsection{Block decomposition}
+
+If $R = I \oplus J$ for ideals $I, J \lhd R$, then $1 = e + f \in I + J$
+and $e, f \in Z(R)$ are central idempotents. Then $I = eR$, $J = fR$ and $R \cong eR \times fR$ is decomposable.
+
+\begin{definition}
+  An element $c \in R$ is a centrally primitive idempotent if it is a central idempotent 
+  that cannot be written as a sum of two nonzero orthogonal central idempotents.
+\end{definition}
+
+If $c = \alpha + \beta \in Z(R)$ is an idempotent and $\alpha, \beta$ are orthogonal central idempotents,
+then $c \cdot \alpha = (\alpha + \beta) \alpha = \alpha^2 + \beta \alpha = \alpha$, so $\alpha, \beta \in cR$.
+
+\begin{proposition}
+  Suppose $1 \in R$ decomposes as $1 = c_1 + \dots + c_r$, where $c_j$ are orthogonal centrally primitive idempotents.
+  \begin{enumerate}
+    \item Every central idempotent $c \in R$ is of the form $c = \sum_{i \in I} c_i$ for some $I \subseteq \{1, 2, \dots, r\}$.
+    \item The elements $c_1, \dots, c_r$ are the only centrally primitive idempotents. In particular, any two centrally primitive idempotents are orthogonal.
+    \item The decomposition $1 = c_1 + \dots + c_r$ as a sum of orthogonal centrally primitive idempotents is unique. 
+  \end{enumerate}
+\end{proposition}
+
+\begin{myproof}
+  It suffices to prove (1). Take any $i$ so that $c \cdot c_i \neq 0$ (by assumption, there must exist at least one).
+  Since $c_i$ is centrally primitive, it is the only central nontrivial idempotent in $R c_i$ (mimicking the proof of $(4) \Rightarrow (3)$ in \ref{prop:1}).
+  This implies that $c \cdot c_i = c_i$ and 
+  \begin{equation*}
+    c = c \cdot 1 = c \cdot \sum c_i = \sum c c_i = \sum_{i \in I} c_i. \qedhere
+  \end{equation*}
+\end{myproof}
+
+If such a decomposition $1 = c_1 + \dots + c_r$ exists, then 
+$$R = c_1 R \times \dots \times c_r R$$ is a block decomposition.
+\begin{theorem}
+  If $R$ is left noetherian or left artinian, then such a block decomposition exists.
+\end{theorem}
+
+\begin{myproof}
+  Same as in Krull-Schmidt.
+\end{myproof}
+
+\section{Free algebras and polynomial identities}
+
+\subsection{Basic definitions}
+
+Take a nonempty set $X = \{x_i\ |\ i \in I\}$ of variables. A finite sequence of its elements 
+$x_{i_1} x_{i_2} \dots x_{i _r}$ is a word (an empty sequence is $1$). Then we denote $\langle X \rangle$ as the set of all words.
+We define multiplication by concatenating words:
+$$(x_{i_1} \dots x_{i_r}) \cdot (x_{j_1} \dots x_{j_s}) = x_{i_1} \dots x_{i_r}x_{j_1} \dots x_{j_s}.$$
+Then $\langle X \rangle$ becomes a monoid: in fact, it is a free monoid on $X$ (i.e. a free object in $\mathrm{Mon}$).
+Simplifying the notation a bit, we see that every $w \in \langle X \rangle$ can be written as 
+$$w = x_{i_1} ^{k_1} x_{i_2} ^{k_2} \dots x_{i_r} ^{k_r},$$
+where $k_j \in \N$, $i_j \in I$ and $i_j \neq i_{j + 1}$.
+
+\begin{definition}
+  Let $F$ be a field and $X \neq 0$. The free algebra on $X$ over $F$ (denote it $F \langle X \rangle$) is the monoid algebra of 
+  $\langle X \rangle$ over $F$. Its elements are noncommutative polynomials.  
+\end{definition}
+
+\begin{remark}
+  We can also form $R \langle X\rangle$ for a ring $R$.  
+\end{remark}
+
+The free algebra $F\langle X \rangle$ satisfies the following universal property:
+for any $F$-algebra $A$, the homomorphisms $F \langle X \rangle \to A$ are uniquely determined by 
+its image of $X$. Conversely, any function $X \xrightarrow{f} A$ extends uniquely to a homomorphism $F\langle X\rangle \to A$.
+We say that $F\langle X\rangle$ is the free object in $\mathrm{Alg}_F$.
+\[\begin{tikzcd}
+	X & {F \langle X\rangle} \\
+	& A
+	\arrow["f"', from=1-1, to=2-2]
+	\arrow["\iota", hook, from=1-1, to=1-2]
+	\arrow["{\exists!\overline{f}}", dashed, from=1-2, to=2-2]
+\end{tikzcd}\]
+Noncommutative polynomials can be evaluated in algebras. 
+Suppose $f \in F \langle X \rangle$, where $f = f(x_{i_1}, \dots, x_{i_m})$.
+If $A$ is an $F$-algebra and $a_1, \dots, a_ \in A$, then $f(a_1, \dots, a_m)$
+is the element of $A$ obtained by replacing variable $x_{i_j}$ with $a_j$.
+We call a monomial a scalar multiple of of a word, i.e. $\lambda \cdot w$ for 
+$\lambda \in F$ and $w \in \langle X \rangle$. Every nonzero polynomial is a unique sum of monomials
+$f =\lambda_1 w_1 + \dots + \lambda_s w_s$, where $w_j \in \langle X\rangle$ are distinct and $\lambda_j \in F$ are nonzero.
+The degree of a word $w = x_{i_1} \dots x_{i_m}$ is $\deg(w) = m$. It follows that $\deg (1) = 0$
+and $\deg(0) := - \infty$. The degree of a polynomial $f =\lambda_1 w_1 + \dots + \lambda_s w_s$ is $\deg f = \max_{j = 1, \dots, s} \deg w_j$.
+If $\deg w_1 = \dots = \deg w_s$, then $f$ is homogenous. Additionally, $f$ is multilinear if each variable 
+$x_1, \dots, x_n$ appears in every monomial of $f= f(x_1, \dots, x_n)$ exactly once. Equivalently, $f$ is multilinear if 
+$$f = \sum_{\sigma \in S_n} \lambda_{\sigma} x_{\sigma(1)} \dots x_{\sigma(n)}.$$
+It is trivial to check that $\deg (fg) = \deg(f) + \deg (g)$. A direct corollary is that $F \langle X \rangle$ has no zero divisors and is therefore a domain.
+
+\begin{remark}
+  As a ring, $F \langle X \rangle$ is primitive if $|X| \geq 2$.
+\end{remark}
+
+\subsection{Algebras defined by generators and relations}
+
+Let $A$ be an $F$-algebra and $X \subseteq A$ any generating set.
+Consider $F\langle X \rangle$. Then
+\[\begin{tikzcd}
+	X & {F \langle X\rangle} \\
+	& A
+	\arrow[from=1-1, to=2-2]
+	\arrow[hook, from=1-1, to=1-2]
+	\arrow["{\exists!\overline{g}}", dashed, from=1-2, to=2-2]
+\end{tikzcd}\]
+where $g$ is onto. Hence $A \cong \quot{F \langle X \rangle}{I}$ for $I = \ker g \lhd F \langle X \rangle$.
+We have shown that every algebra is the quotient of a free algebra.
+Given $S \subseteq F \langle X \rangle$, we can construct $\quot{F\langle X \rangle}{(S)}$.
+If $S = \{f_j = f_j (x_{i_1}, \dots, x_{i_{k_j}})\ |\ j \in J\}$, then we can write $\quot{F \langle X \rangle}{(S)}$ as
+$$F \langle x_i, i \in I\ |\ f_j (x_{i_1}, \dots, x_{i_{k_j}}),\ j \in J \rangle.$$
+This is an algebra defined by the generators $x_i,\ i \in I$ for and relations $f_j,\ j \in J$. 
+
+\begin{example}
+  Let $$A = F \langle x, y\ |\ x^2 = 0, y^2 = 0, xy + yx = 1 \rangle.$$
+  Since $xyx = x$ and $yxy = y$, this algebra is spanned by $\{1, x, y, xy\}$
+  and so its dimension is at most $4$. It turns out that $A \cong M_2 (F)$ by mapping $x \mapsto E_{12}$
+  and $y \mapsto E_{21}$.
+\end{example}
+
+\begin{example}
+  The exterior (Grassman) algebra is 
+  $$G := F \langle x_i, i \in \N\ |\ x_i ^2 = 0, x_i x_j + x_j x_i = 0,\ \forall i, j \in \N \rangle.$$
+  First, notice that $x_1 x_2 x_1 = - x_1 ^2 x_2 = 0$. More generally, $x_i G x_i = (0)$.
+  Therefore, $G$ is spanned by $1$ and all sorted words. We can prove that this is also a basis for $G$.
+  Indeed, suppose $\sum_{i = 1} ^n \lambda_i b_i = 0$, where $\lambda_i \in F$ and $b_i$'s are either $1$ or sorted words.
+  Assume $b_i$'s are distinct. Then there exists a $k \in \N$ such that $x_k$ appears in $b_n$ but not in $b_i$.
+  Then $\sum_{i = 1} ^{n - 1} \lambda_i b_i x_k = 0$. To complete the induction, we need to prove that all sorted words are nonzero.
+  If $x_1 x_2 \dots x_n = 0$, consider $F \langle y_1, y_2, \dots \rangle$ and 
+  $$I = \langle y_i ^2, y_i y_j + y_j y_i\ |\ i, j \in \N \rangle \lhd F\langle y_1, y_2, \dots \rangle.$$
+  Hence $G = \frac{F \langle y_1, y_2, \dots \rangle}{I}$. Since $y_1 \dots y_n \in I$,
+  so $y_1 \dots y_n$ is a sum of terms of the form $m y_i ^2 m'$ and $q (y_i y_j + y_j y_i) q'$ for monomials $m, m', q, q'$.
+  Since a linear combination of non-multilinear monomials is a non-multilinear polynomial, so $y_1 \dots y_n \in I$
+  is a linear combination of the polynomials of the form 
+  $$y_{\sigma(1)} \dots y_{\sigma(j - 1)} (y_{\sigma(j)} y_{\sigma(j+1)} + y_{\sigma(j + 1)} y_{\sigma(j)}) y_{\sigma(j + 1)} \dots y_{\sigma(n)}$$
+  for $\sigma \in S_n$. In such a sum, the sum of coefficients corresponding to even permutations is the sum of coefficients corresponding 
+  to odd permutations, a contradiction. The center of the Grassman algebra is spanned by $1$ and all sorted words of even length.
+  We denote it $Z(G) := G_0$.  If $G_1$ is the span of all odd length sorted words, then $G = G_1 \oplus G_2$
+  as a vector space.
+\end{example}
+
+\subsection{Alternating polynomials}
+
+\begin{definition}
+  A multilinear polynomial $f = f(x_1, \dots, x_m , y_1, \dots, y_n) \in F\langle X, Y\rangle$
+  is alternating in $x_1, \dots, x_m$ if $f$ becomes zero whenever one replaces $x_i$ by $x_j$ for $1 \leq i < j \leq m$.
+\end{definition}
+
+If we replace $x_1, x_2$ by $x_1 + x_2$ in such a polynomial, then 
+$f (x_1 + x_2, x_1 + x_2, x_3, \dots, y_n) = 0$ and so 
+$$f(x_1, x_2, \dots, y_n) = - f(x_2, x_1, \dots, y_n).$$
+Hence $f$ changes sign if we swap two of its $x$ variables.
+
+\begin{proposition}
+  Let $A$ be an $F$-algebra and assume that $a_1, \dots, a_m \in A$ are linearly dependent.
+  If $f = f(x_1, \dots, x_m, y_1, \dots, y_n)$ is alternating in $x_1, \dots, x_m$, then 
+  $$f(a_1, \dots, a_m, b_1, \dots, b_n) = 0,\quad \forall b_j \in A.$$
+\end{proposition}
+
+\begin{myproof}
+  WLOG $a_m = \sum_{i = 1} ^{m - 1} \lambda_i a_i$ for some $\lambda_i \in F$.
+  Then 
+  \begin{equation*}
+    f(a_1, \dots, a_m, b_1, \dots, b_n) = \sum_{i = 1} ^{m - 1} \lambda_i f(a_1, \dots, a_{m - 1}, a_i, b_1, \dots, b_n) = 0. \qedhere
+  \end{equation*}
+\end{myproof}
+
+\begin{example}
+  For $n \geq 2$ let $$s_n = s_n (x_1, \dots, x_n) = \sum_{\sigma \in S_n} \sgn (\sigma) x_{\sigma(1)} \dots x_{\sigma(n)}$$
+  define the standard polynomial of degree $n$. For $n = 2$, $s_2 = [x_1, x_2]$
+  and for $n = 3$, $s_3 = h(x_1, x_2, x_3, 1)$ with the above notation. For every $n \in \N$,
+  $s_n$ is alternating in all of its variables.
+\end{example}
+
+\begin{example}
+  For $n \geq 2$ let 
+  $$c_n (x_1, \dots, x_n) = \sum_{\sigma \in S_n} \sgn (\sigma) x_{\sigma(1)} y_1 x_{\sigma(2)} y_2 \dots y_{n - 1} x_{\sigma(n)}$$
+  be th $n$-th Capelli polynomial. It is alternating in $x-1, \dots, x_n$ and satisfies the following identities:
+  \begin{itemize}
+    \item $c_n (x_1, \dots, x_n, 1, \dots, 1) = s_n (x_1, \dots, x_n)$;
+    \item $c_n = \sum_{i = 1} ^n (-1)^{i - 1}  x_i y_1 c_{n - 1} (x_1, \dots, x_{i - 1}, x_{i + 1}, \dots, x_n, y_2, \dots, y_{n - 1})$ for $n \geq 3$;
+    \item $c_n = \sum_{i = 1} ^{n - 1} (-1)^{i - 1}  x_i s_{n - 1} (x_1, \dots, x_{i - 1}, x_{i + 1}, \dots, x_n)$ for $n \geq 3$.
+  \end{itemize}
+\end{example}
+
+\subsection{Polynomial identities (PI)}
+
+\begin{definition}
+  A polynomial $f = f(x_1, \dots, x_n) \in F \langle X \rangle$ is a PI 
+  of an $F$-algebra $A$ if $f(a_1, \dots, a_n) = 0$ for all $a_j \in A$.
+  We also say that $A$ satisfies $f$. Furthermore, $A$ is a PI-algebra if there exists $f \in F \langle X \rangle \setminus \{0\}$ that is a PI of $A$.
+\end{definition}
+
+\begin{example}
+  Commutative algebras are PI-algebras:
+  $A$ is commutative iff $A$ satisfies the identity $[x_1, x_2]$.
+\end{example}
+
+\begin{example}
+  Every finite-dimensional algebra $A$ is a PI-algebra.
+  Suppose $[A : F] = d$. Then every polynomial alternating in $d + 1$ variables is a PI of $A$.
+  In particular, $A$ satisfies $S_{d + 1}$. For example $M_n (F)$
+  satisfies $S_{n^2 + 1}$, so it is a PI-algebra. If $C$ is a commutative $F$-algebra, 
+  then $M_n (C)$ is a PI-algebra.
+\end{example}
+
+\begin{example}
+  Consider the Grassman algebra $G$.
+  We prove that for all $f, g \in G$, we have $[f, g] \in G_0 = Z(G)$.
+  WLOG let $f, g$ be words
+\end{example}
+
+\end{document}
